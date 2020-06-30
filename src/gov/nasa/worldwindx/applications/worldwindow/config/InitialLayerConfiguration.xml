@@ -11,8 +11,6 @@
     <Layer className="gov.nasa.worldwind.layers.StarsLayer" title="Stars" actuate="onLoad"/>
     <Layer className="gov.nasa.worldwind.layers.SkyGradientLayer" title="Sky" actuate="onLoad"/>
     <Layer className="gov.nasa.worldwind.layers.Earth.BMNGOneImage" title="Earth Image" actuate="onLoad"/>
-    <Layer href="config/Earth/BMNGWMSLayer2.xml" title="Blue Marble" actuate="onLoad"/>
-    <Layer href="config/Earth/LandsatI3WMSLayer2.xml" title="Landsat 7 ICube" actuate="onLoad"/>
-    <Layer href="config/Earth/MSVirtualEarthAerialLayer.xml" title="MS Virtual Earth Satellite" actuate="onRequest"/>
+    <Layer href="config/Earth/LOLAColor.xml" title="LOLA Color" actuate="onLoad"/>
     <Layer className="gov.nasa.worldwind.layers.Earth.NASAWFSPlaceNameLayer" title="Place Names" actuate="onLoad"/>
 </LayerList>

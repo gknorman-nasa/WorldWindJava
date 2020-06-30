@@ -5,23 +5,23 @@
  */
 package gov.nasa.worldwind.layers.Earth;
 
-import gov.nasa.worldwind.util.WWXML;
+import gov.nasa.worldwind.util.*;
 import gov.nasa.worldwind.wms.WMSTiledImageLayer;
 import org.w3c.dom.Document;
 
 /**
  * @author tag
- * @version $Id: CountryBoundariesLayer.java 1171 2013-02-11 21:45:02Z dcollins $
+ * @version $Id: LOLASteel.java 1958 2014-04-24 19:25:37Z tgaskins $
  */
-public class CountryBoundariesLayer extends WMSTiledImageLayer
+public class LOLASteel extends WMSTiledImageLayer
 {
-    public CountryBoundariesLayer()
+    public LOLASteel()
     {
         super(getConfigurationDocument(), null);
     }
 
     protected static Document getConfigurationDocument()
     {
-        return WWXML.openDocumentFile("config/Earth/CountryBoundariesLayer.xml", null);
+        return WWXML.openDocumentFile("config/Earth/LOLASteel.xml", null);
     }
 }

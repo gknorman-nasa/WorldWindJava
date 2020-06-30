@@ -17,14 +17,14 @@ import gov.nasa.worldwind.avlist.AVKey;
 
 public class EarthFlat extends FlatGlobe
 {
-    public static final double WGS84_EQUATORIAL_RADIUS = 6378137.0; // ellipsoid equatorial getRadius, in meters
-    public static final double WGS84_POLAR_RADIUS = 6356752.3; // ellipsoid polar getRadius, in meters
-    public static final double WGS84_ES = 0.00669437999013; // eccentricity squared, semi-major axis
+    public static final double WGS84_EQUATORIAL_RADIUS = 1737400; // ellipsoid equatorial getRadius, in meters
+    public static final double WGS84_POLAR_RADIUS = 1737400; // ellipsoid polar getRadius, in meters
+    public static final double WGS84_ES = 0.0; // eccentricity squared, semi-major axis
 
     public EarthFlat()
     {
         super(WGS84_EQUATORIAL_RADIUS, WGS84_POLAR_RADIUS, WGS84_ES,
-            EllipsoidalGlobe.makeElevationModel(AVKey.EARTH_ELEVATION_MODEL_CONFIG_FILE,
+            EllipsoidalGlobe.makeElevationModel(AVKey.MOON_ELEVATION_MODEL_CONFIG_FILE,
                 "config/Earth/EarthElevations2.xml"));
     }
 
