@@ -21,8 +21,9 @@ public class Earth extends EllipsoidalGlobe
     public static final double WGS84_POLAR_RADIUS = 1737400; // ellipsoid polar getRadius, in meters
     public static final double WGS84_ES = 0.0; // eccentricity squared, semi-major axis
 
-    public static final double ELEVATION_MIN = -9000d; // Depth of Antoniadi Crater
-    public static final double ELEVATION_MAX = 10700d; // Height of Selean Summit
+
+    public static final double ELEVATION_MIN = -9000; // Depth of Antoniadi Crater
+    public static final double ELEVATION_MAX = 10700; // Height of Selean Summit.
 
     public Earth()
     {
