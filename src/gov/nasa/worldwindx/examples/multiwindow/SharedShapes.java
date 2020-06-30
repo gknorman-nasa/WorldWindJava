@@ -223,9 +223,7 @@ public class SharedShapes
             {
                 new StarsLayer(),
                 new CompassLayer(),
-                new BMNGOneImage(),
-                new BMNGWMSLayer(),
-                new LandsatI3WMSLayer(),
+                new LOLAColor(),
             };
 
         Layer[] shapeLayers = new Layer[]

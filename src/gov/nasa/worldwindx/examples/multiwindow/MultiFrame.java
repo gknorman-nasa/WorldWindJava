@@ -100,8 +100,7 @@ public class MultiFrame
                 {
                     new StarsLayer(),
                     new CompassLayer(),
-                    new BMNGWMSLayer(),
-                    new LandsatI3WMSLayer(),
+                    new LOLAColor()
                 };
 
             // Create two models and pass them the shared layers.

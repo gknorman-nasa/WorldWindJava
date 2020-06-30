@@ -61,7 +61,7 @@ public class LayerMenu extends JMenu
         }
 
         return ((layer instanceof TiledImageLayer)
-            && !(layer instanceof BMNGWMSLayer));
+            && !(layer instanceof LOLAColor));
     }
 
     private static class LayerVisibilityAction extends AbstractAction
@@ -85,7 +85,7 @@ public class LayerMenu extends JMenu
             {
                 for (Layer lyr : this.wwd.getModel().getLayers())
                 {
-                    if (lyr instanceof BMNGWMSLayer)
+                    if (lyr instanceof LOLAColor)
                         lyr.setEnabled(((JCheckBoxMenuItem) actionEvent.getSource()).getState());
                 }
 

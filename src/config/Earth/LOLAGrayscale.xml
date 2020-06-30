@@ -5,26 +5,25 @@
   ~ All Rights Reserved.
   -->
 
-<!--$Id: LandsatI3WMSLayer.xml 1958 2014-04-24 19:25:37Z tgaskins $-->
-<!--DEPRECATED. Use LandsatI3WMSLayer2.xml-->
+<!-- LROC LOLA Color Shade -->
+<!--$Id: LOLAColor.xml 1382 2013-05-31 00:37:46Z tgaskins $-->
 <Layer version="1" layerType="TiledImageLayer">
-    <DisplayName>i-cubed Landsat</DisplayName>
+    <DisplayName>LOLA Grayscale Shaded Relief</DisplayName>
     <Service serviceName="OGC:WMS" version="1.3">
-        <GetCapabilitiesURL>https://data.worldwind.arc.nasa.gov/wms</GetCapabilitiesURL>
-        <GetMapURL>https://data.worldwind.arc.nasa.gov/wms</GetMapURL>
-        <LayerNames>esat</LayerNames>
+        <GetCapabilitiesURL>https://planetarymaps.usgs.gov/cgi-bin/mapserv?map=/maps/earth/moon_simp_cyl.map</GetCapabilitiesURL>
+        <GetMapURL>https://planetarymaps.usgs.gov/cgi-bin/mapserv?map=/maps/earth/moon_simp_cyl.map</GetMapURL>
+        <LayerNames>LOLA_bw</LayerNames>
     </Service>
     <RetrievePropertiesFromService>true</RetrievePropertiesFromService>
     <!-- day month year hours:minutes:seconds timezone -->
-    <LastUpdate>26 03 2009 00:00:00 GMT</LastUpdate>
-    <DataCacheName>Earth/NASA LandSat I3 WMS</DataCacheName>
-    <ImageFormat>image/dds</ImageFormat>
+    <DataCacheName>Moon/LOLA_Grayscale</DataCacheName> 
+    <ImageFormat>image/jpeg</ImageFormat>
     <AvailableImageFormats>
+        <ImageFormat>image/jpeg</ImageFormat>
         <ImageFormat>image/png</ImageFormat>
-        <ImageFormat>image/dds</ImageFormat>
     </AvailableImageFormats>
     <FormatSuffix>.dds</FormatSuffix>
-    <NumLevels count="10" numEmpty="4"/>
+    <NumLevels count="5" numEmpty="0"/>
     <TileOrigin>
         <LatLon units="degrees" latitude="-90" longitude="-180"/>
     </TileOrigin>
@@ -42,14 +41,15 @@
             <LatLon units="degrees" latitude="90" longitude="180"/>
         </NorthEast>
     </Sector>
-    <UseTransparentTextures>true</UseTransparentTextures>
-    <!--<ScreenCredit creditType="ScreenImage">-->
-    <!--<FileName>images/32x32-icon-nasa.png</FileName>-->
-    <!--<Link>https://worldwind.arc.nasa.gov</Link>-->
-    <!--</ScreenCredit>-->
+    <ForceLevelZeroLoads>true</ForceLevelZeroLoads>
+    <RetainLevelZeroTiles>true</RetainLevelZeroTiles>
+    <UseTransparentTextures>false</UseTransparentTextures>
     <RetrievalTimeouts>
         <ReadTimeout>
-            <Time units="milliseconds" value="20000"/>
+            <Time units="milliseconds" value="30000"/>
         </ReadTimeout>
     </RetrievalTimeouts>
+    <!-- The following lines are included just to show how to set the values to other than their defaults -->
+    <MaxAbsentTileAttempts>2</MaxAbsentTileAttempts>
+    <MinAbsentTileCheckInterval>1000</MinAbsentTileCheckInterval>
 </Layer>
