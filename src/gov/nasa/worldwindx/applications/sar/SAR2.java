@@ -92,12 +92,12 @@ public class SAR2 extends JFrame
         this.wwd = this.wwPanel.getWwd();
         for (Layer layer : this.wwd.getModel().getLayers())
         {
-            if (layer instanceof USGSDigitalOrtho)
+            if (layer instanceof LOLAColor)
             {
                 layer.setOpacity(0.5);
                 layer.setEnabled(false);
             }
-            else if (layer instanceof USGSUrbanAreaOrtho)
+            else if (layer instanceof LOLAColor)
             {
                 layer.setEnabled(false);
             }

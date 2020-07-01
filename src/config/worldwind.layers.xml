@@ -18,9 +18,15 @@
     <Layer className="gov.nasa.worldwind.layers.SkyGradientLayer"/>
 
     <Layer href="config/Earth/LOLAColor.xml" actuate="onLoad"/>
-    <Layer href="config/Earth/LOLASteel.xml" actuate="onLoad"/>
-    <Layer href="config/Earth/LOLAGrayscale.xml" actuate="onLoad"/>
-    
+    <Layer href="config/Earth/LOLASteel.xml" actuate="onRequest"/>
+    <Layer href="config/Earth/LOLAGrayscale.xml" actuate="onRequest"/>
+    <Layer href="config/Earth/Clementine750nm.xml" actuate="onRequest"/>
+    <Layer href="config/Earth/ClementineLunarOrbiterHybrid.xml" actuate="onRequest"/>
+    <Layer href="config/Earth/LunarOrbiterGlobalMosaic.xml" actuate="onRequest"/>
+    <Layer href="config/Earth/LROWACGlobalMosaic.xml" actuate="onRequest"/>
+    <Layer href="config/Earth/LOLAKaguyaShade.xml" actuate="onRequest"/>
+    <Layer href="config/Earth/KaguyaTCOrthoLayer.xml" actuate="onRequest"/>
+                     
     <Layer className="gov.nasa.worldwind.layers.Earth.NASAWFSPlaceNameLayer"/>
     <Layer className="gov.nasa.worldwind.layers.WorldMapLayer"/>
     <Layer className="gov.nasa.worldwind.layers.ScalebarLayer"/>
