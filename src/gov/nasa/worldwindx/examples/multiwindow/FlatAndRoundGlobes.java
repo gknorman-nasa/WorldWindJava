@@ -71,7 +71,7 @@ public class FlatAndRoundGlobes
         layerList.add(new BMNGOneImage());
 
         Factory factory = (Factory) WorldWind.createConfigurationComponent(AVKey.LAYER_FACTORY);
-        Layer layer = (Layer) factory.createFromConfigSource("config/Earth/LOLAColor.xml", null);
+        Layer layer = (Layer) factory.createFromConfigSource("config/Moon/LOLAColor.xml", null);
         layer.setEnabled(true);
         layerList.add(layer);
 

@@ -22,6 +22,6 @@ public class LOLASteel extends WMSTiledImageLayer
 
     protected static Document getConfigurationDocument()
     {
-        return WWXML.openDocumentFile("config/Earth/LOLASteel.xml", null);
+        return WWXML.openDocumentFile("config/Moon/LOLASteel.xml", null);
     }
 }
