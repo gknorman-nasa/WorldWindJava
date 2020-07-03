@@ -9,7 +9,6 @@ package gov.nasa.worldwindx.examples;
 import gov.nasa.worldwind.*;
 import gov.nasa.worldwind.avlist.AVKey;
 import gov.nasa.worldwind.awt.WorldWindowGLCanvas;
-import gov.nasa.worldwind.layers.WorldMapLayer;
 import gov.nasa.worldwind.util.StatusBar;
 
 import javax.swing.*;
@@ -56,9 +55,6 @@ public class SplitPaneUsage
             // Create the default model as described in the current worldwind properties.
             Model m = (Model) WorldWind.createConfigurationComponent(AVKey.MODEL_CLASS_NAME);
             this.wwd.setModel(m);
-
-            // Setup a select listener for the worldmap click-and-go feature
-            this.wwd.addSelectListener(new ClickAndGoSelectListener(this.wwd, WorldMapLayer.class));
 
             // Add the WorldWindow to this JPanel.
             this.add(this.wwd, BorderLayout.CENTER);

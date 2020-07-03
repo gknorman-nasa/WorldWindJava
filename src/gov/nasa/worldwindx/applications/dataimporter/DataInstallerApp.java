@@ -45,8 +45,6 @@ public class DataInstallerApp {
             Model m = (Model) WorldWind.createConfigurationComponent(AVKey.MODEL_CLASS_NAME);
             this.wwd.setModel(m);
 
-            // Setup a select listener for the worldmap click-and-go feature
-            this.wwd.addSelectListener(new ClickAndGoSelectListener(this.wwd, WorldMapLayer.class));
 
             this.add((Component) this.wwd, BorderLayout.CENTER);
             this.statusBar = new StatusBar();

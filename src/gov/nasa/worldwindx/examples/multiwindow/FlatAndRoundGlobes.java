@@ -88,7 +88,6 @@ public class FlatAndRoundGlobes
 
         // Add per-window layers
         model.getLayers().add(new CompassLayer());
-        model.getLayers().add(new WorldMapLayer());
         model.getLayers().add(new ScalebarLayer());
 
         return model;

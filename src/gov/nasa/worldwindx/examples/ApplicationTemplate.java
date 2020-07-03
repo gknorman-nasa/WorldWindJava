@@ -43,9 +43,6 @@ public class ApplicationTemplate {
             Model m = (Model) WorldWind.createConfigurationComponent(AVKey.MODEL_CLASS_NAME);
             this.wwd.setModel(m);
 
-            // Setup a select listener for the worldmap click-and-go feature
-            this.wwd.addSelectListener(new ClickAndGoSelectListener(this.getWwd(), WorldMapLayer.class));
-
             this.add((Component) this.wwd, BorderLayout.CENTER);
             if (includeStatusBar) {
                 this.statusBar = new StatusBar();

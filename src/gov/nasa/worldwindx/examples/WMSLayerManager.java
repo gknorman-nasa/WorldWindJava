@@ -104,6 +104,6 @@ public class WMSLayerManager
 
     public static void main(String[] args)
     {
-        ApplicationTemplate.start("WorldWind WMS Layers", AppFrame.class);
+        ApplicationTemplate.start("CMS WMS Layers", AppFrame.class);
     }
 }
