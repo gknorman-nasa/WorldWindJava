@@ -39,7 +39,7 @@ public class HighResolutionTerrainTest
 
         Globe globe = new Earth();
         CompoundElevationModel cem = (CompoundElevationModel) globe.getElevationModel();
-        cem.addElevationModel(EllipsoidalGlobe.makeElevationModel("", "config/Earth/EarthMergedElevationModel.xml"));
+        cem.addElevationModel(EllipsoidalGlobe.makeElevationModel("", "config/Moon/EarthMergedElevationModel.xml"));
 
         for (int i = 0; i < 5; i++)
         {
@@ -126,7 +126,7 @@ public class HighResolutionTerrainTest
         Globe globe = new Earth();
 //            CompoundElevationModel cem = (CompoundElevationModel) globe.getElevationModel();
 //            cem.addElevationModel(EllipsoidalGlobe.makeElevationModel(
-//                "", "config/Earth/EarthMergedElevationModel.xml"));
+//                "", "config/Moon/EarthMergedElevationModel.xml"));
 
         for (int i = 0; i < 5; i++)
         {

@@ -20,8 +20,12 @@ public class WMSLayerManager
 {
     protected static final String[] servers = new String[]
         {
-            "https://neowms.sci.gsfc.nasa.gov/wms/wms",
-            "https://sedac.ciesin.columbia.edu/geoserver/wcs"
+            "https://planetarymaps.usgs.gov/cgi-bin/mapserv?map=/maps/earth/moon_simp_cyl.map",
+            "https://planetarymaps.usgs.gov/cgi-bin/mapserv?map=/maps/earth/moon_npole.map",
+            "https://planetarymaps.usgs.gov/cgi-bin/mapserv?map=/maps/earth/moon_spole.map",
+            "https://planetarymaps.usgs.gov/cgi-bin/mapserv?map=/maps/earth/moon_simp_cyl_quads.map",
+            "https://wms.wr.usgs.gov/cgi-bin/mapserv?map=/maps/earth/moon_nomen_wms.map",
+            "http://webmap.lroc.asu.edu/"
         };
 
     protected static class AppFrame extends ApplicationTemplate.AppFrame
@@ -101,6 +105,6 @@ public class WMSLayerManager
 
     public static void main(String[] args)
     {
-        ApplicationTemplate.start("WorldWind WMS Layers", AppFrame.class);
+        ApplicationTemplate.start("CMS WMS Layers", AppFrame.class);
     }
 }

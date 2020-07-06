@@ -5,8 +5,8 @@
   ~ All Rights Reserved.
   -->
 
-<!--Blue Marble Next generation 2004 + Bathymetry imagery, using the default month (May).-->
-<!--$Id: LOLAColor.xml 1382 2013-05-31 00:37:46Z tgaskins $-->
+<!--This shaded relief was created by USGS originally for the NASA Planetary Geology and Geophysics (PG&G) Cartography Program. The input used the Lunar Reconnaissance Orbiter (LRO) Lunar Orbiter Laser Altimeter (LOLA) digital elevation model by Goddard Space Flight Center as released in 2013 at 256ppd resolution.-->
+<!--$Id: LOLASteel.xml 1382 2013-05-31 00:37:46Z tgaskins $-->
 <Layer version="1" layerType="TiledImageLayer">
     <DisplayName>LOLA Color Shaded Relief Steel Ramp</DisplayName>
     <Service serviceName="OGC:WMS" version="1.3">

@@ -44,8 +44,8 @@ public class HighResolutionTerrainTest2
 
         // Use old elevation model for this example...
         globe.setElevationModel(EllipsoidalGlobe.makeElevationModel(
-            "config/Earth/EarthElevationModelAsBil16.xml",
-            "config/Earth/EarthElevationModelAsBil16.xml"));
+            "config/Moon/EarthElevationModelAsBil16.xml",
+            "config/Moon/EarthElevationModelAsBil16.xml"));
 
         HighResolutionTerrain hrt = new HighResolutionTerrain(globe, SECTOR, null, 1.0);
         hrt.setTimeout(20000L);
