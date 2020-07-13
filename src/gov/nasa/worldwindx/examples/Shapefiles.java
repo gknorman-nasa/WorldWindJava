@@ -41,8 +41,25 @@ public class Shapefiles extends ApplicationTemplate {
             } catch (Exception ex) {
                 ex.printStackTrace();
             }
-            String[] shapeFiles = {"testData/shapefiles/MOON_nomenclature/moon_craters.shp",
-                "testData/shapefiles/MOON_nomenclature/MOON_sf.shp"};
+            String[] shapeFiles = {
+                "testData/shapefiles/MoonPlaceNames/Oceanus/Oceanus.shp",
+                "testData/shapefiles/MoonPlaceNames/Mare/Mare.shp", 
+                "testData/shapefiles/MoonPlaceNames/Mons/Mons.shp", 
+                "testData/shapefiles/MoonPlaceNames/Catena/Catena.shp",
+                "testData/shapefiles/MoonPlaceNames/Vallis/Vallis.shp",
+                "testData/shapefiles/MoonPlaceNames/Crater/Crater.shp",
+                "testData/shapefiles/MoonPlaceNames/Dorsum/Dorsum.shp",
+                "testData/shapefiles/MoonPlaceNames/Lacus/Lacus.shp",
+                "testData/shapefiles/MoonPlaceNames/Sinus/Sinus.shp",
+                "testData/shapefiles/MoonPlaceNames/Rima/Rima.shp",
+                "testData/shapefiles/MoonPlaceNames/Promontorium/Promontorium.shp",
+                "testData/shapefiles/MoonPlaceNames/Palus/Palus.shp",
+                "testData/shapefiles/MoonPlaceNames/Rupes/Rupes.shp",
+                "testData/shapefiles/MoonPlaceNames/Landing Site/LandingSiteName.shp",
+                "testData/shapefiles/MoonPlaceNames/Planitia/Planitia.shp",
+                "testData/shapefiles/MoonPlaceNames/Albedo/Albedo.shp",
+                "testData/shapefiles/MoonPlaceNames/Satellite/Satellite.shp",
+            };
             ShapefileLayerFactory.CompletionCallback callBack = new ShapefileLayerFactory.CompletionCallback() {
                 @Override
                 public void completion(Object result) {
