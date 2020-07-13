@@ -240,6 +240,11 @@ public class ShapefileLayerFactory implements Factory, ShapefileRenderable.Attri
             this.attributeDelegate.assignAttributes(shapefileRecord, renderableRecord);
         }
     }
+    
+    @Override
+    public void assignRenderableAttributes(ShapefileRecord shapefileRecord, Renderable renderable)
+    {
+    }
 
     /**
      * Creates a {@link gov.nasa.worldwind.layers.Layer} from a general configuration source. The source can be one of
@@ -747,6 +752,11 @@ public class ShapefileLayerFactory implements Factory, ShapefileRenderable.Attri
         if (mappings != null)
             placemark.setValues(mappings);
 
+        if (this.attributeDelegate != null)
+        {
+            this.attributeDelegate.assignRenderableAttributes(record, placemark);
+        }
+    
         return placemark;
     }
 
