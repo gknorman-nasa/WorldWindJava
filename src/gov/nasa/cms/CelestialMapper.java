@@ -1306,6 +1306,16 @@ public class CelestialMapper extends ApplicationTemplate {
                 item.setActionCommand(OPEN_URL);
                 item.addActionListener(controller);
                 menu.add(item);
+                
+                item = new JMenuItem("Import/Install Imagery");
+                item.setActionCommand(OPEN_URL);
+                item.addActionListener(controller);
+                menu.add(item);
+                
+                item = new JMenuItem("Import/Install Elevation");
+                item.setActionCommand(OPEN_URL);
+                item.addActionListener(controller);
+                menu.add(item);
 
                 item = new JMenuItem("Save...");
                 item.setAccelerator(KeyStroke.getKeyStroke(
@@ -1375,6 +1385,54 @@ public class CelestialMapper extends ApplicationTemplate {
                     enableEditItem.setSelected(controller.isEnableEdit());
                 }
             });
+            
+            menu = new JMenu("Place Names");
+            {
+                
+            }
+            menuBar.add(menu);
+            
+            menu = new JMenu("View");
+            {
+                JCheckBoxMenuItem item = new JCheckBoxMenuItem("Scale Bar");
+//                item.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_D,
+//                        Toolkit.getDefaultToolkit().getMenuShortcutKeyMaskEx()));
+//                item.setActionCommand(CLEAR_SELECTION);
+//                item.addActionListener(controller);
+                menu.add(item);
+                
+                item = new JCheckBoxMenuItem("Terrain Profile");
+//                item.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_D,
+//                        Toolkit.getDefaultToolkit().getMenuShortcutKeyMaskEx()));
+//                item.setActionCommand(CLEAR_SELECTION);
+//                item.addActionListener(controller);
+                menu.add(item);
+                
+                menu.doClick(0);
+            }
+            menuBar.add(menu);
+            
+            menu = new JMenu("Annotation");
+            {
+                JMenuItem item = new JMenuItem("New Annotation");
+               
+                item.setMnemonic('N');
+                menu.add(item);
+                
+                item = new JMenuItem("Remove Annotation");
+                item.setMnemonic('R');
+
+                menu.add(item);
+                
+                JCheckBoxMenuItem annotationsMenuItem = new JCheckBoxMenuItem("Show Annotations");
+                annotationsMenuItem.setMnemonic('A');
+                
+                menu.add(annotationsMenuItem);
+                menu.doClick(0);
+
+                       
+            }
+            menuBar.add(menu);
         }
     }
 
