@@ -21,7 +21,7 @@ import javax.imageio.ImageIO;
  * Illustrates how to import ESRI Shapefiles into WorldWind. This uses a <code>{@link ShapefileLayerFactory}</code> to
  * parse a Shapefile's contents and convert the shapefile into an equivalent WorldWind shape.
  *
- * @version $Id: Shapefiles.java 3212 2015-06-18 02:45:56Z tgaskins $
+ * @version $Id: Shapefiles.java 3212 2015-06-18 02:45:56Z tgaskins $ 
  */
 public class Shapefiles extends ApplicationTemplate {
 
@@ -59,19 +59,21 @@ public class Shapefiles extends ApplicationTemplate {
                 "testData/shapefiles/MoonPlaceNames/Planitia/Planitia.shp",
                 "testData/shapefiles/MoonPlaceNames/Albedo/Albedo.shp",
                 "testData/shapefiles/MoonPlaceNames/Satellite/Satellite.shp",
-            };
+            };           
             ShapefileLayerFactory.CompletionCallback callBack = new ShapefileLayerFactory.CompletionCallback() {
                 @Override
                 public void completion(Object result) {
                     final Layer layer = (Layer) result; // the result is the layer the factory created
-                    layer.setName(WWIO.getFilename(layer.getName()));
-
+                    String layerName = layer.getName();
+                    layerName = layerName.substring(0, layerName.length()-4);
+                    layer.setName(WWIO.getFilename(layerName));
+      
                     // Add the layer to the WorldWindow's layer list on the Event Dispatch Thread.
-                    SwingUtilities.invokeLater(new Runnable() {
+                    SwingUtilities.invokeLater(new Runnable() {                           
                         @Override
-                        public void run() {
-                            AppFrame.this.getWwd().getModel().getLayers().add(layer);
-                        }
+                        public void run() {                            
+                            AppFrame.this.getWwd().getModel().getLayers().add(layer);                                                                    
+                        }                            
                     });
                 }
 

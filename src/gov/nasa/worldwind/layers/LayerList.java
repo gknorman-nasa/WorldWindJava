@@ -14,6 +14,7 @@ import gov.nasa.worldwind.util.Logging;
 import java.beans.*;
 import java.util.*;
 import java.util.concurrent.CopyOnWriteArrayList;
+import javax.swing.JMenu;
 
 /**
  * @author Tom Gaskins
@@ -51,6 +52,7 @@ public class LayerList extends CopyOnWriteArrayList<Layer> implements WWObject
 
     public void setDisplayName(String displayName)
     {
+       // displayName = displayName.substring(0, displayName.length()-4);
         this.setValue(AVKey.DISPLAY_NAME, displayName);
     }
 
@@ -170,7 +172,24 @@ public class LayerList extends CopyOnWriteArrayList<Layer> implements WWObject
         super.remove(layer);
         this.firePropertyChange(AVKey.LAYERS, copy, this);
     }
+    //twchoi
+    public void remove2(Layer layer)
+    {
+//        if (layer == null)
+//        {
+//            String msg = Logging.getMessage("nullValue.LayerIsNull");
+//            Logging.logger().severe(msg);
+//            throw new IllegalArgumentException(msg);
+//        }
+//
+//        if (!this.contains(layer))
+//            return;
 
+        LayerList copy = makeShallowCopy(this);
+        layer.removePropertyChangeListener(this);
+        super.remove(layer);
+        this.firePropertyChange(AVKey.LAYERS, copy, this);
+    }
     public Layer remove(int index)
     {
         Layer layer = get(index);
@@ -402,7 +421,9 @@ public class LayerList extends CopyOnWriteArrayList<Layer> implements WWObject
 
         for (Layer l : this)
         {
-            if (l.getName().equals(name))
+            String curLName = l.getName();
+            if (curLName.equals(name))
+//            if (l.getName().equals(name))
                 return l;
         }
 
@@ -549,5 +570,9 @@ public class LayerList extends CopyOnWriteArrayList<Layer> implements WWObject
             r += l.toString() + ", ";
         }
         return r;
+    }
+
+    public void add(JMenu placeNamesMenu) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 }

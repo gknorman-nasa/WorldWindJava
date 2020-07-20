@@ -9,6 +9,7 @@ import gov.nasa.worldwind.WorldWindow;
 import gov.nasa.worldwind.layers.*;
 import gov.nasa.worldwind.layers.Earth.*;
 import gov.nasa.worldwind.render.*;
+//import gov.nasa.worldwindx.examples.Shapefiles;
 
 import javax.swing.*;
 import java.awt.event.*;

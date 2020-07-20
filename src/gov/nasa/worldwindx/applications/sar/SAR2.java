@@ -15,6 +15,7 @@ import gov.nasa.worldwind.layers.Layer;
 import gov.nasa.worldwind.util.*;
 import gov.nasa.worldwindx.applications.sar.actions.SARScreenShotAction;
 import gov.nasa.worldwindx.applications.sar.tracks.*;
+import gov.nasa.worldwindx.examples.LunarPlaceNamesMenu;
 import org.w3c.dom.Document;
 
 import javax.imageio.ImageIO;
@@ -81,6 +82,8 @@ public class SAR2 extends JFrame
     protected static AVList userPreferences = new AVListImpl();
     private Timer autoSaveTimer;
     protected static final long MIN_AUTO_SAVE_INTERVAL = 1000L;
+    
+    private LunarPlaceNamesMenu lunarPlaceNamesMenu;
 
     public SAR2()
     {
@@ -88,7 +91,6 @@ public class SAR2 extends JFrame
         ToolTipManager.sharedInstance().setLightWeightPopupEnabled(false);
         initComponents();
         this.setTitle(SARApp.APP_NAME_AND_VERSION);
-
         this.wwd = this.wwPanel.getWwd();
         for (Layer layer : this.wwd.getModel().getLayers())
         {
@@ -112,7 +114,9 @@ public class SAR2 extends JFrame
 
         this.layerMenu.setWwd(this.wwd);
         this.viewLayerMenu.setWwd(this.wwd);
-
+        
+        this.lunarPlaceNamesMenu.setWwd(this.wwd);
+       
         this.annotationSupport = new SARAnnotationSupport();
         this.annotationSupport.setWwd(this.wwd);
 
@@ -971,7 +975,7 @@ public class SAR2 extends JFrame
             }
             menuBar.add(fileMenu);
 
-            //======== "View" ========
+            //======== "Units" ========
             JMenu unitsMenu = new JMenu();
             {
                 unitsMenu.setText("Units");
@@ -980,7 +984,7 @@ public class SAR2 extends JFrame
                 //---- "Meters" ----
                 metersMenuItem = new JCheckBoxMenuItem();
                 metersMenuItem.setText("Meters");
-                metersMenuItem.setMnemonic('M');
+                metersMenuItem.setMnemonic('M');                
                 metersMenuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_M,
                     Toolkit.getDefaultToolkit().getMenuShortcutKeyMaskEx()));
                 metersMenuItem.setActionCommand(UNIT_METRIC);
@@ -1121,6 +1125,15 @@ public class SAR2 extends JFrame
             }
             menuBar.add(layerMenu);
 
+            // twchoi
+            //======== "Lunar Place Names" ========
+
+            lunarPlaceNamesMenu = new LunarPlaceNamesMenu(this ,this.wwPanel.getWwd());
+            {
+                lunarPlaceNamesMenu.setMnemonic('P');
+            }
+            menuBar.add(lunarPlaceNamesMenu);
+            
             //======== "Help" ========
             JMenu helpMenu = new JMenu();
             {
