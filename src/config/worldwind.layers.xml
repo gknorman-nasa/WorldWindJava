@@ -16,13 +16,13 @@
         <Property name="Name" value="Stars"/>
     </Layer>
 
-    <Layer href="config/Moon/LOLAColor.xml" actuate="onLoad"/>
+    <Layer href="config/Moon/LROWACGlobalMosaic.xml" actuate="onLoad"/>
+    <Layer href="config/Moon/LOLAColor.xml" actuate="onRequest"/>
     <Layer href="config/Moon/LOLASteel.xml" actuate="onRequest"/>
     <Layer href="config/Moon/LOLAGrayscale.xml" actuate="onRequest"/>
     <Layer href="config/Moon/ClementineBasemapV2.xml" actuate="onRequest"/>
     <Layer href="config/Moon/ClementineLunarOrbiterHybrid.xml" actuate="onRequest"/>
     <Layer href="config/Moon/LunarOrbiterGlobalMosaic.xml" actuate="onRequest"/>
-    <Layer href="config/Moon/LROWACGlobalMosaic.xml" actuate="onRequest"/>
 
 
     <Layer className="gov.nasa.worldwind.layers.ScalebarLayer"/>
