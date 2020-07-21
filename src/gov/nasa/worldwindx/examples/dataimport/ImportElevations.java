@@ -25,7 +25,7 @@ import java.io.File;
 public class ImportElevations extends ApplicationTemplate
 {
     // The data to import.
-    protected static final String ELEVATIONS_PATH = "gov/nasa/worldwindx/examples/data/craterlake-elev-16bit-30m.tif";
+    protected static final String ELEVATIONS_PATH = "testData/lunar-dem.tif";
 
     public static class AppFrame extends ApplicationTemplate.AppFrame
     {
@@ -66,12 +66,12 @@ public class ImportElevations extends ApplicationTemplate
                     {
                         // Get the WorldWindow's current elevation model.
                         Globe globe = AppFrame.this.getWwd().getModel().getGlobe();
-                        ElevationModel currentElevationModel = globe.getElevationModel();
+                        //ElevationModel currentElevationModel = globe.getElevationModel();
 
                         // Add the new elevation model to the globe.
-                        if (currentElevationModel instanceof CompoundElevationModel)
-                            ((CompoundElevationModel) currentElevationModel).addElevationModel(elevationModel);
-                        else
+//                        if (currentElevationModel instanceof CompoundElevationModel)
+//                            ((CompoundElevationModel) currentElevationModel).addElevationModel(elevationModel);
+//                        else
                             globe.setElevationModel(elevationModel);
 
                         // Set the view to look at the imported elevations, although they might be hard to detect. To
