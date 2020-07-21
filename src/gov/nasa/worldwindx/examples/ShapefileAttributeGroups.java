@@ -103,6 +103,9 @@ public class ShapefileAttributeGroups extends ApplicationTemplate
                 group.addRecord(renderableRecord);
             }
         }
+        @Override
+        public void assignRenderableAttributes(ShapefileRecord shapefileRecord, Renderable renderable) {
+        }
     }
 
     public static class AttributeGroup

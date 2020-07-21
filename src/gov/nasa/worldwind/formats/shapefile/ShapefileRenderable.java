@@ -44,6 +44,7 @@ public abstract class ShapefileRenderable extends WWObjectImpl
          * @param renderableRecord The ShapefileRenderable.Record to assign attributes for.
          */
         void assignAttributes(ShapefileRecord shapefileRecord, ShapefileRenderable.Record renderableRecord);
+        void assignRenderableAttributes(ShapefileRecord shapefileRecord, Renderable renderable);
     }
 
     public static class Record extends AVListImpl implements Highlightable

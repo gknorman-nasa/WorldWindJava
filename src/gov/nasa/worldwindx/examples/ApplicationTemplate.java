@@ -76,6 +76,8 @@ public class ApplicationTemplate {
         protected JPanel controlPanel;
         protected LayerPanel layerPanel;
         protected StatisticsPanel statsPanel;
+        
+       
 
         public AppFrame() {
             this.initialize(true, true, false);
@@ -102,6 +104,9 @@ public class ApplicationTemplate {
                 this.layerPanel = new LayerPanel(this.getWwd());
                 this.controlPanel.add(this.layerPanel, BorderLayout.CENTER);
                 this.controlPanel.add(new FlatWorldPanel(this.getWwd()), BorderLayout.NORTH);
+                
+               
+                
                 this.getContentPane().add(this.controlPanel, BorderLayout.WEST);
             }
 
