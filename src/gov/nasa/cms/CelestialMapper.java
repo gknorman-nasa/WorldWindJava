@@ -17,6 +17,9 @@ import gov.nasa.worldwind.render.airspaces.Polygon;
 import gov.nasa.worldwind.render.airspaces.editor.*;
 import gov.nasa.worldwind.view.orbit.BasicOrbitView;
 import gov.nasa.cms.util.*;
+import gov.nasa.worldwind.terrain.LocalElevationModel;
+import gov.nasa.worldwindx.examples.dataimport.ImportElevations;
+import gov.nasa.worldwindx.examples.util.ExampleUtil;
 
 import javax.swing.*;
 import javax.swing.Box;
@@ -71,8 +74,7 @@ public class CelestialMapper extends ApplicationTemplate {
     protected static final String REMOVE_SELECTED = "CelestialMapper.RemoveSelected";
     protected static final String SAVE = "CelestialMapper.Save";
     protected static final String SELECTION_CHANGED = "CelestialMapper.SelectionChanged";
-//    protected static final String DEMO_AIRSPACES_PATH
-//            = "gov/nasa/worldwindx/examples/data/AirspaceBuilder-DemoShapes.zip";
+    protected static final String ELEVATIONS_PATH = "testData/lunar-dem.tif";
 
     //**************************************************************//
     //********************  Airspace Builder Model  ****************//
@@ -708,7 +710,7 @@ public class CelestialMapper extends ApplicationTemplate {
                         break;
                     case SELECTION_CHANGED:
                         this.viewSelectionChanged();
-                        break;
+                        break;                    
                     default:
                         break;
                 }
@@ -1276,8 +1278,58 @@ public class CelestialMapper extends ApplicationTemplate {
             this.builderController.setModel(this.builderModel);
             this.builderController.setView(this.builderView);
             this.builderController.setResizeNewShapesToViewport(true);
-
+                
             makeMenuBar(this, this.builderController);
+            
+            // Give a few seconds for the elevation to import
+            this.setCursor(new Cursor(Cursor.WAIT_CURSOR));
+            
+            // Import the elevation model on a new thread to avoid freezing the UI
+            Thread em = new Thread(new Runnable()
+            {
+                public void run()
+                {
+                    importElevations();
+
+                    // Restore the cursor.
+                    setCursor(Cursor.getDefaultCursor());
+                }
+            });
+            em.start(); // Load the elevation model           
+        }
+        
+        // Creates a local elevation model from ELEVATIONS_PATH and sets the view
+        protected void importElevations()
+        {
+            try
+            {
+                // Download the data and save it in a temp file.
+                File sourceFile = ExampleUtil.saveResourceToTempFile(ELEVATIONS_PATH, ".tif");
+
+                // Create a local elevation model from the data.
+                final LocalElevationModel elevationModel = new LocalElevationModel();
+                elevationModel.addElevations(sourceFile);
+
+                SwingUtilities.invokeLater(new Runnable()
+                {
+                    public void run()
+                    {
+                        // Get CMS current model
+                        Globe globe = AppFrame.this.getWwd().getModel().getGlobe();
+                        globe.setElevationModel(elevationModel);
+
+                        // Set the view to look at the imported elevations, although they might be hard to detect. To
+                        // make them easier to detect, replace the globe's CompoundElevationModel with the new elevation
+                        // model rather than adding it.
+                        Sector modelSector = elevationModel.getSector();
+                        ExampleUtil.goTo(getWwd(), modelSector);
+                    }
+                });
+            }
+            catch (Exception e)
+            {
+                e.printStackTrace();
+            }
         }
 
         public CelestialMapperPanel getCelestialMapperPanel() {
@@ -1307,12 +1359,7 @@ public class CelestialMapper extends ApplicationTemplate {
                 item.addActionListener(controller);
                 menu.add(item);
                 
-                item = new JMenuItem("Import/Install Imagery");
-                item.setActionCommand(OPEN_URL);
-                item.addActionListener(controller);
-                menu.add(item);
-                
-                item = new JMenuItem("Import/Install Elevation");
+                item = new JMenuItem("Import Imagery");
                 item.setActionCommand(OPEN_URL);
                 item.addActionListener(controller);
                 menu.add(item);
