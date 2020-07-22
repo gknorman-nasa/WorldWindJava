@@ -5,6 +5,7 @@
  */
 package gov.nasa.cms;
 
+import gov.nasa.worldwind.WorldWindow;
 import gov.nasa.worldwind.geom.*;
 import gov.nasa.worldwind.globes.Globe;
 import gov.nasa.worldwind.layers.*;
@@ -42,6 +43,10 @@ public class CelestialMapper extends ApplicationTemplate {
     {
         ActionListener controller;
         protected RenderableLayer airspaceLayer;
+        private CMSPlaceNamesMenu cmsPlaceNamesMenu;
+        private WorldWindow wwd;
+
+        
         public AppFrame() 
         {
 
@@ -101,11 +106,13 @@ public class CelestialMapper extends ApplicationTemplate {
 
 
 
-        public static void makeMenuBar(JFrame frame, final ActionListener controller) {
+        public void makeMenuBar(JFrame frame, final ActionListener controller) {
             JMenuBar menuBar = new JMenuBar();
             final JCheckBoxMenuItem resizeNewShapesItem;
             final JCheckBoxMenuItem enableEditItem;
-
+            
+            //======== "File" ========
+            
             JMenu menu = new JMenu("File");
             {
                 JMenuItem item = new JMenuItem("Open...");
@@ -141,6 +148,8 @@ public class CelestialMapper extends ApplicationTemplate {
             }
             menuBar.add(menu);
 
+            //======== "Shape" ========
+            
             menu = new JMenu("Shape");
             {
 
@@ -148,6 +157,8 @@ public class CelestialMapper extends ApplicationTemplate {
             }
             menuBar.add(menu);
 
+            //======== "Selection" ========
+            
             menu = new JMenu("Selection");
             {
                 JMenuItem item = new JMenuItem("Deselect");
@@ -169,11 +180,17 @@ public class CelestialMapper extends ApplicationTemplate {
 
 
             
-            menu = new JMenu("Place Names");
+            //======== "CMS Place Names" ========
+            
+            cmsPlaceNamesMenu = new CMSPlaceNamesMenu(this, this.getWwd());
             {
-                
+                cmsPlaceNamesMenu.setMnemonic('P');
             }
-            menuBar.add(menu);
+          
+            menuBar.add(cmsPlaceNamesMenu);
+
+            
+            //======== "View" ========
             
             menu = new JMenu("View");
             {
@@ -208,6 +225,7 @@ public class CelestialMapper extends ApplicationTemplate {
                        
             }
             menuBar.add(menu);
+            this.cmsPlaceNamesMenu.setWwd(this.wwd);
         }
     }
 
