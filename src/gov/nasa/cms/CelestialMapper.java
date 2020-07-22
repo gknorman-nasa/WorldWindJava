@@ -10,6 +10,11 @@ import gov.nasa.worldwind.geom.*;
 import gov.nasa.worldwind.globes.Globe;
 import gov.nasa.worldwind.layers.*;
 import gov.nasa.worldwind.terrain.LocalElevationModel;
+import gov.nasa.worldwindx.applications.sar.ControlPanel;
+import gov.nasa.worldwindx.applications.sar.SARAnnotation;
+import gov.nasa.worldwindx.applications.sar.SARAnnotationSupport;
+import gov.nasa.worldwindx.applications.sar.SARTrack;
+import gov.nasa.worldwindx.applications.sar.TracksPanel;
 import gov.nasa.worldwindx.examples.util.ExampleUtil;
 
 import javax.swing.*;
@@ -45,6 +50,9 @@ public class CelestialMapper extends ApplicationTemplate {
         protected RenderableLayer airspaceLayer;
         private CMSPlaceNamesMenu cmsPlaceNamesMenu;
         private WorldWindow wwd;
+        private ControlPanel controlPanel;
+        private SARAnnotationSupport annotationSupport;
+        //private Object annotationMenu;
 
         
         public AppFrame() 
@@ -104,6 +112,45 @@ public class CelestialMapper extends ApplicationTemplate {
             }
         }
 
+        public SARTrack getCurrentTrack()
+        {
+            return getTracksPanel().getCurrentTrack();
+        }
+        
+        public TracksPanel getTracksPanel()
+        {
+            return controlPanel.getTracksPanel();
+        }
+        private SARAnnotation getCurrentAnnotation()
+        {
+            return this.annotationSupport.getCurrent();
+        }
+
+        private void newAnnotation()
+        {
+            newAnnotation(null, getCurrentTrack());
+        }
+
+        private void newAnnotation(String text, SARTrack track)
+        {
+            this.annotationSupport.addNew(text, track);
+            this.wwd.redraw();
+        }
+
+        private void removeAnnotation(SARAnnotation annotation)
+        {
+            if (annotation != null)
+            {
+                this.annotationSupport.remove(annotation);
+            }
+            this.wwd.redraw();
+        }
+
+        private void setAnnotationsEnabled(boolean show)
+        {
+            this.annotationSupport.setEnabled(show);
+            this.wwd.redraw();
+        }
 
 
         public void makeMenuBar(JFrame frame, final ActionListener controller) {
@@ -201,29 +248,61 @@ public class CelestialMapper extends ApplicationTemplate {
                 menu.doClick(0);
             }
             menuBar.add(menu);
-            
-            menu = new JMenu("Annotation");
-            {
-                JMenuItem item = new JMenuItem("New Annotation");
-               
-                item.setMnemonic('N');
-                menu.add(item);
-                
-                item = new JMenuItem("Remove Annotation");
-                item.setMnemonic('R');
-
-                menu.add(item);
-                
-                JCheckBoxMenuItem annotationsMenuItem = new JCheckBoxMenuItem("Show Annotations");
-                annotationsMenuItem.setMnemonic('A');
-                
-                menu.add(annotationsMenuItem);
-                menu.doClick(0);
-
                        
+            //======== "Annotation" ========
+            
+            JMenu annotationMenu = new JMenu();
+            {
+                annotationMenu.setText("Annotation");
+
+                //---- "New Annotation..." ----
+                JMenuItem newAnnotation = new JMenuItem();
+                newAnnotation.setText("New Annotation...");
+                newAnnotation.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_A,
+                    Toolkit.getDefaultToolkit().getMenuShortcutKeyMaskEx()));
+                newAnnotation.addActionListener(new ActionListener()
+                {
+                    public void actionPerformed(ActionEvent e)
+                    {
+                        newAnnotation();
+                    }
+                });
+                annotationMenu.add(newAnnotation);
+
+                //---- "Remove Annotation" ----
+                JMenuItem removeAnnotation = new JMenuItem();
+                removeAnnotation.setText("Remove Annotation");
+                removeAnnotation.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_A,
+                    Toolkit.getDefaultToolkit().getMenuShortcutKeyMaskEx() + java.awt.event.InputEvent.SHIFT_DOWN_MASK));
+                removeAnnotation.addActionListener(new ActionListener()
+                {
+                    public void actionPerformed(ActionEvent event)
+                    {
+                        removeAnnotation(getCurrentAnnotation());
+                    }
+                });
+                annotationMenu.add(removeAnnotation);
+
+                //---- "Show Annotations" ----
+                JCheckBoxMenuItem showAnnotations = new JCheckBoxMenuItem();
+                showAnnotations.setText("Show Annotations");
+                showAnnotations.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_A,
+                    java.awt.event.InputEvent.ALT_DOWN_MASK));
+                showAnnotations.setSelected(true);
+                showAnnotations.addItemListener(new ItemListener()
+                {
+                    public void itemStateChanged(ItemEvent e)
+                    {
+                        setAnnotationsEnabled(e.getStateChange() == ItemEvent.SELECTED);
+                    }
+                });
+                annotationMenu.add(showAnnotations);
             }
-            menuBar.add(menu);
+            menuBar.add(annotationMenu);
+            
             this.cmsPlaceNamesMenu.setWwd(this.wwd); //sets window for place names
+            //this.annotationSupport = new SARAnnotationSupport();
+            //this.annotationSupport.setWwd(this.wwd);
         }
     }
 
