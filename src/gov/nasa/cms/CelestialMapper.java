@@ -183,9 +183,7 @@ public class CelestialMapper extends ApplicationTemplate {
             //======== "CMS Place Names" ========
             
             cmsPlaceNamesMenu = new CMSPlaceNamesMenu(this, this.getWwd());
-            {
-                cmsPlaceNamesMenu.setMnemonic('P');
-            }
+            
           
             menuBar.add(cmsPlaceNamesMenu);
 
@@ -225,7 +223,7 @@ public class CelestialMapper extends ApplicationTemplate {
                        
             }
             menuBar.add(menu);
-            this.cmsPlaceNamesMenu.setWwd(this.wwd);
+            this.cmsPlaceNamesMenu.setWwd(this.wwd); //sets window for place names
         }
     }
 

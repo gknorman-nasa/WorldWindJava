@@ -104,7 +104,6 @@ public class CMSPlaceNamesMenu extends JMenu implements ShapefileRenderable.Attr
             // Edit shapefile names to display feature name
             String placeName = shapeFile.substring(shapeFile.lastIndexOf('/') + 1, shapeFile.lastIndexOf('.'));
             JCheckBoxMenuItem mi = new JCheckBoxMenuItem(placeName);
-            mi.setMnemonic(placeName.charAt(0));           
             mi.addActionListener(new ActionListener()
             {               
                 public void actionPerformed(ActionEvent event)
