@@ -15,6 +15,7 @@ import gov.nasa.worldwindx.applications.sar.SARAnnotation;
 import gov.nasa.worldwindx.applications.sar.SARAnnotationSupport;
 import gov.nasa.worldwindx.applications.sar.SARTrack;
 import gov.nasa.worldwindx.applications.sar.TracksPanel;
+import gov.nasa.worldwindx.applications.sar.WWPanel;
 import gov.nasa.worldwindx.examples.util.ExampleUtil;
 
 import javax.swing.*;
@@ -52,16 +53,16 @@ public class CelestialMapper extends ApplicationTemplate {
         private WorldWindow wwd;
         private ControlPanel controlPanel;
         private SARAnnotationSupport annotationSupport;
-        //private Object annotationMenu;
+        private WWPanel wwPanel;
 
-        
+               
         public AppFrame() 
         {
 
             /* LOCAL ELEVATION MODEL */
             // Give a few seconds for the elevation to import
             this.setCursor(new Cursor(Cursor.WAIT_CURSOR));
-            
+            this.wwd = this.getWwd();
             // Import the elevation model on a new thread to avoid freezing the UI
             Thread em = new Thread(new Runnable()
             {
@@ -157,6 +158,17 @@ public class CelestialMapper extends ApplicationTemplate {
             JMenuBar menuBar = new JMenuBar();
             final JCheckBoxMenuItem resizeNewShapesItem;
             final JCheckBoxMenuItem enableEditItem;
+            
+            Container contentPane = getContentPane();
+            contentPane.setLayout(new BorderLayout());
+
+            controlPanel = new ControlPanel();
+            controlPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10)); // top, left, bottom, right
+            contentPane.add(controlPanel, BorderLayout.WEST);
+            
+            this.annotationSupport = new SARAnnotationSupport();
+            this.annotationSupport.setWwd(this.wwd);
+
             
             //======== "File" ========
             
@@ -301,8 +313,8 @@ public class CelestialMapper extends ApplicationTemplate {
             menuBar.add(annotationMenu);
             
             this.cmsPlaceNamesMenu.setWwd(this.wwd); //sets window for place names
-            //this.annotationSupport = new SARAnnotationSupport();
-            //this.annotationSupport.setWwd(this.wwd);
+            
+            
         }
     }
 
