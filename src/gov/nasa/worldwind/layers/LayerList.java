@@ -405,7 +405,6 @@ public class LayerList extends CopyOnWriteArrayList<Layer> implements WWObject
         {
             if (!toKeep.contains(layer))
                 layer.addPropertyChangeListener(this);
-
             super.add(layer);
         }
     }

@@ -1125,7 +1125,6 @@ public class SAR2 extends JFrame
             }
             menuBar.add(layerMenu);
 
-            // twchoi
             //======== "Lunar Place Names" ========
 
             lunarPlaceNamesMenu = new LunarPlaceNamesMenu(this ,this.wwPanel.getWwd());
