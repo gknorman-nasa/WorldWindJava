@@ -28,7 +28,6 @@ public class CelestialMapper
     protected static final String ENABLE_EDIT = "CelestialMapper.EnableEdit";
     protected static final String OPEN = "CelestialMapper.Open";
     protected static final String OPEN_URL = "CelestialMapper.OpenUrl";
-    protected static final String NEW_AIRSPACE = "CelestialMapper.NewAirspace";
     protected static final String REMOVE_SELECTED = "CelestialMapper.RemoveSelected";
     protected static final String SAVE = "CelestialMapper.Save";
     protected static final String SELECTION_CHANGED = "CelestialMapper.SelectionChanged";

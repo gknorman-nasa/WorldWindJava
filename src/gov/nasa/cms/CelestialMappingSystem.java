@@ -5,18 +5,18 @@
  */
 package gov.nasa.cms;
 
+import gov.nasa.worldwind.Configuration;
+import gov.nasa.worldwindx.applications.worldwindow.core.Constants;
+
 /**
  *
  * @author kjdickin
  */
-public class CelestialMapperSystem 
+public class CelestialMappingSystem 
 {   
     public static final String APP_NAME = "Celestial Mapping System";
     
-    static
-    {
-        System.setProperty("gov.nasa.worldwind.config.file","gov/nasa/cms/cms.config.xml");
-    }
+
 
     public static void main(String[] args) 
     {
