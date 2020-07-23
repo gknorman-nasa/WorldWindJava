@@ -16,8 +16,8 @@
         <Property name="Name" value="Stars"/>
     </Layer>
 
-    <Layer href="gov/nasa/cms/config/Moon/LROWACGlobalMosaic.xml" actuate="onRequest"/>
-    <Layer href="gov/nasa/cms/config/Moon/LOLAColor.xml" actuate="onLoad"/>
+    <Layer href="gov/nasa/cms/config/Moon/LROWACGlobalMosaic.xml" actuate="onLoad"/>
+    <Layer href="gov/nasa/cms/config/Moon/LOLAColor.xml" actuate="onRequest"/>
     <Layer href="gov/nasa/cms/config/Moon/LOLASteel.xml" actuate="onRequest"/>
     <Layer href="gov/nasa/cms/config/Moon/LOLAGrayscale.xml" actuate="onRequest"/>
     <Layer href="gov/nasa/cms/config/Moon/ClementineBasemapV2.xml" actuate="onRequest"/>
