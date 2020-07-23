@@ -55,7 +55,6 @@ public class CelestialMapper
         public AppFrame() 
         { 
             
-           //this.wwd = this.getWwd(); // sets window for Annotations
             
             /* LOCAL ELEVATION MODEL */
             this.setCursor(new Cursor(Cursor.WAIT_CURSOR));
@@ -106,22 +105,11 @@ public class CelestialMapper
             }
         }
 
-
+        
         // Menu bar creation
         public void makeMenuBar(JFrame frame, final ActionListener controller) {
             JMenuBar menuBar = new JMenuBar();
-            
-//            Container contentPane = getContentPane();
-//            contentPane.setLayout(new BorderLayout());
-
-//            controlPanel = new ControlPanel();
-//            controlPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10)); // top, left, bottom, right
-//            contentPane.add(controlPanel, BorderLayout.WEST);
-//            
-//            this.annotationSupport = new SARAnnotationSupport();
-//            this.annotationSupport.setWwd(this.wwd);
-
-            
+                 
             //======== "File" ========
             
             JMenu menu = new JMenu("File");
@@ -208,8 +196,8 @@ public class CelestialMapper
                        
             //======== "Apollo" ========
             
-            /* This menu likely will have to take a similar 
-            approach to how the place names are done when revisited */
+            /* I think this menu likely will have to take a similar 
+            approach to how the place names are done when revisited. */
             
             JMenu apolloMenu = new JMenu();
             {
