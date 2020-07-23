@@ -55,7 +55,7 @@ public class CelestialMapper
         public AppFrame() 
         { 
             
-            this.wwd = this.getWwd(); // sets window for Annotations
+           //this.wwd = this.getWwd(); // sets window for Annotations
             
             /* LOCAL ELEVATION MODEL */
             this.setCursor(new Cursor(Cursor.WAIT_CURSOR));
@@ -107,60 +107,19 @@ public class CelestialMapper
         }
 
 
-        /* Methods for Annotations menu */
-        public SARTrack getCurrentTrack()
-        {
-            return getTracksPanel().getCurrentTrack();
-        }
-        
-        public TracksPanel getTracksPanel()
-        {
-            return controlPanel.getTracksPanel();
-        }
-        private SARAnnotation getCurrentAnnotation()
-        {
-            return this.annotationSupport.getCurrent();
-        }
-
-        private void newAnnotation()
-        {
-            newAnnotation(null, getCurrentTrack());
-        }
-
-        private void newAnnotation(String text, SARTrack track)
-        {
-            this.annotationSupport.addNew(text, track);
-            this.wwd.redraw();
-        }
-
-        private void removeAnnotation(SARAnnotation annotation)
-        {
-            if (annotation != null)
-            {
-                this.annotationSupport.remove(annotation);
-            }
-            this.wwd.redraw();
-        }
-
-        private void setAnnotationsEnabled(boolean show)
-        {
-            this.annotationSupport.setEnabled(show);
-            this.wwd.redraw();
-        }
-
         // Menu bar creation
         public void makeMenuBar(JFrame frame, final ActionListener controller) {
             JMenuBar menuBar = new JMenuBar();
             
-            Container contentPane = getContentPane();
-            contentPane.setLayout(new BorderLayout());
+//            Container contentPane = getContentPane();
+//            contentPane.setLayout(new BorderLayout());
 
-            controlPanel = new ControlPanel();
-            controlPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10)); // top, left, bottom, right
-            contentPane.add(controlPanel, BorderLayout.WEST);
-            
-            this.annotationSupport = new SARAnnotationSupport();
-            this.annotationSupport.setWwd(this.wwd);
+//            controlPanel = new ControlPanel();
+//            controlPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10)); // top, left, bottom, right
+//            contentPane.add(controlPanel, BorderLayout.WEST);
+//            
+//            this.annotationSupport = new SARAnnotationSupport();
+//            this.annotationSupport.setWwd(this.wwd);
 
             
             //======== "File" ========
@@ -247,56 +206,30 @@ public class CelestialMapper
             }
             menuBar.add(menu);
                        
-            //======== "Annotation" ========
+            //======== "Apollo" ========
             
-            JMenu annotationMenu = new JMenu();
+            /* This menu likely will have to take a similar 
+            approach to how the place names are done when revisited */
+            
+            JMenu apolloMenu = new JMenu();
             {
-                annotationMenu.setText("Annotation");
+                apolloMenu.setText("Apollo");
 
-                //---- "New Annotation..." ----
+                //---- "Apollo Annotation..." ----
                 JMenuItem newAnnotation = new JMenuItem();
-                newAnnotation.setText("New Annotation...");
+                newAnnotation.setText("Annotation");
                 newAnnotation.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_A,
                     Toolkit.getDefaultToolkit().getMenuShortcutKeyMaskEx()));
                 newAnnotation.addActionListener(new ActionListener()
                 {
                     public void actionPerformed(ActionEvent e)
                     {
-                        newAnnotation();
                     }
                 });
-                annotationMenu.add(newAnnotation);
+                apolloMenu.add(newAnnotation);
 
-                //---- "Remove Annotation" ----
-                JMenuItem removeAnnotation = new JMenuItem();
-                removeAnnotation.setText("Remove Annotation");
-                removeAnnotation.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_A,
-                    Toolkit.getDefaultToolkit().getMenuShortcutKeyMaskEx() + java.awt.event.InputEvent.SHIFT_DOWN_MASK));
-                removeAnnotation.addActionListener(new ActionListener()
-                {
-                    public void actionPerformed(ActionEvent event)
-                    {
-                        removeAnnotation(getCurrentAnnotation());
-                    }
-                });
-                annotationMenu.add(removeAnnotation);
-
-                //---- "Show Annotations" ----
-                JCheckBoxMenuItem showAnnotations = new JCheckBoxMenuItem();
-                showAnnotations.setText("Show Annotations");
-                showAnnotations.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_A,
-                    java.awt.event.InputEvent.ALT_DOWN_MASK));
-                showAnnotations.setSelected(true);
-                showAnnotations.addItemListener(new ItemListener()
-                {
-                    public void itemStateChanged(ItemEvent e)
-                    {
-                        setAnnotationsEnabled(e.getStateChange() == ItemEvent.SELECTED);
-                    }
-                });
-                annotationMenu.add(showAnnotations);
             }
-            menuBar.add(annotationMenu);
+            menuBar.add(apolloMenu);
             
             this.cmsPlaceNamesMenu.setWwd(this.wwd); //sets window for place names
             
