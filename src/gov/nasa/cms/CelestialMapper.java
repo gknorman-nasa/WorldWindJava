@@ -22,21 +22,17 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.io.*;
-
 /**
  * TO DO
  *
  */
-public class CelestialMapper extends ApplicationTemplate {
-
+public class CelestialMapper
+{
     protected static final String CMS_LAYER_NAME = "Celestial Shapes";
     protected static final String CLEAR_SELECTION = "CelestialMapper.ClearSelection";
-    protected static final String SIZE_NEW_SHAPES_TO_VIEWPORT = "CelestialMapper.SizeNewShapesToViewport";
     protected static final String ENABLE_EDIT = "CelestialMapper.EnableEdit";
     protected static final String OPEN = "CelestialMapper.Open";
     protected static final String OPEN_URL = "CelestialMapper.OpenUrl";
-    protected static final String OPEN_DEMO_AIRSPACES = "CelestialMapper.OpenDemoAirspaces";
-    protected static final String NEW_AIRSPACE = "CelestialMapper.NewAirspace";
     protected static final String REMOVE_SELECTED = "CelestialMapper.RemoveSelected";
     protected static final String SAVE = "CelestialMapper.Save";
     protected static final String SELECTION_CHANGED = "CelestialMapper.SelectionChanged";
@@ -55,29 +51,28 @@ public class CelestialMapper extends ApplicationTemplate {
         private SARAnnotationSupport annotationSupport;
         private WWPanel wwPanel;
 
-               
-        public AppFrame() 
-        {
 
+        public AppFrame() 
+        { 
+            
+            this.wwd = this.getWwd(); // sets window for Annotations
+            
             /* LOCAL ELEVATION MODEL */
-            // Give a few seconds for the elevation to import
             this.setCursor(new Cursor(Cursor.WAIT_CURSOR));
-            this.wwd = this.getWwd();
+
             // Import the elevation model on a new thread to avoid freezing the UI
+
             Thread em = new Thread(new Runnable()
             {
                 public void run()
                 {
                     importElevations();
-
-                    // Restore the cursor.
                     setCursor(Cursor.getDefaultCursor());
                 }
             });
             em.start(); // Load the elevation model   
             makeMenuBar(this, this.controller);
         }
-        
         
         // Creates a local elevation model from ELEVATIONS_PATH and sets the view
         protected void importElevations()
@@ -99,9 +94,7 @@ public class CelestialMapper extends ApplicationTemplate {
                         Globe globe = AppFrame.this.getWwd().getModel().getGlobe();
                         globe.setElevationModel(elevationModel);
 
-                        // Set the view to look at the imported elevations, although they might be hard to detect. To
-                        // make them easier to detect, replace the globe's CompoundElevationModel with the new elevation
-                        // model rather than adding it.
+                        // Set the view to look at the imported elevations
                         Sector modelSector = elevationModel.getSector();
                         ExampleUtil.goTo(getWwd(), modelSector);
                     }
@@ -113,6 +106,8 @@ public class CelestialMapper extends ApplicationTemplate {
             }
         }
 
+
+        /* Methods for Annotations menu */
         public SARTrack getCurrentTrack()
         {
             return getTracksPanel().getCurrentTrack();
@@ -153,11 +148,9 @@ public class CelestialMapper extends ApplicationTemplate {
             this.wwd.redraw();
         }
 
-
+        // Menu bar creation
         public void makeMenuBar(JFrame frame, final ActionListener controller) {
             JMenuBar menuBar = new JMenuBar();
-            final JCheckBoxMenuItem resizeNewShapesItem;
-            final JCheckBoxMenuItem enableEditItem;
             
             Container contentPane = getContentPane();
             contentPane.setLayout(new BorderLayout());
@@ -195,13 +188,6 @@ public class CelestialMapper extends ApplicationTemplate {
                 item.setAccelerator(KeyStroke.getKeyStroke(
                         KeyEvent.VK_S, Toolkit.getDefaultToolkit().getMenuShortcutKeyMaskEx()));
                 item.setActionCommand(SAVE);
-                item.addActionListener(controller);
-                menu.add(item);
-
-                menu.addSeparator();
-
-                item = new JMenuItem("Load Demo Shapes");
-                item.setActionCommand(OPEN_DEMO_AIRSPACES);
                 item.addActionListener(controller);
                 menu.add(item);
             }
@@ -316,10 +302,5 @@ public class CelestialMapper extends ApplicationTemplate {
             
             
         }
-    }
-
-    public static void main(String[] args) 
-    {
-        ApplicationTemplate.start("Celestial Mapper System", AppFrame.class);
     }
  }
