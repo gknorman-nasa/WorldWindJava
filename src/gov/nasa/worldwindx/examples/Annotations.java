@@ -123,7 +123,7 @@ public class Annotations extends ApplicationTemplate
             rl.addRenderable(amsla);
 
             // Create an annotation with an image and some text below it
-            ga = this.makeTopImageBottomTextAnnotation(IMAGE_WWJ_SPLASH, "Text below image",
+            ga = this.makeTopImageBottomTextAnnotation(IMAGE_WWJ_SPLASH, "Text below image", //shows image on screen twchoi
                 Position.fromDegrees(0, -40, 0));
             rl.addRenderable(ga);
 

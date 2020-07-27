@@ -17,6 +17,7 @@ import gov.nasa.worldwindx.applications.sar.SARTrack;
 import gov.nasa.worldwindx.applications.sar.TracksPanel;
 import gov.nasa.worldwindx.applications.sar.WWPanel;
 import gov.nasa.worldwindx.examples.util.ExampleUtil;
+import gov.nasa.worldwindx.examples.util.LayerManagerLayer;
 
 import javax.swing.*;
 import java.awt.*;
@@ -55,6 +56,8 @@ public class CelestialMapper
         public AppFrame() 
         { 
             
+            super(true, false, false); // disable layer menu and statisics panel for AppFrame
+            getWwd().getModel().getLayers().add(new LayerManagerLayer(getWwd())); // add layer box
             
             /* LOCAL ELEVATION MODEL */
             this.setCursor(new Cursor(Cursor.WAIT_CURSOR));
