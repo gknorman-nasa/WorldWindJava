@@ -16,7 +16,9 @@ import gov.nasa.worldwindx.applications.sar.SARAnnotationSupport;
 import gov.nasa.worldwindx.applications.sar.SARTrack;
 import gov.nasa.worldwindx.applications.sar.TracksPanel;
 import gov.nasa.worldwindx.applications.sar.WWPanel;
+import gov.nasa.worldwindx.examples.MeasureToolUsage;
 import gov.nasa.worldwindx.examples.util.ExampleUtil;
+import gov.nasa.worldwindx.examples.util.LayerManagerLayer;
 
 import javax.swing.*;
 import java.awt.*;
@@ -50,18 +52,17 @@ public class CelestialMapper
         private ControlPanel controlPanel;
         private SARAnnotationSupport annotationSupport;
         private WWPanel wwPanel;
-
-
+        private MeasureToolUsage measureTool;
+        
         public AppFrame() 
-        { 
-            
-           //this.wwd = this.getWwd(); // sets window for Annotations
+        {           
+            super(true, false, false); // disable layer menu and statisics panel for AppFrame
+            getWwd().getModel().getLayers().add(new LayerManagerLayer(getWwd())); // add layer box UI
             
             /* LOCAL ELEVATION MODEL */
             this.setCursor(new Cursor(Cursor.WAIT_CURSOR));
 
             // Import the elevation model on a new thread to avoid freezing the UI
-
             Thread em = new Thread(new Runnable()
             {
                 public void run()
@@ -111,34 +112,10 @@ public class CelestialMapper
         public void makeMenuBar(JFrame frame, final ActionListener controller) {
             JMenuBar menuBar = new JMenuBar();
             
-//            Container contentPane = getContentPane();
-//            contentPane.setLayout(new BorderLayout());
-
-//            controlPanel = new ControlPanel();
-//            controlPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10)); // top, left, bottom, right
-//            contentPane.add(controlPanel, BorderLayout.WEST);
-//            
-//            this.annotationSupport = new SARAnnotationSupport();
-//            this.annotationSupport.setWwd(this.wwd);
-
-            
-            //======== "File" ========
-            
+            //======== "File" ========   
             JMenu menu = new JMenu("File");
             {
-                JMenuItem item = new JMenuItem("Open...");
-                item.setAccelerator(KeyStroke.getKeyStroke(
-                        KeyEvent.VK_O, Toolkit.getDefaultToolkit().getMenuShortcutKeyMaskEx()));
-                item.setActionCommand(OPEN);
-                item.addActionListener(controller);
-                menu.add(item);
-
-                item = new JMenuItem("Open URL...");
-                item.setActionCommand(OPEN_URL);
-                item.addActionListener(controller);
-                menu.add(item);
-                
-                item = new JMenuItem("Import Imagery");
+                JMenuItem  item = new JMenuItem("Import Imagery");
                 item.setActionCommand(OPEN_URL);
                 item.addActionListener(controller);
                 menu.add(item);
@@ -151,15 +128,31 @@ public class CelestialMapper
                 menu.add(item);
             }
             menuBar.add(menu);
-
-            //======== "Shape" ========
             
-            menu = new JMenu("Shape");
-            {
-
-
+            //======== "CMS Place Names" ========          
+            cmsPlaceNamesMenu = new CMSPlaceNamesMenu(this, this.getWwd());
+            menuBar.add(cmsPlaceNamesMenu);
+            
+            //======== "Tools" ========        
+            JMenu tools = new JMenu("Tools");
+            {                
+                JMenuItem tp = new JMenuItem("Terrain Profile");
+                tp.addActionListener(new ActionListener()
+                {
+                    public void actionPerformed(ActionEvent e)
+                    {
+                        // Add TerrainProfileLayer
+                        TerrainProfileLayer tpl = new TerrainProfileLayer();
+                        tpl.setEventSource(getWwd());
+                        tpl.setStartLatLon(LatLon.fromDegrees(60, 40));
+                        tpl.setEndLatLon(LatLon.fromDegrees(40, 65));
+                        ApplicationTemplate.insertBeforeCompass(getWwd(), tpl); // display on screen
+                    }
+                });
+                tools.add(tp);
+                tools.doClick(0);
             }
-            menuBar.add(menu);
+            menuBar.add(tools);
 
             //======== "Selection" ========
             
@@ -181,28 +174,12 @@ public class CelestialMapper
             menuBar.add(menu);
 
             frame.setJMenuBar(menuBar);
-
-
-            
-            //======== "CMS Place Names" ========
-            
-            cmsPlaceNamesMenu = new CMSPlaceNamesMenu(this, this.getWwd());
-            
-          
-            menuBar.add(cmsPlaceNamesMenu);
-
             
             //======== "View" ========
             
             menu = new JMenu("View");
             {
-                JCheckBoxMenuItem item = new JCheckBoxMenuItem("Scale Bar");
-                menu.add(item);
-                
-                item = new JCheckBoxMenuItem("Terrain Profile");
-                menu.add(item);
-                
-                menu.doClick(0);
+
             }
             menuBar.add(menu);
                        
@@ -231,9 +208,7 @@ public class CelestialMapper
             }
             menuBar.add(apolloMenu);
             
-            this.cmsPlaceNamesMenu.setWwd(this.wwd); //sets window for place names
-            
-            
+            this.cmsPlaceNamesMenu.setWwd(this.wwd); //sets window for place names        
         }
     }
  }

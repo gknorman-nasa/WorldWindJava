@@ -43,7 +43,7 @@ public class MeasurementDialog extends AbstractFeatureDialog
 
     public MeasurementDialog(Registry registry)
     {
-        super("Measurement", Constants.FEATURE_MEASUREMENT_DIALOG, registry);
+        super("Measurementyeee", Constants.FEATURE_MEASUREMENT_DIALOG, registry);
     }
 
     public void initialize(final Controller controller)
