@@ -4,8 +4,9 @@
  * All Rights Reserved.
  */
 
-package gov.nasa.worldwindx.applications.worldwindow.features;
+package gov.nasa.cms.features;
 
+import gov.nasa.worldwindx.applications.worldwindow.features.*;
 import gov.nasa.worldwind.event.*;
 import gov.nasa.worldwind.layers.RenderableLayer;
 import gov.nasa.worldwind.render.*;
