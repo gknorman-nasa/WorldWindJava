@@ -5,30 +5,19 @@
  */
 package gov.nasa.cms;
 
-import gov.nasa.cms.features.MeasureToolPanel;
-import gov.nasa.cms.features.MeasureToolUsage;
+import gov.nasa.cms.features.LayerManagerLayer;
 import gov.nasa.worldwind.WorldWindow;
 import gov.nasa.worldwind.geom.*;
 import gov.nasa.worldwind.globes.Globe;
 import gov.nasa.worldwind.layers.*;
 import gov.nasa.worldwind.terrain.LocalElevationModel;
-import gov.nasa.worldwindx.applications.sar.ControlPanel;
-import gov.nasa.worldwindx.applications.sar.SARAnnotationSupport;
-import gov.nasa.worldwindx.applications.sar.WWPanel;
 import gov.nasa.worldwindx.examples.util.ExampleUtil;
-import gov.nasa.worldwindx.examples.util.LayerManagerLayer;
-import gov.nasa.worldwind.util.measure.*;
 import gov.nasa.worldwind.geom.LatLon;
-import static gov.nasa.worldwindx.examples.ApplicationTemplate.insertBeforePlacenames;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
 import java.io.*;
-import java.util.ArrayList;
-import javax.swing.event.ChangeEvent;
 /**
  * TO DO
  *
@@ -53,20 +42,12 @@ public class CelestialMapper
         ActionListener controller;
         protected RenderableLayer airspaceLayer;
         private CMSPlaceNamesMenu cmsPlaceNamesMenu;
-        private WorldWindow wwd;
-        private ControlPanel controlPanel;
-        private SARAnnotationSupport annotationSupport;
-        private WWPanel wwPanel;
-        private PropertyChangeListener measureToolListener = new MeasureToolListener(); 
-         private int lastTabIndex = -1;
-        private final JTabbedPane tabbedPane = new JTabbedPane();
-        private final TerrainProfileLayer profile = new TerrainProfileLayer();
+        private WorldWindow wwd; 
         
         public AppFrame() 
         { 
-
-            //super(true, false, false); // disable layer menu and statisics panel for AppFrame
-            //getWwd().getModel().getLayers().add(new LayerManagerLayer(getWwd())); // add layer box UI
+            super(true, false, false); // disable layer menu and statisics panel for AppFrame
+            getWwd().getModel().getLayers().add(new LayerManagerLayer(getWwd())); // add layer box UI
             
             // Wait for the elevation to impor            
             this.setCursor(new Cursor(Cursor.WAIT_CURSOR));
@@ -127,13 +108,6 @@ public class CelestialMapper
                 item.setActionCommand(OPEN_URL);
                 item.addActionListener(controller);
                 menu.add(item);
-
-                item = new JMenuItem("Save...");
-                item.setAccelerator(KeyStroke.getKeyStroke(
-                        KeyEvent.VK_S, Toolkit.getDefaultToolkit().getMenuShortcutKeyMaskEx()));
-                item.setActionCommand(SAVE);
-                item.addActionListener(controller);
-                menu.add(item);
             }
             menuBar.add(menu);
             
@@ -164,43 +138,6 @@ public class CelestialMapper
                 {
                     public void actionPerformed(ActionEvent e)
                     {
-                        // Add terrain profile layer
-                        profile.setEventSource(getWwd());
-                        profile.setFollow(TerrainProfileLayer.FOLLOW_PATH);
-                        profile.setShowProfileLine(false);
-                        insertBeforePlacenames(getWwd(), profile);
-
-                        // Add + tab
-                        tabbedPane.add(new JPanel());
-                        tabbedPane.setTitleAt(0, "+");
-                        tabbedPane.addChangeListener((ChangeEvent changeEvent) -> 
-                        {
-                            if (tabbedPane.getSelectedIndex() == 0) 
-                            {
-                                // Add new measure tool in a tab when '+' selected
-                                MeasureTool measureTool = new MeasureTool(getWwd());
-                                measureTool.setController(new MeasureToolController());
-                                tabbedPane.add(new MeasureToolPanel(getWwd(), measureTool));
-                                tabbedPane.setTitleAt(tabbedPane.getTabCount() - 1, "" + (tabbedPane.getTabCount() - 1));
-                                tabbedPane.setSelectedIndex(tabbedPane.getTabCount() - 1);
-                                switchMeasureTool();
-                            } 
-                            else 
-                            {
-                                switchMeasureTool();
-                            }
-                        });
-
-                        // Add measure tool control panel to tabbed pane
-                        MeasureTool measureTool = new MeasureTool(getWwd());
-                        measureTool.setController(new MeasureToolController());
-                        tabbedPane.add(new MeasureToolPanel(getWwd(), measureTool));
-                        tabbedPane.setTitleAt(1, "1");
-                        tabbedPane.setSelectedIndex(1);
-                        switchMeasureTool();
-
-                        getControlPanel().add(tabbedPane, BorderLayout.EAST);
-                        pack();
                      }});
                      tools.add(mp);
             }
@@ -258,51 +195,5 @@ public class CelestialMapper
             
             this.cmsPlaceNamesMenu.setWwd(this.wwd); //sets window for place names        
         }
-        
-        public void makeMeasurementFrame(JFrame frame)
-        {
-            
-        }
-        
-            private class MeasureToolListener implements PropertyChangeListener {
-
-            @Override
-            public void propertyChange(PropertyChangeEvent event) {
-                // Measure shape position list changed - update terrain profile
-                if (event.getPropertyName().equals(MeasureTool.EVENT_POSITION_ADD)
-                        || event.getPropertyName().equals(MeasureTool.EVENT_POSITION_REMOVE)
-                        || event.getPropertyName().equals(MeasureTool.EVENT_POSITION_REPLACE)) {
-                    updateProfile(((MeasureTool) event.getSource()));
-                }
-            }
-        }
-
-        private void switchMeasureTool() {
-            // Disarm last measure tool when changing tab and switching tool
-            if (lastTabIndex != -1) {
-                MeasureTool mt = ((MeasureToolPanel) tabbedPane.getComponentAt(lastTabIndex)).getMeasureTool();
-                mt.setArmed(false);
-                mt.removePropertyChangeListener(measureToolListener);
-            }
-            // Update terrain profile from current measure tool
-            lastTabIndex = tabbedPane.getSelectedIndex();
-            MeasureTool mt = ((MeasureToolPanel) tabbedPane.getComponentAt(lastTabIndex)).getMeasureTool();
-            mt.addPropertyChangeListener(measureToolListener);
-            updateProfile(mt);
-        }
-
-        private void updateProfile(MeasureTool mt) {
-            ArrayList<? extends LatLon> positions = mt.getPositions();
-            if (positions != null && positions.size() > 1) {
-                profile.setPathPositions(positions);
-                profile.setEnabled(true);
-            } else {
-                profile.setEnabled(false);
-            }
-
-            getWwd().redraw();
-        }
-
-
     }
  }

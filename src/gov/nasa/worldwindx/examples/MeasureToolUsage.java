@@ -9,6 +9,7 @@ import gov.nasa.worldwind.*;
 import gov.nasa.worldwind.geom.LatLon;
 import gov.nasa.worldwind.layers.TerrainProfileLayer;
 import gov.nasa.worldwind.util.measure.*;
+import gov.nasa.cms.features.LayerManagerLayer;
 
 import javax.swing.*;
 import javax.swing.event.*;
@@ -39,14 +40,9 @@ public class MeasureToolUsage extends ApplicationTemplate {
         private MeasureDialog measureDialog;
 
         public AppFrame() {
-            super(true, true, false); // no layer or statistics panel
-
-            // Add terrain profile layer
-            profile.setEventSource(getWwd());
-            profile.setFollow(TerrainProfileLayer.FOLLOW_PATH);
-            profile.setShowProfileLine(false);
-            insertBeforePlacenames(getWwd(), profile);
-
+            super(true, false, false); // disable layer menu and statisics panel for AppFrame
+            getWwd().getModel().getLayers().add(new LayerManagerLayer(getWwd())); // add layer box UI
+            
             // Add + tab
             tabbedPane.add(new JPanel());
             tabbedPane.setTitleAt(0, "+");
@@ -72,7 +68,8 @@ public class MeasureToolUsage extends ApplicationTemplate {
             tabbedPane.setSelectedIndex(1);
             switchMeasureTool();
 
-            this.getControlPanel().add(tabbedPane, BorderLayout.EAST);
+            // Attach to AppFrame's control panel
+           // this.getControlPanel().add(tabbedPane, BorderLayout.EAST);
             this.pack();
             JMenuBar menuBar = new JMenuBar();
             this.setJMenuBar(menuBar);
@@ -80,7 +77,7 @@ public class MeasureToolUsage extends ApplicationTemplate {
             menuBar.add(toolsMenu);
 
             final WorldWindow wwd = this.getWwd();
-            JMenuItem openMeasureDialogItem = new JMenuItem(new AbstractAction("Measure Panel...") {
+            JMenuItem openMeasureDialogItem = new JMenuItem(new AbstractAction("Measurement") {
                 public void actionPerformed(ActionEvent actionEvent) {
                     try {
                         if (AppFrame.this.measureDialog == null) {
