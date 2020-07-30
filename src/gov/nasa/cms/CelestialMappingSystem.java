@@ -5,9 +5,6 @@
  */
 package gov.nasa.cms;
 
-import gov.nasa.worldwind.Configuration;
-import gov.nasa.worldwindx.applications.worldwindow.core.Constants;
-
 /**
  *
  * @author kjdickin
@@ -15,9 +12,7 @@ import gov.nasa.worldwindx.applications.worldwindow.core.Constants;
 public class CelestialMappingSystem 
 {   
     public static final String APP_NAME = "Celestial Mapping System";
-    
-
-
+     
     public static void main(String[] args) 
     {
         ApplicationTemplate.start(APP_NAME, CelestialMapper.AppFrame.class);

@@ -57,7 +57,7 @@ public class ViewControlsLayer extends RenderableLayer
     protected ScreenAnnotation currentControl;
 
     protected String position = AVKey.SOUTHWEST;
-    protected String layout = AVKey.HORIZONTAL;
+    protected String layout = AVKey.VERTICAL;
     protected Vec4 locationCenter = null;
     protected Vec4 locationOffset = null;
     protected double scale = 1;
