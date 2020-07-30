@@ -7,12 +7,14 @@ package gov.nasa.cms;
 
 import gov.nasa.cms.features.LayerManagerLayer;
 import gov.nasa.worldwind.WorldWindow;
+import gov.nasa.worldwind.avlist.AVKey;
 import gov.nasa.worldwind.geom.*;
 import gov.nasa.worldwind.globes.Globe;
 import gov.nasa.worldwind.layers.*;
 import gov.nasa.worldwind.terrain.LocalElevationModel;
 import gov.nasa.worldwindx.examples.util.ExampleUtil;
 import gov.nasa.worldwind.geom.LatLon;
+import gov.nasa.worldwindx.applications.worldwindow.core.Constants;
 
 import javax.swing.*;
 import java.awt.*;
@@ -49,7 +51,7 @@ public class CelestialMapper
             super(true, false, false); // disable layer menu and statisics panel for AppFrame
             getWwd().getModel().getLayers().add(new LayerManagerLayer(getWwd())); // add layer box UI
             
-            // Wait for the elevation to impor            
+            // Wait for the elevation to import            
             this.setCursor(new Cursor(Cursor.WAIT_CURSOR));
             
             // Import the elevation model on a new thread to avoid freezing the UI
@@ -126,8 +128,6 @@ public class CelestialMapper
                         // Add TerrainProfileLayer
                         TerrainProfileLayer tpl = new TerrainProfileLayer();
                         tpl.setEventSource(getWwd());
-                        tpl.setStartLatLon(LatLon.fromDegrees(60, 40)); // not working? 
-                        tpl.setEndLatLon(LatLon.fromDegrees(40, 65));
                         ApplicationTemplate.insertBeforeCompass(getWwd(), tpl); // display on screen
                     }
                 });
