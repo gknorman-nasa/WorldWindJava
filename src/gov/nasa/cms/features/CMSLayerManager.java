@@ -22,9 +22,9 @@ import java.awt.*;
  * box next to the layer name. The order of layers in the list can be changed by dragging the layer names.
  *
  * @author Patrick Murris
- * @version $Id: LayerManagerLayer.java 1171 2013-02-11 21:45:02Z dcollins $
+ * @version $Id: CMSLayerManager.java 1171 2013-02-11 21:45:02Z dcollins $
  */
-public class LayerManagerLayer extends RenderableLayer implements SelectListener
+public class CMSLayerManager extends RenderableLayer implements SelectListener
 {
     protected WorldWindow wwd;
     protected boolean update = true;
@@ -56,7 +56,7 @@ public class LayerManagerLayer extends RenderableLayer implements SelectListener
     protected int dragRefIndex = -1;
     protected Color dragColor = Color.RED;
 
-    public LayerManagerLayer(WorldWindow wwd)
+    public CMSLayerManager(WorldWindow wwd)
     {
         if (wwd == null)
         {

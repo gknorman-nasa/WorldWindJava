@@ -5,7 +5,8 @@
  */
 package gov.nasa.cms;
 
-import gov.nasa.cms.features.LayerManagerLayer;
+import gov.nasa.cms.features.CMSLayerManager;
+import gov.nasa.cms.features.MeasureDialog;
 import gov.nasa.worldwind.WorldWindow;
 import gov.nasa.worldwind.avlist.AVKey;
 import gov.nasa.worldwind.geom.*;
@@ -14,18 +15,23 @@ import gov.nasa.worldwind.layers.*;
 import gov.nasa.worldwind.terrain.LocalElevationModel;
 import gov.nasa.worldwindx.examples.util.ExampleUtil;
 import gov.nasa.worldwind.geom.LatLon;
+import gov.nasa.worldwind.util.measure.MeasureTool;
+import gov.nasa.worldwind.util.measure.MeasureToolController;
 import gov.nasa.worldwindx.applications.worldwindow.core.Constants;
+import gov.nasa.worldwindx.examples.MeasureToolUsage;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.io.*;
+
 /**
- * TO DO
+ * CelestialMapper.java
  *
  */
 public class CelestialMapper
 {
+
     protected static final String CMS_LAYER_NAME = "Celestial Shapes";
     protected static final String CLEAR_SELECTION = "CelestialMapper.ClearSelection";
     protected static final String ENABLE_EDIT = "CelestialMapper.EnableEdit";
@@ -39,21 +45,23 @@ public class CelestialMapper
     //**************************************************************//
     //********************  Main  **********************************//
     //**************************************************************//
-    protected static class AppFrame extends ApplicationTemplate.AppFrame 
+    protected static class AppFrame extends ApplicationTemplate.AppFrame
     {
+
         ActionListener controller;
         protected RenderableLayer airspaceLayer;
         private CMSPlaceNamesMenu cmsPlaceNamesMenu;
-        private WorldWindow wwd; 
-        
-        public AppFrame() 
-        { 
+        private WorldWindow wwd;
+        private MeasureDialog measureDialog;
+
+        public AppFrame()
+        {
             super(true, false, false); // disable layer menu and statisics panel for AppFrame
-            getWwd().getModel().getLayers().add(new LayerManagerLayer(getWwd())); // add layer box UI
-            
+            getWwd().getModel().getLayers().add(new CMSLayerManager(getWwd())); // add layer box UI
+
             // Wait for the elevation to import            
             this.setCursor(new Cursor(Cursor.WAIT_CURSOR));
-            
+
             // Import the elevation model on a new thread to avoid freezing the UI
             Thread em = new Thread(new Runnable()
             {
@@ -65,8 +73,9 @@ public class CelestialMapper
             });
             em.start(); // Load the elevation model   
             makeMenuBar(this, this.controller); // Make the menu bar
+
         }
-        
+
         // Creates a local elevation model from ELEVATIONS_PATH and sets the view
         protected void importElevations()
         {
@@ -92,34 +101,34 @@ public class CelestialMapper
                         ExampleUtil.goTo(getWwd(), modelSector);
                     }
                 });
-            }
-            catch (Exception e)
+            } catch (Exception e)
             {
                 e.printStackTrace();
             }
         }
 
         // Menu bar creation
-        public void makeMenuBar(JFrame frame, final ActionListener controller) {
+        public void makeMenuBar(JFrame frame, final ActionListener controller)
+        {
             JMenuBar menuBar = new JMenuBar();
-            
+
             //======== "File" ========   
             JMenu menu = new JMenu("File");
             {
-                JMenuItem  item = new JMenuItem("Import Imagery");
+                JMenuItem item = new JMenuItem("Import Imagery");
                 item.setActionCommand(OPEN_URL);
                 item.addActionListener(controller);
                 menu.add(item);
             }
             menuBar.add(menu);
-            
+
             //======== "CMS Place Names" ========          
             cmsPlaceNamesMenu = new CMSPlaceNamesMenu(this, this.getWwd());
             menuBar.add(cmsPlaceNamesMenu);
-            
+
             //======== "Tools" ========        
             JMenu tools = new JMenu("Tools");
-            {                
+            {
                 JMenuItem tp = new JMenuItem("Terrain Profile");
                 tp.addActionListener(new ActionListener()
                 {
@@ -132,14 +141,29 @@ public class CelestialMapper
                     }
                 });
                 tools.add(tp);
-                
-                JMenuItem mp = new JMenuItem("Measurement Panel");
-                mp.addActionListener(new ActionListener()
+
+                JMenuItem openMeasureDialogItem = new JMenuItem(new AbstractAction("Measurement")
                 {
-                    public void actionPerformed(ActionEvent e)
+                    public void actionPerformed(ActionEvent actionEvent)
                     {
-                     }});
-                     tools.add(mp);
+                        final MeasureTool measureTool = new MeasureTool(getWwd());
+                        measureTool.setController(new MeasureToolController());
+                        final WorldWindow wwd = getWwd();
+                        try
+                        {
+                            if (AppFrame.this.measureDialog == null)
+                            {
+                                // Create the dialog from a final WorldWindow object
+                                AppFrame.this.measureDialog = new MeasureDialog(wwd, measureTool, AppFrame.this);
+                            }
+                            AppFrame.this.measureDialog.setVisible(true); // display on screen
+                        } catch (Exception e)
+                        {
+                            e.printStackTrace();
+                        }
+                    }
+                });
+                tools.add(openMeasureDialogItem);
             }
             menuBar.add(tools);
 
@@ -161,18 +185,17 @@ public class CelestialMapper
             }
             menuBar.add(menu);
             frame.setJMenuBar(menuBar);
-            
+
             //======== "View" ========           
             menu = new JMenu("View");
             {
 
             }
             menuBar.add(menu);
-                       
+
             //======== "Apollo" ========          
             /* This menu likely will have to take a similar 
             approach to how the place names are done when revisited */
-            
             JMenu apolloMenu = new JMenu();
             {
                 apolloMenu.setText("Apollo");
@@ -181,7 +204,7 @@ public class CelestialMapper
                 JMenuItem newAnnotation = new JMenuItem();
                 newAnnotation.setText("Annotation");
                 newAnnotation.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_A,
-                    Toolkit.getDefaultToolkit().getMenuShortcutKeyMaskEx()));
+                        Toolkit.getDefaultToolkit().getMenuShortcutKeyMaskEx()));
                 newAnnotation.addActionListener(new ActionListener()
                 {
                     public void actionPerformed(ActionEvent e)
@@ -192,8 +215,8 @@ public class CelestialMapper
 
             }
             menuBar.add(apolloMenu);
-            
+
             this.cmsPlaceNamesMenu.setWwd(this.wwd); //sets window for place names        
         }
     }
- }
+}
