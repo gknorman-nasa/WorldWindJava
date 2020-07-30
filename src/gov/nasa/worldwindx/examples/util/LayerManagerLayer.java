@@ -37,10 +37,10 @@ public class LayerManagerLayer extends RenderableLayer implements SelectListener
     private double maxOpacity = 1;
     private char layerEnabledSymbol = '\u25a0';
     private char layerDisabledSymbol = '\u25a1';
-    private Font font = new Font("SansSerif", Font.PLAIN, 14);
+    private Font font = new Font("SansSerif", Font.PLAIN, 15);
     private boolean minimized = false;
-    private int borderWidth = 20; // TODO: make configurable
-    private String position = AVKey.SOUTHWEST; // TODO: make configurable
+    private int borderWidth = 10; // TODO: make configurable
+    private String position = AVKey.NORTHEAST; // TODO: make configurable
     private Vec4 locationCenter = null;
     private Vec4 locationOffset = null;
 
@@ -84,8 +84,8 @@ public class LayerManagerLayer extends RenderableLayer implements SelectListener
         this.annotation.getAttributes().setHighlightScale(1);
         this.annotation.getAttributes().setTextColor(Color.WHITE);
         this.annotation.getAttributes().setBackgroundColor(new Color(0f, 0f, 0f, .5f));
-        this.annotation.getAttributes().setInsets(new Insets(6, 6, 6, 6));
-        this.annotation.getAttributes().setBorderWidth(1);
+        this.annotation.getAttributes().setInsets(new Insets(5, 5, 5, 5));
+        this.annotation.getAttributes().setBorderWidth(2);
         this.addRenderable(this.annotation);
 
         // Listen to WorldWindow for select event
