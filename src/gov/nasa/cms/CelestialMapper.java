@@ -5,7 +5,6 @@
  */
 package gov.nasa.cms;
 
-import gov.nasa.cms.features.LayerManagerLayer;
 import gov.nasa.worldwind.WorldWindow;
 import gov.nasa.worldwind.avlist.AVKey;
 import gov.nasa.worldwind.geom.*;
@@ -13,12 +12,9 @@ import gov.nasa.worldwind.globes.Globe;
 import gov.nasa.worldwind.layers.*;
 import gov.nasa.worldwind.terrain.LocalElevationModel;
 import gov.nasa.worldwindx.examples.util.ExampleUtil;
-<<<<<<< HEAD
 import gov.nasa.worldwindx.examples.util.LayerManagerLayer;
-=======
 import gov.nasa.worldwind.geom.LatLon;
 import gov.nasa.worldwindx.applications.worldwindow.core.Constants;
->>>>>>> origin/lunar-measuring
 
 import javax.swing.*;
 import java.awt.*;
@@ -54,15 +50,8 @@ public class CelestialMapper
         { 
             super(true, false, false); // disable layer menu and statisics panel for AppFrame
             getWwd().getModel().getLayers().add(new LayerManagerLayer(getWwd())); // add layer box UI
-            
-<<<<<<< HEAD
-            super(true, false, false); // disable layer menu and statisics panel for AppFrame
-            getWwd().getModel().getLayers().add(new LayerManagerLayer(getWwd())); // add layer box
-            
-            /* LOCAL ELEVATION MODEL */
-=======
+                        
             // Wait for the elevation to import            
->>>>>>> origin/lunar-measuring
             this.setCursor(new Cursor(Cursor.WAIT_CURSOR));
             
             // Import the elevation model on a new thread to avoid freezing the UI
@@ -110,21 +99,12 @@ public class CelestialMapper
             }
         }
 
-<<<<<<< HEAD
         
         // Menu bar creation
         public void makeMenuBar(JFrame frame, final ActionListener controller) {
             JMenuBar menuBar = new JMenuBar();
                  
             //======== "File" ========
-            
-=======
-        // Menu bar creation
-        public void makeMenuBar(JFrame frame, final ActionListener controller) {
-            JMenuBar menuBar = new JMenuBar();
-            
-            //======== "File" ========   
->>>>>>> origin/lunar-measuring
             JMenu menu = new JMenu("File");
             {
                 JMenuItem  item = new JMenuItem("Import Imagery");
@@ -190,16 +170,7 @@ public class CelestialMapper
             }
             menuBar.add(menu);
                        
-<<<<<<< HEAD
             //======== "Apollo" ========
-            
-            /* I think this menu likely will have to take a similar 
-            approach to how the place names are done when revisited. */
-=======
-            //======== "Apollo" ========          
-            /* This menu likely will have to take a similar 
-            approach to how the place names are done when revisited */
->>>>>>> origin/lunar-measuring
             
             JMenu apolloMenu = new JMenu();
             {

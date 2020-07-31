@@ -58,13 +58,26 @@ public class Annotations extends ApplicationTemplate
         private AnnotationLayer layer;
         private Annotation currentAnnotation;
 
-        // Static
+//        // Static
         private final static PowerOfTwoPaddedImage IMAGE_WWJ_SPLASH =
             PowerOfTwoPaddedImage.fromPath("images/400x230-splash-nww.png");
         private final static PowerOfTwoPaddedImage IMAGE_NASA =
             PowerOfTwoPaddedImage.fromPath("images/32x32-icon-nasa.png");
         private final static PowerOfTwoPaddedImage IMAGE_EARTH =
             PowerOfTwoPaddedImage.fromPath("images/32x32-icon-earth.png");
+        
+        private final static PowerOfTwoPaddedImage APOLLO11 =
+            PowerOfTwoPaddedImage.fromPath("images/Apollo11.jpg");
+        private final static PowerOfTwoPaddedImage APOLLO12 =
+            PowerOfTwoPaddedImage.fromPath("images/Apollo12.jpg");
+        private final static PowerOfTwoPaddedImage APOLLO14 =
+            PowerOfTwoPaddedImage.fromPath("images/Apollo14.jpg");
+        private final static PowerOfTwoPaddedImage APOLLO15 =
+            PowerOfTwoPaddedImage.fromPath("images/Apollo15.jpg");
+        private final static PowerOfTwoPaddedImage APOLLO16 =
+            PowerOfTwoPaddedImage.fromPath("images/Apollo16.jpg");
+        private final static PowerOfTwoPaddedImage APOLLO17 =
+            PowerOfTwoPaddedImage.fromPath("images/Apollo17.jpg");
 
         // UI components
         private JTextArea inputTextArea;
@@ -108,10 +121,51 @@ public class Annotations extends ApplicationTemplate
 
             // Create a renderable layer
             //twchoi this creates the (stand alone) menu option. But for Apollo purposes unnecessary.
-//            RenderableLayer rl = new RenderableLayer();
-//            rl.setName("Annotations (stand alone)");
-//            insertBeforeCompass(this.getWwd(), rl);
-
+            RenderableLayer rl = new RenderableLayer();
+            rl.setName("Apollo 11");
+            insertBeforeCompass(this.getWwd(), rl);
+            ga = this.makeTopImageBottomTextAnnotation(APOLLO11, "Apollo 11", //shows image on screen twchoi
+                Position.fromDegrees(0.6875, 23.4333, 0));    
+            rl.addRenderable(ga);
+            
+            rl = new RenderableLayer();
+            rl.setName("Apollo 12");
+            insertBeforeCompass(this.getWwd(), rl);
+            ga = this.makeTopImageBottomTextAnnotation(APOLLO12, "Apollo 12", //shows image on screen twchoi
+                Position.fromDegrees(-3.1975, -23.3856, 0));
+            rl.addRenderable(ga);
+            
+            rl = new RenderableLayer();
+            rl.setName("Apollo 14");
+            insertBeforeCompass(this.getWwd(), rl);
+            ga = this.makeTopImageBottomTextAnnotation(APOLLO14, "Apollo 14", //shows image on screen twchoi
+                Position.fromDegrees(-3.6733, -17.4653, 0));
+            rl.addRenderable(ga);
+            
+            
+            rl = new RenderableLayer();
+            rl.setName("Apollo 15");
+            insertBeforeCompass(this.getWwd(), rl);
+            ga = this.makeTopImageBottomTextAnnotation(APOLLO15, "Apollo 15", //shows image on screen twchoi
+                Position.fromDegrees(26.1008, 3.6527, 0));
+            rl.addRenderable(ga);
+            
+            
+            rl = new RenderableLayer();
+            rl.setName("Apollo 16");
+            insertBeforeCompass(this.getWwd(), rl);
+            ga = this.makeTopImageBottomTextAnnotation(APOLLO16, "Apollo 16", //shows image on screen twchoi
+                Position.fromDegrees(-8.9913, 15.5144, 0));
+            rl.addRenderable(ga);
+            
+            rl = new RenderableLayer();
+            rl.setName("Apollo 17");
+            insertBeforeCompass(this.getWwd(), rl);
+            ga = this.makeTopImageBottomTextAnnotation(APOLLO17, "Apollo 17", //shows image on screen twchoi
+                Position.fromDegrees(20.1653, 30.7658, 0));
+            rl.addRenderable(ga);
+            
+            
 //            // Add above ground level annotation with fixed height in real world
 //            ga = new GlobeAnnotation("AGL Annotation\nElev 1000m", Position.fromDegrees(10, 25, 1000));
 //            ga.setHeightInMeter(10e3); // ten kilometer hight
@@ -156,33 +210,25 @@ public class Annotations extends ApplicationTemplate
             
             // Create an annotation with an image and some text below it
             
-            ga = this.makeTopImageBottomTextAnnotation(IMAGE_WWJ_SPLASH, "Apollo 11", //shows image on screen twchoi
-                Position.fromDegrees(0.6875, 23.4333, 0));    
             
-            layer.addAnnotation(ga);
-            
-            ga = this.makeTopImageBottomTextAnnotation(IMAGE_WWJ_SPLASH, "Apollo 12", //shows image on screen twchoi
-                Position.fromDegrees(-3.1975, -23.3856, 0));
-            
-            layer.addAnnotation(ga);
-            
-            ga = this.makeTopImageBottomTextAnnotation(IMAGE_WWJ_SPLASH, "Apollo 14", //shows image on screen twchoi
-                Position.fromDegrees(-3.6733, -17.4653, 0));
-
-            layer.addAnnotation(ga);
-            
-            ga = this.makeTopImageBottomTextAnnotation(IMAGE_WWJ_SPLASH, "Apollo 15", //shows image on screen twchoi
-                Position.fromDegrees(26.1008, 3.6527, 0));
-            layer.addAnnotation(ga);
-            
-            ga = this.makeTopImageBottomTextAnnotation(IMAGE_WWJ_SPLASH, "Apollo 16", //shows image on screen twchoi
-                Position.fromDegrees(-8.9913, 15.5144, 0));
-
-            layer.addAnnotation(ga);
-            
-            ga = this.makeTopImageBottomTextAnnotation(IMAGE_WWJ_SPLASH, "Apollo 17", //shows image on screen twchoi
-                Position.fromDegrees(20.1653, 30.7658, 0));
-            layer.addAnnotation(ga);
+//            layer.addAnnotation(ga);
+//            
+//            
+//            
+//            layer.addAnnotation(ga);
+//            
+//            ;
+//
+//            layer.addAnnotation(ga);
+//            
+//            
+//            
+//            
+//
+//            layer.addAnnotation(ga);
+//            
+//            
+//            layer.addAnnotation(ga);
             
             // Add some annotations to the layer
             // NOTE: use unicode for annotation text
@@ -403,54 +449,54 @@ public class Annotations extends ApplicationTemplate
 //                layer.addAnnotation(ga);
 //            }
 
-            // Using a GlobeAnnotation subclass to override drawing
-            class SimpleGlobeAnnotation extends GlobeAnnotation
-            {
-                Font font = Font.decode("Arial-PLAIN-12");
-
-                public SimpleGlobeAnnotation(String text, Position position)
-                {
-                    super(text, position);
-                }
-
-                protected void applyScreenTransform(DrawContext dc, int x, int y, int width, int height, double scale)
-                {
-                    GL2 gl = dc.getGL().getGL2(); // GL initialization checks for GL2 compatibility.
-                    gl.glTranslated(x, y, 0);
-                    gl.glScaled(scale, scale, 1);
-                }
-
-                protected void doDraw(DrawContext dc, int width, int height, double opacity, Position pickPosition)
-                {
-                    if (dc.isPickingMode())
-                        return;
-
-                    TextRenderer textRenderer = this.getTextRenderer(dc, this.font);
-
-                    // Draw text centered just above the screen point - use annotation's colors
-                    String text = getText().split("\n")[0]; // First line only
-                    int textWidth = (int) textRenderer.getBounds(text).getWidth();
-                    Color textColor = this.modulateColorOpacity(this.getAttributes().getTextColor(), opacity);
-                    Color backColor = this.modulateColorOpacity(this.getAttributes().getBackgroundColor(), opacity);
-                    textRenderer.begin3DRendering();
-                    textRenderer.setColor(backColor);
-                    textRenderer.draw(text, -textWidth / 2 + 1, 12 - 1);   // Background 'shadow'
-                    textRenderer.setColor(textColor);
-                    textRenderer.draw(text, -textWidth / 2, 12);           // Foreground text
-                    textRenderer.end3DRendering();
-
-                    // Draw little square around screen point - use annotation's color
-                    Color borderColor = this.getAttributes().getBorderColor();
-                    this.applyColor(dc, borderColor, opacity, false);
-                    // Draw 3x3 shape from its bottom left corner
-                    GL2 gl = dc.getGL().getGL2(); // GL initialization checks for GL2 compatibility.
-                    gl.glDisable(GL.GL_LINE_SMOOTH);
-                    gl.glDisable(GL2.GL_LINE_STIPPLE);
-                    gl.glLineWidth(1);
-                    gl.glTranslated(-1, -1, 0);
-                    FrameFactory.drawShape(dc, AVKey.SHAPE_RECTANGLE, 3, 3, GL.GL_LINE_STRIP, 0);
-                }
-            }
+//            // Using a GlobeAnnotation subclass to override drawing
+//            class SimpleGlobeAnnotation extends GlobeAnnotation
+//            {
+//                Font font = Font.decode("Arial-PLAIN-12");
+//
+//                public SimpleGlobeAnnotation(String text, Position position)
+//                {
+//                    super(text, position);
+//                }
+//
+//                protected void applyScreenTransform(DrawContext dc, int x, int y, int width, int height, double scale)
+//                {
+//                    GL2 gl = dc.getGL().getGL2(); // GL initialization checks for GL2 compatibility.
+//                    gl.glTranslated(x, y, 0);
+//                    gl.glScaled(scale, scale, 1);
+//                }
+//
+//                protected void doDraw(DrawContext dc, int width, int height, double opacity, Position pickPosition)
+//                {
+//                    if (dc.isPickingMode())
+//                        return;
+//
+//                    TextRenderer textRenderer = this.getTextRenderer(dc, this.font);
+//
+//                    // Draw text centered just above the screen point - use annotation's colors
+//                    String text = getText().split("\n")[0]; // First line only
+//                    int textWidth = (int) textRenderer.getBounds(text).getWidth();
+//                    Color textColor = this.modulateColorOpacity(this.getAttributes().getTextColor(), opacity);
+//                    Color backColor = this.modulateColorOpacity(this.getAttributes().getBackgroundColor(), opacity);
+//                    textRenderer.begin3DRendering();
+//                    textRenderer.setColor(backColor);
+//                    textRenderer.draw(text, -textWidth / 2 + 1, 12 - 1);   // Background 'shadow'
+//                    textRenderer.setColor(textColor);
+//                    textRenderer.draw(text, -textWidth / 2, 12);           // Foreground text
+//                    textRenderer.end3DRendering();
+//
+//                    // Draw little square around screen point - use annotation's color
+//                    Color borderColor = this.getAttributes().getBorderColor();
+//                    this.applyColor(dc, borderColor, opacity, false);
+//                    // Draw 3x3 shape from its bottom left corner
+//                    GL2 gl = dc.getGL().getGL2(); // GL initialization checks for GL2 compatibility.
+//                    gl.glDisable(GL.GL_LINE_SMOOTH);
+//                    gl.glDisable(GL2.GL_LINE_STIPPLE);
+//                    gl.glLineWidth(1);
+//                    gl.glTranslated(-1, -1, 0);
+//                    FrameFactory.drawShape(dc, AVKey.SHAPE_RECTANGLE, 3, 3, GL.GL_LINE_STRIP, 0);
+//                }
+//            }
 
 //            ga = new SimpleGlobeAnnotation("Mount Rainier\nAlt: 4392m", Position.fromDegrees(46.8534, -121.7609, 0));
 //            layer.addAnnotation(ga);
@@ -526,7 +572,7 @@ public class Annotations extends ApplicationTemplate
             //makeRelativeAnnotations(layer);
 
             // Add layer to the layer list and update the layer panel
-            insertBeforeCompass(this.getWwd(), layer);
+            //insertBeforeCompass(this.getWwd(), layer);
         }
 
 //        public void makeRelativeAnnotations(AnnotationLayer layer)
@@ -585,13 +631,13 @@ public class Annotations extends ApplicationTemplate
         {
             // Create annotation
             GlobeAnnotation ga = new GlobeAnnotation(text, position);
-            int inset = 4; // pixels
-            ga.getAttributes().setInsets(new Insets(image.getOriginalHeight() + inset, inset, inset, inset));
+            int inset = 10; // pixels
+            ga.getAttributes().setInsets(new Insets(image.getOriginalHeight() + inset * 2, inset, inset, inset));
             ga.getAttributes().setImageSource(image.getPowerOfTwoImage());
             ga.getAttributes().setImageOffset(new Point(inset, inset));
             ga.getAttributes().setImageRepeat(AVKey.REPEAT_NONE);
             ga.getAttributes().setImageOpacity(1);
-            ga.getAttributes().setSize(new Dimension(10, 10));
+            ga.getAttributes().setSize(new Dimension(image.getOriginalWidth() + inset * 2, 0));
             ga.getAttributes().setAdjustWidthToText(AVKey.SIZE_FIXED);
             ga.getAttributes().setBackgroundColor(Color.WHITE);
             ga.getAttributes().setTextColor(Color.BLACK);
