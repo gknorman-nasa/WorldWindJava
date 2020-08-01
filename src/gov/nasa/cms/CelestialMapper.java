@@ -166,31 +166,18 @@ public class CelestialMapper
             //======== "View" ========           
             menu = new JMenu("View");
             {
-
+                JMenuItem apollo = new JMenuItem("Apollo");
+                apollo.addActionListener(new ActionListener())
+                        {
+                            public void actionPerformed(ActionEvent e)
+                            {
+                                
+                            }
+                        }menu.add(apollo);
             }
             menuBar.add(menu);
                        
-            //======== "Apollo" ========
-            
-            JMenu apolloMenu = new JMenu();
-            {
-                apolloMenu.setText("Apollo");
-
-                //---- "Apollo Annotation..." ----
-                JMenuItem newAnnotation = new JMenuItem();
-                newAnnotation.setText("Annotation");
-                newAnnotation.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_A,
-                    Toolkit.getDefaultToolkit().getMenuShortcutKeyMaskEx()));
-                newAnnotation.addActionListener(new ActionListener()
-                {
-                    public void actionPerformed(ActionEvent e)
-                    {
-                    }
-                });
-                apolloMenu.add(newAnnotation);
-
-            }
-            menuBar.add(apolloMenu);
+           
             
             this.cmsPlaceNamesMenu.setWwd(this.wwd); //sets window for place names        
         }
