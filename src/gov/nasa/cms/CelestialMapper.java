@@ -6,15 +6,12 @@
 package gov.nasa.cms;
 
 import gov.nasa.worldwind.WorldWindow;
-import gov.nasa.worldwind.avlist.AVKey;
 import gov.nasa.worldwind.geom.*;
 import gov.nasa.worldwind.globes.Globe;
 import gov.nasa.worldwind.layers.*;
 import gov.nasa.worldwind.terrain.LocalElevationModel;
 import gov.nasa.worldwindx.examples.util.ExampleUtil;
 import gov.nasa.worldwindx.examples.util.LayerManagerLayer;
-import gov.nasa.worldwind.geom.LatLon;
-import gov.nasa.worldwindx.applications.worldwindow.core.Constants;
 
 import javax.swing.*;
 import java.awt.*;
@@ -44,7 +41,8 @@ public class CelestialMapper
         ActionListener controller;
         protected RenderableLayer airspaceLayer;
         private CMSPlaceNamesMenu cmsPlaceNamesMenu;
-        private WorldWindow wwd; 
+        private WorldWindow wwd;
+        private Apollo apollo;
         
         public AppFrame() 
         { 
@@ -166,20 +164,16 @@ public class CelestialMapper
             //======== "View" ========           
             menu = new JMenu("View");
             {
-                JMenuItem apollo = new JMenuItem("Apollo");
-                apollo.addActionListener(new ActionListener())
-                        {
-                            public void actionPerformed(ActionEvent e)
-                            {
-                                
-                            }
-                        }menu.add(apollo);
+                // Apollo menu item
+                apollo = new Apollo(this, this.getWwd());              
+                menu.add(apollo);
             }
             menuBar.add(menu);
                        
            
             
-            this.cmsPlaceNamesMenu.setWwd(this.wwd); //sets window for place names        
+            this.cmsPlaceNamesMenu.setWwd(this.wwd); //sets window for place names   
+            this.apollo.setWwd(this.wwd); //sets window for apollo annotations
         }
     }
  }

@@ -38,7 +38,7 @@ public class CMSPlaceNamesMenu extends JMenu implements ShapefileRenderable.Attr
     private boolean isItemEnabled;
 
     public CMSPlaceNamesMenu(AppFrame cms, WorldWindow Wwd)
-    {
+    {   
         super("Place Names");      
         
         ShapefileLayerFactory factory = new ShapefileLayerFactory();
