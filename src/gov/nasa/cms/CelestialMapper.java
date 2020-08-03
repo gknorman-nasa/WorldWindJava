@@ -126,21 +126,38 @@ public class CelestialMapper
             cmsPlaceNamesMenu = new CMSPlaceNamesMenu(this, this.getWwd());
             menuBar.add(cmsPlaceNamesMenu);
 
-            //======== "Tools" ========        
+           //======== "Tools" ========        
             JMenu tools = new JMenu("Tools");
             {
-                JMenuItem tp = new JMenuItem("Terrain Profile");
+                TerrainProfileLayer tpl = new TerrainProfileLayer();
+                
+                JCheckBoxMenuItem tp = new JCheckBoxMenuItem("Terrain Profile");
                 tp.addActionListener(new ActionListener()
                 {
                     public void actionPerformed(ActionEvent e)
                     {
-                        // Add TerrainProfileLayer
-                        TerrainProfileLayer tpl = new TerrainProfileLayer();
-                        tpl.setEventSource(getWwd());
-                        ApplicationTemplate.insertBeforeCompass(getWwd(), tpl); // display on screen
+                        boolean isItemEnabled = ((JCheckBoxMenuItem) e.getSource()).getState();
+                        if(isItemEnabled)
+                        {
+                            // Add TerrainProfileLayer
+                            String layerName = tpl.getName();
+                            layerName = "Terrain Profile";
+                            tpl.setName(layerName);
+                            tpl.setEventSource(getWwd());
+                            ApplicationTemplate.insertBeforeCompass(getWwd(), tpl); // display on screen
+                        }
+                        else
+                        {              
+                            String picked = tpl.getName();
+                            tpl.setEventSource(getWwd());
+                            Layer selected = wwd.getModel().getLayers().getLayerByName(picked);
+                            wwd.getModel().getLayers().remove(selected);
+                        }
+                        tools.doClick(0);
                     }
                 });
                 tools.add(tp);
+
 
                 JMenuItem openMeasureDialogItem = new JMenuItem(new AbstractAction("Measurement")
                 {

@@ -84,9 +84,9 @@ public class TerrainProfileLayer extends AbstractLayer implements PositionListen
     protected String pathType = AVKey.GREAT_CIRCLE;
 
     // Terrain profile data
-    protected int samples = 250;              // Number of position samples
-    protected double minElevation;            // Minimum elevation along the profile
-    protected double maxElevation;            // Maximum elevation along the profile
+    protected int samples = 200;              // Number of position samples
+    protected double minElevation = -9000;            // Minimum elevation along the profile
+    protected double maxElevation = 10700;            // Maximum elevation along the profile
     protected double length;                  // Profile length along great circle in meter
     protected Position positions[];           // Position list
 

@@ -120,7 +120,7 @@ public class MeasureToolPanel extends JPanel {
         shapeCombo.addActionListener((ActionEvent event) -> {
             String item = (String) ((JComboBox) event.getSource()).getSelectedItem();
             switch (item) {
-                case "LineO_O":
+                case "Line":
                     measureTool.setMeasureShapeType(MeasureTool.SHAPE_LINE);
                     break;
                 case "Path":
