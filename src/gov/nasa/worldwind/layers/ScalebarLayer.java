@@ -32,7 +32,7 @@ public class ScalebarLayer extends AbstractLayer
     protected Dimension size = new Dimension(150, 10);
     protected Color color = Color.white;
     protected int borderWidth = 20;
-    protected String position = AVKey.SOUTHEAST;
+    protected String position = AVKey.NORTHWEST;
     protected String resizeBehavior = AVKey.RESIZE_SHRINK_ONLY;
     protected String unit = UNIT_METRIC;
     protected Font defaultFont = Font.decode("Arial-PLAIN-12");

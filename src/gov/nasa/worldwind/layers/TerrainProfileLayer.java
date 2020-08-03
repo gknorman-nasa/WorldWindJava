@@ -51,10 +51,10 @@ public class TerrainProfileLayer extends AbstractLayer implements PositionListen
     protected final String buttonMaximize = "gov.nasa.worldwind.TerrainProfileLayer.ButtonMaximize";
 
     // Display parameters
-    protected Dimension size = new Dimension(250, 100);
+    protected Dimension size = new Dimension(240, 90);
     protected Color color = Color.white;
     protected int borderWidth = 20;
-    protected String position = AVKey.SOUTHWEST;
+    protected String position = AVKey.SOUTHEAST;
     protected String resizeBehavior = AVKey.RESIZE_SHRINK_ONLY;
     protected String unit = UNIT_METRIC;
     protected Font defaultFont = Font.decode("Arial-PLAIN-12");

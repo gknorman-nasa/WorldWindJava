@@ -8,7 +8,6 @@ package gov.nasa.cms;
 import gov.nasa.cms.features.CMSLayerManager;
 import gov.nasa.cms.features.MeasureDialog;
 import gov.nasa.worldwind.WorldWindow;
-import gov.nasa.worldwind.avlist.AVKey;
 import gov.nasa.worldwind.geom.*;
 import gov.nasa.worldwind.globes.Globe;
 import gov.nasa.worldwind.layers.*;
@@ -19,7 +18,7 @@ import gov.nasa.worldwind.util.measure.MeasureTool;
 import gov.nasa.worldwind.util.measure.MeasureToolController;
 import gov.nasa.worldwindx.applications.worldwindow.core.Constants;
 import gov.nasa.worldwindx.examples.MeasureToolUsage;
-
+import gov.nasa.worldwindx.examples.util.LayerManagerLayer;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
@@ -53,6 +52,7 @@ public class CelestialMapper
         private CMSPlaceNamesMenu cmsPlaceNamesMenu;
         private WorldWindow wwd;
         private MeasureDialog measureDialog;
+        private Apollo apollo;
 
         public AppFrame()
         {
@@ -189,34 +189,14 @@ public class CelestialMapper
             //======== "View" ========           
             menu = new JMenu("View");
             {
-
+                // Apollo menu item
+                apollo = new Apollo(this, this.getWwd());
+                menu.add(apollo);
             }
             menuBar.add(menu);
 
-            //======== "Apollo" ========          
-            /* This menu likely will have to take a similar 
-            approach to how the place names are done when revisited */
-            JMenu apolloMenu = new JMenu();
-            {
-                apolloMenu.setText("Apollo");
-
-                //---- "Apollo Annotation..." ----
-                JMenuItem newAnnotation = new JMenuItem();
-                newAnnotation.setText("Annotation");
-                newAnnotation.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_A,
-                        Toolkit.getDefaultToolkit().getMenuShortcutKeyMaskEx()));
-                newAnnotation.addActionListener(new ActionListener()
-                {
-                    public void actionPerformed(ActionEvent e)
-                    {
-                    }
-                });
-                apolloMenu.add(newAnnotation);
-
-            }
-            menuBar.add(apolloMenu);
-
-            this.cmsPlaceNamesMenu.setWwd(this.wwd); //sets window for place names        
+            this.cmsPlaceNamesMenu.setWwd(this.wwd); //sets window for place names   
+            this.apollo.setWwd(this.wwd); //sets window for apollo annotations
         }
     }
 }
