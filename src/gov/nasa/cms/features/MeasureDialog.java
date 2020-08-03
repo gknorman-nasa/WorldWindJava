@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import javax.swing.JDialog;
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
+import javax.swing.SwingConstants;
 import javax.swing.event.ChangeEvent;
 
 public class MeasureDialog
@@ -65,9 +66,12 @@ public class MeasureDialog
         
         // Create the dialog from a Frame and add the tabbed pane
         dialog = new JDialog((Frame) component);
-        dialog.getContentPane().add(tabbedPane, BorderLayout.CENTER);
-        dialog.pack();
         dialog.setLocationRelativeTo(component);
+        dialog.getContentPane().setLayout(new BorderLayout());
+        dialog.setTitle("Measure Tool");
+        dialog.setLocation(SwingConstants.WEST, SwingConstants.NORTH);
+        dialog.getContentPane().add(tabbedPane, BorderLayout.CENTER);
+        dialog.setSize(new Dimension(350, 550));
     }
 
     public void setVisible(boolean visible)
