@@ -299,9 +299,12 @@ public class Apollo extends JCheckBoxMenuItem
                     setupSelection();
                 }
                 else {
-                    String chosenAnnotation = event.getActionCommand();
-                    Layer selectedLayer = Wwd.getModel().getLayers().getLayerByName(chosenAnnotation);
-                    Wwd.getModel().getLayers().remove(selectedLayer); //removes Apollo layer from layer list
+                    String[] ApolloLayers = {"Apollo Minimal", "Apollo Logo"};
+                    for (String layer : ApolloLayers) {
+                        Layer selectedLayer = Wwd.getModel().getLayers().getLayerByName(layer);
+                        Wwd.getModel().getLayers().remove(selectedLayer); //removes Apollo layer from layer list
+                    }
+                       
                 }
             }
         });
