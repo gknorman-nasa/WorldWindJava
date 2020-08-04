@@ -62,10 +62,11 @@ public class Apollo extends JCheckBoxMenuItem
            
     public void setupAnnotations()
     {
+        /*********** Image Annotations for Apollo sites *******/
+        
         GlobeAnnotation ga;
         this.layer = new AnnotationLayer(); //create a single layer displaying all annotations
-        String layerName = layer.getName();
-        layerName = "Apollo"; // Set layer name from Annotations to Apollo
+        String layerName = "Apollo Logo"; // Set layer name from Annotations to Apollo
         layer.setName(layerName);
 
 //        Create a renderable layer of individual apollo items on layer panel
@@ -99,6 +100,52 @@ public class Apollo extends JCheckBoxMenuItem
 
         // Add layer to the layer list and update the layer panel
         insertBeforeCompass(this.getWwd(), layer);
+        
+        /******* Minimal Apollo Sites **********/ 
+        
+        // Create default attributes
+        AnnotationAttributes defaultAttributes = new AnnotationAttributes();
+        defaultAttributes.setCornerRadius(10);
+        defaultAttributes.setInsets(new Insets(8, 8, 8, 8));
+        defaultAttributes.setBackgroundColor(new Color(0f, 0f, 0f, .5f));
+        defaultAttributes.setTextColor(Color.WHITE);
+        defaultAttributes.setDrawOffset(new Point(25, 25));
+        defaultAttributes.setDistanceMinScale(.5);
+        defaultAttributes.setDistanceMaxScale(2);
+        defaultAttributes.setDistanceMinOpacity(.5);
+        defaultAttributes.setLeaderGapWidth(14);
+        defaultAttributes.setDrawOffset(new Point(20, 40));
+        
+        
+        //Create minimal Apollo annotations option
+        this.layer = new AnnotationLayer();
+        //layerName = layer.getName();
+        layerName = "Apollo Minimal";
+        layer.setName(layerName);
+        
+        AnnotationAttributes spAttr = new AnnotationAttributes();
+        spAttr.setDefaults(defaultAttributes);
+        spAttr.setFont(Font.decode("Arial-BOLDITALIC-12"));
+        spAttr.setTextColor(Color.YELLOW);
+        spAttr.setTextAlign(AVKey.CENTER);
+        //spAttr.setFrameShape(AVKey.SHAPE_NONE);
+        spAttr.setDrawOffset(new Point(0, 5));
+        spAttr.setEffect(AVKey.TEXT_EFFECT_OUTLINE);
+        layer.addAnnotation(new GlobeAnnotation("Apollo 11",
+            Position.fromDegrees(0.6875, 23.4333, 0), spAttr));
+        layer.addAnnotation(new GlobeAnnotation("Apollo 12",
+            Position.fromDegrees(-3.1975, -23.3856, 0), spAttr));
+        layer.addAnnotation(new GlobeAnnotation("Apollo 14",
+            Position.fromDegrees(-3.6733, -17.4653, 0), spAttr));
+        layer.addAnnotation(new GlobeAnnotation("Apollo 15",
+            Position.fromDegrees(26.1008, 3.6527, 0), spAttr));
+        layer.addAnnotation(new GlobeAnnotation("Apollo 16",
+            Position.fromDegrees(-8.9913, 15.5144, 0), spAttr));
+        layer.addAnnotation(new GlobeAnnotation("Apollo 17",
+            Position.fromDegrees(20.1653, 30.7658, 0), spAttr));
+        
+        //Add Apollo Minimal to layer list panel
+        insertBeforeCompass(this.getWwd(), layer);            
     }
 
 
@@ -114,8 +161,11 @@ public class Apollo extends JCheckBoxMenuItem
         ga.getAttributes().setImageRepeat(AVKey.REPEAT_NONE);
         ga.getAttributes().setImageOpacity(1);
         ga.getAttributes().setSize(new Dimension(image.getOriginalWidth() + inset * 2, 0));
+        ga.getAttributes().setScale(0.8);
         ga.getAttributes().setAdjustWidthToText(AVKey.SIZE_FIXED);
         ga.getAttributes().setBackgroundColor(Color.WHITE);
+        ga.getAttributes().setFont(Font.decode("Arial-BOLD-13"));
+        ga.getAttributes().setDrawOffset(new Point(0, 5));
         ga.getAttributes().setTextColor(Color.BLACK);
         ga.getAttributes().setTextAlign(AVKey.CENTER);
         ga.getAttributes().setBorderColor(Color.BLACK);
@@ -249,9 +299,12 @@ public class Apollo extends JCheckBoxMenuItem
                     setupSelection();
                 }
                 else {
-                    String chosenAnnotation = event.getActionCommand();
-                    Layer selectedLayer = Wwd.getModel().getLayers().getLayerByName(chosenAnnotation);
-                    Wwd.getModel().getLayers().remove(selectedLayer); //removes Apollo layer from layer list
+                    String[] ApolloLayers = {"Apollo Minimal", "Apollo Logo"};
+                    for (String layer : ApolloLayers) {
+                        Layer selectedLayer = Wwd.getModel().getLayers().getLayerByName(layer);
+                        Wwd.getModel().getLayers().remove(selectedLayer); //removes Apollo layer from layer list
+                    }
+                       
                 }
             }
         });
