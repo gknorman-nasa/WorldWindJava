@@ -43,6 +43,7 @@ public class CelestialMapper
         private CMSPlaceNamesMenu cmsPlaceNamesMenu;
         private WorldWindow wwd;
         private Apollo apollo;
+        private CMSStereo stereo;
         
         public AppFrame() 
         { 
@@ -167,6 +168,10 @@ public class CelestialMapper
                 // Apollo menu item
                 apollo = new Apollo(this, this.getWwd());              
                 menu.add(apollo);
+                
+                // Stereo menu item
+                stereo = new CMSStereo(this, this.getWwd());
+                menu.add(stereo);
             }
             menuBar.add(menu);
                        
@@ -174,6 +179,7 @@ public class CelestialMapper
             
             this.cmsPlaceNamesMenu.setWwd(this.wwd); //sets window for place names   
             this.apollo.setWwd(this.wwd); //sets window for apollo annotations
+            this.stereo.setWwd(this.wwd);
         }
     }
  }
