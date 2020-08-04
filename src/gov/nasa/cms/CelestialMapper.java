@@ -53,6 +53,7 @@ public class CelestialMapper
         private WorldWindow wwd;
         private MeasureDialog measureDialog;
         private Apollo apollo;
+        private CMSMeasure profile;
 
         public AppFrame()
         {
@@ -129,34 +130,13 @@ public class CelestialMapper
            //======== "Tools" ========        
             JMenu tools = new JMenu("Tools");
             {
-                TerrainProfileLayer tpl = new TerrainProfileLayer();
-                
-                JCheckBoxMenuItem tp = new JCheckBoxMenuItem("Terrain Profile");
-                tp.addActionListener(new ActionListener()
+                tools = new JMenu("View");
                 {
-                    public void actionPerformed(ActionEvent e)
-                    {
-                        boolean isItemEnabled = ((JCheckBoxMenuItem) e.getSource()).getState();
-                        if(isItemEnabled)
-                        {
-                            // Add TerrainProfileLayer
-                            String layerName = tpl.getName();
-                            layerName = "Terrain Profile";
-                            tpl.setName(layerName);
-                            tpl.setEventSource(getWwd());
-                            ApplicationTemplate.insertBeforeCompass(getWwd(), tpl); // display on screen
-                        }
-                        else
-                        {              
-                            String picked = tpl.getName();
-                            tpl.setEventSource(getWwd());
-                            Layer selected = wwd.getModel().getLayers().getLayerByName(picked);
-                            wwd.getModel().getLayers().remove(selected);
-                        }
-                        tools.doClick(0);
-                    }
-                });
-                tools.add(tp);
+                    // Apollo menu item
+                    profile = new CMSMeasure(this, this.getWwd());
+                    tools.add(profile);
+                }
+                menuBar.add(tools);
 
 
                 JMenuItem openMeasureDialogItem = new JMenuItem(new AbstractAction("Measurement")
@@ -214,6 +194,7 @@ public class CelestialMapper
 
             this.cmsPlaceNamesMenu.setWwd(this.wwd); //sets window for place names   
             this.apollo.setWwd(this.wwd); //sets window for apollo annotations
+            this.profile.setWwd(this.wwd); 
         }
     }
 }
