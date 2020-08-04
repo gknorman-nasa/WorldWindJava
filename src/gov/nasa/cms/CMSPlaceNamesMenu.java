@@ -27,10 +27,10 @@ import javax.swing.JMenu;
 import javax.swing.SwingUtilities;
 
 /**
- * Illustrates how to import ESRI Shapefiles into SARApp. This uses a <code>{@link ShapefileLayerFactory}</code> to
- * parse a Shapefile's contents and convert the shapefile into a Place Names menu in SARApp.
+ * Illustrates how to import ESRI Shapefiles into CelestialMapper. This uses a <code>{@link ShapefileLayerFactory}</code> to
+ * parse a Shapefile's contents and convert the shapefile into a lunar place Names menu in CelestialMapper.
  * 
- * @version $Id: LunarPlaceNamesMenu.java 1171 2020-07-14 21:45:02Z twchoi $
+ * @version $Id: CMSPlaceNamesMenu.java 1171 2020-07-21 21:45:02Z twchoi $
  */
 public class CMSPlaceNamesMenu extends JMenu implements ShapefileRenderable.AttributeDelegate
 {
@@ -38,7 +38,7 @@ public class CMSPlaceNamesMenu extends JMenu implements ShapefileRenderable.Attr
     private boolean isItemEnabled;
 
     public CMSPlaceNamesMenu(AppFrame cms, WorldWindow Wwd)
-    {
+    {   
         super("Place Names");      
         
         ShapefileLayerFactory factory = new ShapefileLayerFactory();

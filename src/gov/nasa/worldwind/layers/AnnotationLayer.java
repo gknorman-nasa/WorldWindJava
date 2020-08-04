@@ -25,6 +25,7 @@ public class AnnotationLayer extends AbstractLayer
         new java.util.concurrent.ConcurrentLinkedQueue<Annotation>();
     protected Iterable<Annotation> annotationsOverride;
     private AnnotationRenderer annotationRenderer = new BasicAnnotationRenderer();
+    private String name;
 
     /** Creates a new <code>AnnotationLayer</code> with an empty collection of Annotations. */
     public AnnotationLayer()

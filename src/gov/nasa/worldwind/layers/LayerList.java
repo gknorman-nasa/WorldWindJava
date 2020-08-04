@@ -172,24 +172,7 @@ public class LayerList extends CopyOnWriteArrayList<Layer> implements WWObject
         super.remove(layer);
         this.firePropertyChange(AVKey.LAYERS, copy, this);
     }
-    //twchoi
-    public void remove2(Layer layer)
-    {
-//        if (layer == null)
-//        {
-//            String msg = Logging.getMessage("nullValue.LayerIsNull");
-//            Logging.logger().severe(msg);
-//            throw new IllegalArgumentException(msg);
-//        }
-//
-//        if (!this.contains(layer))
-//            return;
 
-        LayerList copy = makeShallowCopy(this);
-        layer.removePropertyChangeListener(this);
-        super.remove(layer);
-        this.firePropertyChange(AVKey.LAYERS, copy, this);
-    }
     public Layer remove(int index)
     {
         Layer layer = get(index);
@@ -405,7 +388,6 @@ public class LayerList extends CopyOnWriteArrayList<Layer> implements WWObject
         {
             if (!toKeep.contains(layer))
                 layer.addPropertyChangeListener(this);
-
             super.add(layer);
         }
     }

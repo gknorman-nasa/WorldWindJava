@@ -3,8 +3,9 @@
  * National Aeronautics and Space Administration.
  * All Rights Reserved.
  */
-package gov.nasa.worldwindx.examples.util;
+package gov.nasa.cms.features;
 
+import gov.nasa.worldwindx.examples.util.*;
 import gov.nasa.worldwind.WorldWindow;
 import gov.nasa.worldwind.avlist.AVKey;
 import gov.nasa.worldwind.event.*;
@@ -39,7 +40,7 @@ public class LayerManagerLayer extends RenderableLayer implements SelectListener
     private char layerDisabledSymbol = '\u25a1';
     private Font font = new Font("SansSerif", Font.PLAIN, 15);
     private boolean minimized = false;
-    private int borderWidth = 10; // TODO: make configurable
+    private int borderWidth = 20; // TODO: make configurable
     private String position = AVKey.NORTHEAST; // TODO: make configurable
     private Vec4 locationCenter = null;
     private Vec4 locationOffset = null;
