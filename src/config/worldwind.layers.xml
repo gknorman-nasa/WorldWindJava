@@ -23,7 +23,13 @@
     <Layer href="gov/nasa/cms/config/Moon/ClementineBasemapV2.xml" actuate="onRequest"/>
     <Layer href="gov/nasa/cms/config/Moon/ClementineLunarOrbiterHybrid.xml" actuate="onRequest"/>
     <Layer href="gov/nasa/cms/config/Moon/LunarOrbiterGlobalMosaic.xml" actuate="onRequest"/>
-
-
+    
+    <Layer href="gov/nasa/cms/config/Apollo/Apollo11.xml" actuate="onLoad"/>
+    <Layer href="gov/nasa/cms/config/Apollo/Apollo12.xml" actuate="onLoad"/>
+    <Layer href="gov/nasa/cms/config/Apollo/Apollo14.xml" actuate="onLoad"/>   
+    <Layer href="gov/nasa/cms/config/Apollo/Apollo15.xml" actuate="onLoad"/>   
+    <Layer href="gov/nasa/cms/config/Apollo/Apollo16.xml" actuate="onLoad"/>   
+    <Layer href="gov/nasa/cms/config/Apollo/Apollo17.xml" actuate="onLoad"/>   
+                 
     <Layer className="gov.nasa.worldwind.layers.ScalebarLayer"/>
 </LayerList>
