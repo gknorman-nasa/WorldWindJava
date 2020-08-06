@@ -10,6 +10,7 @@ import gov.nasa.worldwind.geom.*;
 import gov.nasa.worldwind.globes.Globe;
 import gov.nasa.worldwind.layers.*;
 import gov.nasa.worldwind.terrain.LocalElevationModel;
+import gov.nasa.worldwindx.applications.sar.LayerMenu;
 import gov.nasa.worldwindx.examples.util.ExampleUtil;
 import gov.nasa.worldwindx.examples.util.LayerManagerLayer;
 
@@ -39,10 +40,10 @@ public class CelestialMapper
     protected static class AppFrame extends ApplicationTemplate.AppFrame 
     {
         ActionListener controller;
-        protected RenderableLayer airspaceLayer;
         private CMSPlaceNamesMenu cmsPlaceNamesMenu;
         private WorldWindow wwd;
         private Apollo apollo;
+        private LayerMenu apolloLayers;
         
         public AppFrame() 
         { 
@@ -167,9 +168,11 @@ public class CelestialMapper
                 // Apollo menu item
                 apollo = new Apollo(this, this.getWwd());              
                 menu.add(apollo);
+                
+                           
             }
             menuBar.add(menu);
-                       
+                                 
            
             
             this.cmsPlaceNamesMenu.setWwd(this.wwd); //sets window for place names   

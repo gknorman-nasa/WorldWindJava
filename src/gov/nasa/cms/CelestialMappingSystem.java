@@ -5,6 +5,9 @@
  */
 package gov.nasa.cms;
 
+import gov.nasa.worldwind.Configuration;
+import gov.nasa.worldwind.avlist.AVKey;
+
 /**
  *
  * @author kjdickin
