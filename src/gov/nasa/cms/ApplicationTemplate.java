@@ -70,7 +70,7 @@ public class ApplicationTemplate {
 
     protected static class AppFrame extends JFrame {
 
-        private Dimension canvasSize = new Dimension(1000, 800);
+        private Dimension canvasSize = new Dimension(1300, 900);
 
         protected AppPanel wwjPanel;
         protected JPanel controlPanel;
@@ -97,7 +97,7 @@ public class ApplicationTemplate {
 
             // Put the pieces together.
             this.getContentPane().add(wwjPanel, BorderLayout.CENTER);
-            if (includeLayerPanel) {
+            if (includeLayerPanel) { // Overridden because we are using CMSLayerManager
                 this.controlPanel = new JPanel(new BorderLayout(10, 10));
                 this.layerPanel = new LayerPanel(this.getWwd());
                 this.controlPanel.add(this.layerPanel, BorderLayout.CENTER);

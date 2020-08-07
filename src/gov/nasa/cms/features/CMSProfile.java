@@ -3,9 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package gov.nasa.cms;
+package gov.nasa.cms.features;
 
-import gov.nasa.cms.CelestialMapper.AppFrame;
+import gov.nasa.cms.ApplicationTemplate;
 import gov.nasa.worldwind.WorldWindow;
 import gov.nasa.worldwind.layers.Layer;
 import gov.nasa.worldwind.layers.TerrainProfileLayer;
@@ -18,7 +18,7 @@ import javax.swing.JCheckBoxMenuItem;
  * Creates a new terrain profile layer from <code>{@link JCheckBoxMenuItem}</code>
  * @author kjdickin
  */
-public class CMSMeasure extends JCheckBoxMenuItem
+public class CMSProfile extends JCheckBoxMenuItem
 {
 
     private WorldWindow wwd;
@@ -35,7 +35,7 @@ public class CMSMeasure extends JCheckBoxMenuItem
         ApplicationTemplate.insertBeforeCompass(this.getWwd(), tpl); // display on screen
     }
 
-    public CMSMeasure(AppFrame cms, WorldWindow Wwd)
+    public CMSProfile(WorldWindow Wwd)
     {
         super("Terrain Profiler");
 

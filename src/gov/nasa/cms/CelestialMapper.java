@@ -5,6 +5,7 @@
  */
 package gov.nasa.cms;
 
+import gov.nasa.cms.features.CMSProfile;
 import gov.nasa.cms.features.CMSLayerManager;
 import gov.nasa.cms.features.MeasureDialog;
 import gov.nasa.worldwind.WorldWindow;
@@ -13,12 +14,7 @@ import gov.nasa.worldwind.globes.Globe;
 import gov.nasa.worldwind.layers.*;
 import gov.nasa.worldwind.terrain.LocalElevationModel;
 import gov.nasa.worldwindx.examples.util.ExampleUtil;
-import gov.nasa.worldwind.geom.LatLon;
 import gov.nasa.worldwind.util.measure.MeasureTool;
-import gov.nasa.worldwind.util.measure.MeasureToolController;
-import gov.nasa.worldwindx.applications.worldwindow.core.Constants;
-import gov.nasa.worldwindx.examples.MeasureToolUsage;
-import gov.nasa.worldwindx.examples.util.LayerManagerLayer;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
@@ -53,7 +49,8 @@ public class CelestialMapper
         private WorldWindow wwd;
         private MeasureDialog measureDialog;
         private Apollo apollo;
-        private CMSMeasure profile;
+        private CMSProfile profile;
+        private MeasureTool measureTool;
 
         public AppFrame()
         {
@@ -127,33 +124,31 @@ public class CelestialMapper
             cmsPlaceNamesMenu = new CMSPlaceNamesMenu(this, this.getWwd());
             menuBar.add(cmsPlaceNamesMenu);
 
-           //======== "Tools" ========        
+            //======== "Tools" ========        
             JMenu tools = new JMenu("Tools");
             {
-                tools = new JMenu("View");
-                {
-                    // Apollo menu item
-                    profile = new CMSMeasure(this, this.getWwd());
-                    tools.add(profile);
-                }
+                // Terrain Profiler
+                profile = new CMSProfile(this.getWwd());
+                tools.add(profile);
+
                 menuBar.add(tools);
 
-
+                // Measurement Dialog
                 JMenuItem openMeasureDialogItem = new JMenuItem(new AbstractAction("Measurement")
                 {
                     public void actionPerformed(ActionEvent actionEvent)
                     {
-                        final MeasureTool measureTool = new MeasureTool(getWwd());
-                        measureTool.setController(new MeasureToolController());
                         final WorldWindow wwd = getWwd();
                         try
                         {
+                            // Check if the MeasureDialog has already been opened
                             if (AppFrame.this.measureDialog == null)
                             {
-                                // Create the dialog from a final WorldWindow object
+                                // Create the dialog 
                                 AppFrame.this.measureDialog = new MeasureDialog(wwd, measureTool, AppFrame.this);
                             }
-                            AppFrame.this.measureDialog.setVisible(true); // display on screen
+                            // Display on screen 
+                            AppFrame.this.measureDialog.setVisible(true);
                         } catch (Exception e)
                         {
                             e.printStackTrace();
@@ -164,25 +159,6 @@ public class CelestialMapper
             }
             menuBar.add(tools);
 
-            //======== "Selection" ========            
-            menu = new JMenu("Selection");
-            {
-                JMenuItem item = new JMenuItem("Deselect");
-                item.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_D,
-                        Toolkit.getDefaultToolkit().getMenuShortcutKeyMaskEx()));
-                item.setActionCommand(CLEAR_SELECTION);
-                item.addActionListener(controller);
-                menu.add(item);
-
-                item = new JMenuItem("Delete");
-                item.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_DELETE, 0));
-                item.setActionCommand(REMOVE_SELECTED);
-                item.addActionListener(controller);
-                menu.add(item);
-            }
-            menuBar.add(menu);
-            frame.setJMenuBar(menuBar);
-
             //======== "View" ========           
             menu = new JMenu("View");
             {
@@ -191,10 +167,11 @@ public class CelestialMapper
                 menu.add(apollo);
             }
             menuBar.add(menu);
+            frame.setJMenuBar(menuBar);
 
             this.cmsPlaceNamesMenu.setWwd(this.wwd); //sets window for place names   
             this.apollo.setWwd(this.wwd); //sets window for apollo annotations
-            this.profile.setWwd(this.wwd); 
+            this.profile.setWwd(this.wwd); // sets the window for terrain profiler
         }
     }
 }
