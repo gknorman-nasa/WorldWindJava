@@ -52,12 +52,19 @@ public class CMSStereo extends JCheckBoxMenuItem
                     Configuration.setValue(AVKey.INITIAL_HEADING, 342);
                     Configuration.setValue(AVKey.INITIAL_PITCH, 80);
                     
+                    //this // ApplicationTemplate$AppPanel
+                    //this.wwd // WorldWindowGLCanvas
+                    //this.wwd.wwd // WorldWindowGLAutoDrawable
+                    //this.wwd.wwd.sceneController // StereoOptionSceneController
+                    
+                    // StereoOptionSceneController();
+                     
                     //this.createWorldWindow().wwd.sceneController.setStereoMode(AVKey.STEREO_MODE_RED_BLUE);
                     //this.wwd.wwd.sceneController.setStereoMode(AVKey.STEREO_MODE_RED_BLUE);
-                  //  ApplicationTemplate.start("Stereo View", CelestialMapper.AppFrame.class); 
+                    
+                    ApplicationTemplate.start("Stereo View", CelestialMapper.AppFrame.class); 
                     /* launches a new window with stereo view enabled. 
                      * StereoOptionSceneController.java documentation states that stereo view property must be set before calling the constructor
-                     * So enabling stereo view on the CMS app template cannot be set.
                     */
                    
                 }

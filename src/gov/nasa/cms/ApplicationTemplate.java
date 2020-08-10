@@ -39,7 +39,10 @@ public class ApplicationTemplate {
             this.wwd = this.createWorldWindow(); // stereo after
             ((Component) this.wwd).setPreferredSize(canvasSize);
             
-            //this.wwd.wwd.sceneController.setStereoMode(AVKey.STEREO_MODE_RED_BLUE);
+            
+            //this.wwd // WorldWindowGLCanvas
+            //this.wwd.wwd // WorldWindowGLAutoDrawable
+            //this.wwd.wwd.sceneController // StereoOptionSceneController
             
             // Create the default model as described in the current worldwind properties.
             Model m = (Model) WorldWind.createConfigurationComponent(AVKey.MODEL_CLASS_NAME);
@@ -251,13 +254,14 @@ public class ApplicationTemplate {
 
     static {
         System.setProperty("java.net.useSystemProxies", "true");
-        System.setProperty("gov.nasa.worldwind.stereo.mode", "redblue");
-        //  Configure the initial view parameters so that the balloons are immediately visible.
-        Configuration.setValue(AVKey.INITIAL_LATITUDE, 46.7045);
-        Configuration.setValue(AVKey.INITIAL_LONGITUDE, -121.6242);
-        Configuration.setValue(AVKey.INITIAL_ALTITUDE, 10e3);
-        Configuration.setValue(AVKey.INITIAL_HEADING, 342);
-        Configuration.setValue(AVKey.INITIAL_PITCH, 80);
+        // below code allows for window to be run with stereo view enabled
+//        System.setProperty("gov.nasa.worldwind.stereo.mode", "redblue");
+//        //  Configure the initial view parameters so that the balloons are immediately visible.
+//        Configuration.setValue(AVKey.INITIAL_LATITUDE, 46.7045);
+//        Configuration.setValue(AVKey.INITIAL_LONGITUDE, -121.6242);
+//        Configuration.setValue(AVKey.INITIAL_ALTITUDE, 10e3);
+//        Configuration.setValue(AVKey.INITIAL_HEADING, 342);
+//        Configuration.setValue(AVKey.INITIAL_PITCH, 80);
         if (Configuration.isMacOS()) {
             System.setProperty("apple.laf.useScreenMenuBar", "true");
             System.setProperty("com.apple.mrj.application.apple.menu.about.name", "WorldWind Application");
