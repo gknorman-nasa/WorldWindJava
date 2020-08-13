@@ -43,6 +43,8 @@ public class ApplicationTemplate {
             //this.wwd // WorldWindowGLCanvas
             //this.wwd.wwd // WorldWindowGLAutoDrawable
             //this.wwd.wwd.sceneController // StereoOptionSceneController
+            //this.wwd.getSceneController().propertyChange("redblue");
+            this.wwd.getSceneController();
             
             // Create the default model as described in the current worldwind properties.
             Model m = (Model) WorldWind.createConfigurationComponent(AVKey.MODEL_CLASS_NAME);

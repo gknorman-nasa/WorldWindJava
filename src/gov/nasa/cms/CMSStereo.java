@@ -57,6 +57,7 @@ public class CMSStereo extends JCheckBoxMenuItem
                     //this.wwd.wwd // WorldWindowGLAutoDrawable
                     //this.wwd.wwd.sceneController // StereoOptionSceneController
                     
+                    
                     // StereoOptionSceneController();
                      
                     //this.createWorldWindow().wwd.sceneController.setStereoMode(AVKey.STEREO_MODE_RED_BLUE);
