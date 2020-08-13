@@ -46,6 +46,7 @@ public class MeasureToolPanel extends JPanel {
     private JButton newButton;
     private JButton pauseButton;
     private JButton endButton;
+    private JButton deleteButton;
     private JLabel[] pointLabels;
     private JLabel lengthLabel;
     private JLabel areaLabel;
@@ -249,15 +250,15 @@ public class MeasureToolPanel extends JPanel {
         });
         checkPanel.add(showControlsCheck);
 
-        rubberBandCheck = new JCheckBox("Rubber band");
-        rubberBandCheck.setSelected(measureTool.getController().isUseRubberBand());
-        rubberBandCheck.addActionListener((ActionEvent event) -> {
-            JCheckBox cb = (JCheckBox) event.getSource();
-            measureTool.getController().setUseRubberBand(cb.isSelected());
-            freeHandCheck.setEnabled(cb.isSelected());
-            wwd.redraw();
-        });
-        checkPanel.add(rubberBandCheck);
+//        rubberBandCheck = new JCheckBox("Rubber band");
+//        rubberBandCheck.setSelected(measureTool.getController().isUseRubberBand());
+//        rubberBandCheck.addActionListener((ActionEvent event) -> {
+//            JCheckBox cb = (JCheckBox) event.getSource();
+//            measureTool.getController().setUseRubberBand(cb.isSelected());
+//            freeHandCheck.setEnabled(cb.isSelected());
+//            wwd.redraw();
+//        });
+//        checkPanel.add(rubberBandCheck);
 
         freeHandCheck = new JCheckBox("Free Hand");
         freeHandCheck.setSelected(measureTool.getController().isFreeHand());
@@ -268,7 +269,7 @@ public class MeasureToolPanel extends JPanel {
         });
         checkPanel.add(freeHandCheck);
 
-        showAnnotationCheck = new JCheckBox("Tooltip");
+        showAnnotationCheck = new JCheckBox("Statistics");
         showAnnotationCheck.setSelected(measureTool.isShowAnnotation());
         showAnnotationCheck.addActionListener((ActionEvent event) -> {
             JCheckBox cb = (JCheckBox) event.getSource();
@@ -348,6 +349,13 @@ public class MeasureToolPanel extends JPanel {
         buttonPanel.add(endButton);
         endButton.setEnabled(false);
 
+        deleteButton = new JButton("Delete");
+        deleteButton.addActionListener((ActionEvent actionEvent) -> {
+            
+        });
+        buttonPanel.add(deleteButton);
+        deleteButton.setEnabled(true);
+        
         // Preset buttons
         JPanel presetPanel = new JPanel(new GridLayout(1, 2, 5, 5));
         presetPanel.setBorder(BorderFactory.createEmptyBorder(4, 4, 4, 4));
@@ -418,7 +426,7 @@ public class MeasureToolPanel extends JPanel {
         JPanel outerPanel = new JPanel();
         outerPanel.setLayout(new BoxLayout(outerPanel, BoxLayout.Y_AXIS));
         outerPanel.setBorder(
-                new CompoundBorder(BorderFactory.createEmptyBorder(9, 9, 9, 9), new TitledBorder("Measure")));
+                new CompoundBorder(BorderFactory.createEmptyBorder(9, 9, 8, 8), new TitledBorder("Measure")));
         outerPanel.setToolTipText("Measure tool control and info");
         outerPanel.add(colorPanel);
         outerPanel.add(shapePanel);
