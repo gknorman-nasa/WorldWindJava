@@ -66,10 +66,10 @@ public class MeasureDialog
         
         // Create the dialog from a Frame and add the tabbed pane
         dialog = new JDialog((Frame) component);
-       // dialog.setLocationRelativeTo(component);
+        Rectangle bounds = component.getBounds();
         dialog.getContentPane().setLayout(new BorderLayout());
         dialog.setTitle("Measure Tool");
-        dialog.setLocation(SwingConstants.SOUTH, SwingConstants.NORTH);
+        dialog.setLocation(bounds.x, bounds.y + 90);
         dialog.getContentPane().add(tabbedPane, BorderLayout.CENTER);
         dialog.pack();
     }
