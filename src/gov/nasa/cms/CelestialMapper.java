@@ -6,15 +6,10 @@
 package gov.nasa.cms;
 
 import gov.nasa.cms.features.CMSProfile;
-import gov.nasa.cms.features.CMSLayerManager;
+import gov.nasa.cms.features.LayerManagerLayer;
 import gov.nasa.cms.features.MeasureDialog;
 import gov.nasa.cms.features.MoonElevationModel;
 import gov.nasa.worldwind.WorldWindow;
-import gov.nasa.worldwind.geom.*;
-import gov.nasa.worldwind.globes.Globe;
-import gov.nasa.worldwind.layers.*;
-import gov.nasa.worldwind.terrain.LocalElevationModel;
-import gov.nasa.worldwindx.examples.util.ExampleUtil;
 import gov.nasa.worldwind.util.measure.MeasureTool;
 import javax.swing.*;
 import java.awt.*;
@@ -52,20 +47,21 @@ public class CelestialMapper
         private CMSProfile profile;
         private MeasureTool measureTool;
         private MoonElevationModel elevationModel;
-
-        public AppFrame()
-        {
+        private CMSStereo stereo;
+        
+        public AppFrame() 
+        { 
             super(true, false, false); // disable layer menu and statisics panel for AppFrame
-            getWwd().getModel().getLayers().add(new CMSLayerManager(getWwd())); // add layer box UI
-
+            getWwd().getModel().getLayers().add(new LayerManagerLayer(getWwd())); // add layer box UI
+                        
+            // Wait for the elevation to import            
             // Import the lunar elevation data from a Local Elevation Model
             elevationModel = new MoonElevationModel(this.getWwd());
 
             // Make the menu bar
             makeMenuBar(this, this.controller); 
-
         }
-
+        
         // Menu bar creation
         public void makeMenuBar(JFrame frame, final ActionListener controller)
         {
@@ -126,6 +122,10 @@ public class CelestialMapper
                 // Apollo menu item
                 apollo = new Apollo(this, this.getWwd());
                 menu.add(apollo);
+                
+                // Stereo menu item
+                stereo = new CMSStereo(this, this.getWwd());
+                menu.add(stereo);
             }
             menuBar.add(menu);
             frame.setJMenuBar(menuBar);
@@ -134,6 +134,7 @@ public class CelestialMapper
             this.apollo.setWwd(this.wwd); //sets window for apollo annotations
             this.profile.setWwd(this.wwd); // sets the window for terrain profiler
             this.elevationModel.setWwd(this.wwd); // sets the window for terrain profiler
+            this.stereo.setWwd(this.wwd);
         }
     }
 }
