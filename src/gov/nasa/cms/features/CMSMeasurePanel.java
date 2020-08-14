@@ -5,11 +5,9 @@
  */
 package gov.nasa.cms.features;
 
-import gov.nasa.worldwindx.examples.*;
 import gov.nasa.worldwind.WorldWindow;
 import gov.nasa.worldwind.avlist.AVKey;
 import gov.nasa.worldwind.geom.*;
-import gov.nasa.worldwind.render.*;
 import gov.nasa.worldwind.util.UnitsFormat;
 import gov.nasa.worldwind.util.measure.MeasureTool;
 
@@ -39,15 +37,11 @@ public class CMSMeasurePanel extends JPanel {
     private JButton lineColorButton;
     private JButton pointColorButton;
     private JButton annotationColorButton;
-   // private JCheckBox followCheck;
     private JCheckBox showControlsCheck;
     private JCheckBox showAnnotationCheck;
-   // private JCheckBox rubberBandCheck;
-   // private JCheckBox freeHandCheck;
     private JButton newButton;
     private JButton pauseButton;
     private JButton endButton;
-    private JButton deleteButton;
     private JLabel[] pointLabels;
     private JLabel lengthLabel;
     private JLabel areaLabel;
@@ -117,13 +111,17 @@ public class CMSMeasurePanel extends JPanel {
     }
 
     private void makePanel(Dimension size) {
-        // Shape combo
+
+        //======== Measurement Panel ========  
         JPanel shapePanel = new JPanel(new GridLayout(1, 2, 5, 5));
         shapePanel.setBorder(BorderFactory.createEmptyBorder(4, 4, 4, 4));
-        shapePanel.add(new JLabel("Shape:"));
-        shapeCombo = new JComboBox<>(new String[]{"Line", "Path", "Polygon", "Circle", "Ellipse", "Square", "Rectangle"});
+        shapePanel.add(new JLabel("Measurement Type:"));
+        shapeCombo = new JComboBox<>(new String[]{"Line", "Path", "Polygon", "Circle", "Ellipse", "Square", "Rectangle", "Freehand"});
         shapeCombo.addActionListener((ActionEvent event) -> {
             String item = (String) ((JComboBox) event.getSource()).getSelectedItem();
+            // Make sure Freehand isn't enabled for Path unless selected
+            measureTool.getController().setFreeHand(false);
+            wwd.redraw();
             switch (item) {
                 case "Line":
                     measureTool.setMeasureShapeType(MeasureTool.SHAPE_LINE);
@@ -146,13 +144,18 @@ public class CMSMeasurePanel extends JPanel {
                 case "Rectangle":
                     measureTool.setMeasureShapeType(MeasureTool.SHAPE_QUAD);
                     break;
+                case "Freehand":
+                    // Enable Freehand for Path
+                   measureTool.setMeasureShapeType(MeasureTool.SHAPE_PATH);
+                   measureTool.getController().setFreeHand(true);
+                   wwd.redraw();
                 default:
                     break;
             }
         });
         shapePanel.add(shapeCombo);
 
-        // Path type combo
+        //======== Path Type Panel ========  
         JPanel pathTypePanel = new JPanel(new GridLayout(1, 2, 5, 5));
         pathTypePanel.setBorder(BorderFactory.createEmptyBorder(4, 4, 4, 4));
         pathTypePanel.add(new JLabel("Path type:"));
@@ -176,7 +179,7 @@ public class CMSMeasurePanel extends JPanel {
         });
         pathTypePanel.add(pathTypeCombo);
 
-        // Units combo
+        //======== Units Panel ========  
         JPanel unitsPanel = new JPanel(new GridLayout(1, 2, 5, 5));
         unitsPanel.setBorder(BorderFactory.createEmptyBorder(4, 4, 4, 4));
         unitsPanel.add(new JLabel("Units:"));
@@ -220,7 +223,7 @@ public class CMSMeasurePanel extends JPanel {
         });
         unitsPanel.add(unitsCombo);
 
-        // Angles combo
+        //======== Angles Panel ========  
         JPanel anglesPanel = new JPanel(new GridLayout(1, 2, 5, 5));
         anglesPanel.setBorder(BorderFactory.createEmptyBorder(4, 4, 4, 4));
         anglesPanel.add(new JLabel("Angle Format:"));
@@ -232,7 +235,7 @@ public class CMSMeasurePanel extends JPanel {
         });
         anglesPanel.add(anglesCombo);
 
-        // Check boxes panel
+        //======== Check Boxes Panel ========  
         JPanel checkPanel = new JPanel(new GridLayout(3, 2, 5, 5));
         checkPanel.setBorder(BorderFactory.createEmptyBorder(4, 4, 4, 4));
 
@@ -245,15 +248,6 @@ public class CMSMeasurePanel extends JPanel {
         });
         checkPanel.add(showControlsCheck);
 
-//        freeHandCheck = new JCheckBox("Free Hand");
-//        freeHandCheck.setSelected(measureTool.getController().isFreeHand());
-//        freeHandCheck.addActionListener((ActionEvent event) -> {
-//            JCheckBox cb = (JCheckBox) event.getSource();
-//            measureTool.getController().setFreeHand(cb.isSelected());
-//            wwd.redraw();
-//        });
-//        checkPanel.add(freeHandCheck);
-
         showAnnotationCheck = new JCheckBox("Statistics");
         showAnnotationCheck.setSelected(measureTool.isShowAnnotation());
         showAnnotationCheck.addActionListener((ActionEvent event) -> {
@@ -263,7 +257,7 @@ public class CMSMeasurePanel extends JPanel {
         });
         checkPanel.add(showAnnotationCheck);
 
-        // Color buttons
+        //======== Color Buttons ========  
         final JPanel colorPanel = new JPanel(new GridLayout(1, 2, 5, 5));
         colorPanel.setBorder(BorderFactory.createEmptyBorder(4, 4, 4, 4));
         lineColorButton = new JButton("Line");
@@ -305,7 +299,7 @@ public class CMSMeasurePanel extends JPanel {
         annotationColorButton.setBackground(measureTool.getAnnotationAttributes().getTextColor());
         colorPanel.add(annotationColorButton);
 
-        // Action buttons
+        //======== Action Buttons ========  
         JPanel buttonPanel = new JPanel(new GridLayout(1, 2, 5, 5));
         buttonPanel.setBorder(BorderFactory.createEmptyBorder(4, 4, 4, 4));
         newButton = new JButton("New");
@@ -334,57 +328,15 @@ public class CMSMeasurePanel extends JPanel {
         buttonPanel.add(endButton);
         endButton.setEnabled(false);
 
-//        deleteButton = new JButton("Delete");
-//        deleteButton.addActionListener((ActionEvent actionEvent) -> {
-//            
-//        });
-//        buttonPanel.add(deleteButton);
-//        deleteButton.setEnabled(true);
-        
-        // Preset buttons
-        JPanel presetPanel = new JPanel(new GridLayout(1, 2, 5, 5));
-        presetPanel.setBorder(BorderFactory.createEmptyBorder(4, 4, 4, 4));
-        JButton bt = new JButton("Polyline");
-        bt.addActionListener((ActionEvent actionEvent) -> {
-            shapeCombo.setSelectedIndex(1);
-            measureTool.setMeasureShape(new Path(PATH));
-        });
-        presetPanel.add(bt);
-        bt = new JButton("Surf. Quad");
-        bt.addActionListener((ActionEvent actionEvent) -> {
-            shapeCombo.setSelectedIndex(6);
-            measureTool.setMeasureShape(new SurfaceQuad(Position.fromDegrees(44, 7, 0), 100e3, 50e3, Angle.fromDegrees(30)));
-        });
-        presetPanel.add(bt);
-        bt = new JButton("Polygon");
-        bt.addActionListener((ActionEvent actionEvent) -> {
-            shapeCombo.setSelectedIndex(2);
-            measureTool.setMeasureShape(new SurfacePolygon(POLYGON));
-        });
-        presetPanel.add(bt);
-
-        // Point list
-        JPanel pointPanel = new JPanel(new GridLayout(0, 1, 0, 4));
-        pointPanel.setBorder(BorderFactory.createEmptyBorder(4, 4, 4, 4));
-
+        //======== Point Labels ========   
+        JPanel pointPanel = new JPanel();
         this.pointLabels = new JLabel[100];
         for (int i = 0; i < this.pointLabels.length; i++) {
             this.pointLabels[i] = new JLabel("");
             pointPanel.add(this.pointLabels[i]);
         }
 
-        // Put the point panel in a container to prevent scroll panel from stretching the vertical spacing.
-        JPanel dummyPanel = new JPanel(new BorderLayout());
-        dummyPanel.add(pointPanel, BorderLayout.NORTH);
-
-        // Put the point panel in a scroll bar.
-        JScrollPane scrollPane = new JScrollPane(dummyPanel);
-        scrollPane.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
-        if (size != null) {
-            scrollPane.setPreferredSize(size);
-        }
-
-        // Metric
+        //======== Metric Panel ========     
         JPanel metricPanel = new JPanel(new GridLayout(0, 2, 0, 4));
         metricPanel.setBorder(new CompoundBorder(
                 new TitledBorder("Metric"), BorderFactory.createEmptyBorder(5, 5, 5, 5)));

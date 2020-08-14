@@ -15,7 +15,8 @@ import javax.swing.JCheckBoxMenuItem;
 
 
 /**
- * Creates a new terrain profile layer from <code>{@link JCheckBoxMenuItem}</code>
+ * Creates a new terrain profile layer from <code>{@link JCheckBoxMenuItem}</code> created
+ * from the passed in WorldWindow.
  * @author kjdickin
  */
 public class CMSProfile extends JCheckBoxMenuItem
@@ -47,16 +48,18 @@ public class CMSProfile extends JCheckBoxMenuItem
             {
                 isItemEnabled = ((JCheckBoxMenuItem) event.getSource()).getState();
 
+                // Setup the TerrainProfileLayer
                 if (isItemEnabled)
                 {
                     setWwd(Wwd);
                     setupProfile();
                 } 
+                // Remove TerrainProfileLayer from the WorldWindow
                 else
                 {
                     String layer = "Terrain Profile";                 
                     Layer selectedLayer = Wwd.getModel().getLayers().getLayerByName(layer);
-                    Wwd.getModel().getLayers().remove(selectedLayer); //removes tpl layer from layer list
+                    Wwd.getModel().getLayers().remove(selectedLayer); 
                 }
             }
         });

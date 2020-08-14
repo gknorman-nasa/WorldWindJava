@@ -8,18 +8,15 @@ package gov.nasa.cms.features;
 import gov.nasa.cms.CelestialMapper;
 import gov.nasa.worldwind.WorldWindow;
 import gov.nasa.worldwind.geom.*;
-import gov.nasa.worldwind.globes.*;
 import gov.nasa.worldwind.terrain.*;
-import gov.nasa.worldwindx.examples.ApplicationTemplate;
 import gov.nasa.worldwindx.examples.util.ExampleUtil;
 
 import javax.swing.*;
-import java.awt.*;
 import java.io.File;
 
 /**
  * Imports the lunar elevation model for CelestialMapper.java This imports a
- * GeoTIFF file containing elevation data and creates an
+ * down-sampled GeoTIFF file containing elevation data and creates an
  * <code>{@link gov.nasa.worldwind.globes.LocalElevationModel}</code> for it.
  *
  * @author kjdickin

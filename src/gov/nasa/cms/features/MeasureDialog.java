@@ -1,6 +1,5 @@
 package gov.nasa.cms.features;
 
-import gov.nasa.worldwindx.examples.*;
 import gov.nasa.worldwind.WorldWindow;
 import gov.nasa.worldwind.geom.LatLon;
 import gov.nasa.worldwind.layers.TerrainProfileLayer;
@@ -16,6 +15,15 @@ import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
 import javax.swing.event.ChangeEvent;
 
+/**
+ * Creates a MeasureDialog using CMSMeasurePanel.java. CMSMeasurePanel uses
+ * MeasureTool and MeasureToolController to interact with shapes. The user
+ * can create as many Measure Tools as they like by opening new tabs. Each
+ * MeasureTool contains a TerrainProfileLayer which measures the terrain profile
+ * along the MeasureTool that is created.
+ *
+ * @author kjdickin
+ */
 public class MeasureDialog
 {
 
@@ -63,21 +71,19 @@ public class MeasureDialog
         tabbedPane.setToolTipTextAt(0, "Create measurement");
         switchMeasureTool();
         
-        // Create the dialog from a Frame and add the tabbed pane
+        // Create the dialog from a Frame and set the bounds
         dialog = new JDialog((Frame) component);
         Rectangle bounds = component.getBounds();
         dialog.getContentPane().setLayout(new BorderLayout());
         dialog.setTitle("Measure Tool");
+        // Set the location and resizable to false
         dialog.setLocation(bounds.x, bounds.y + 90);
+        dialog.setResizable(false);
+        // Add the tabbedPane to the dialog
         dialog.getContentPane().add(tabbedPane, BorderLayout.CENTER);
         dialog.pack();
     }
 
-    public void deleteCurrentPanel()
-    {
-      //  CMSMeasurePanel mp = getCurrentPanel();
-    }
-    
     public void setVisible(boolean visible)
     {
         dialog.setVisible(visible);
