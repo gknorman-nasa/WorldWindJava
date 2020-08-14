@@ -2,14 +2,19 @@ package gov.nasa.cms.features;
 
 import gov.nasa.worldwind.WorldWindow;
 import gov.nasa.worldwind.geom.LatLon;
+import gov.nasa.worldwind.layers.RenderableLayer;
 import gov.nasa.worldwind.layers.TerrainProfileLayer;
 import gov.nasa.worldwind.util.measure.MeasureTool;
 import gov.nasa.worldwind.util.measure.MeasureToolController;
 import static gov.nasa.worldwindx.examples.ApplicationTemplate.insertBeforePlacenames;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
+import javax.swing.JButton;
+import javax.swing.JComponent;
 import javax.swing.JDialog;
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
@@ -29,13 +34,18 @@ public class MeasureDialog
 
     private JDialog dialog;
     private final TerrainProfileLayer profile = new TerrainProfileLayer();
-    private final JTabbedPane tabbedPane = new JTabbedPane();
+    private JTabbedPane tabbedPane = new JTabbedPane();
     private final PropertyChangeListener measureToolListener = new MeasureToolListener();
     private int lastTabIndex = -1;
     WorldWindow wwdObject;
+    String FEATURE_OWNER_PROPERTY = "gov.nasa.worldwindx.applications.worldwindow.FeatureOwnerProperty";
+    private RenderableLayer shapeLayer;
+    private RenderableLayer controlPointsLayer;
+    private static final String LAYER_NAME = "Measure Tool";
     
     public MeasureDialog(WorldWindow wwdObject, MeasureTool measureToolObject, Component component)
     {
+        
         // Add terrain profile layer
         profile.setEventSource(wwdObject);
         profile.setFollow(TerrainProfileLayer.FOLLOW_PATH);
@@ -43,6 +53,7 @@ public class MeasureDialog
         insertBeforePlacenames(wwdObject, profile);
 
         // Add + tab
+        this.tabbedPane = new JTabbedPane();
         tabbedPane.add(new JPanel());
         tabbedPane.setTitleAt(0, "+");
         tabbedPane.addChangeListener((ChangeEvent changeEvent) ->
@@ -62,17 +73,35 @@ public class MeasureDialog
             }
         });
   
+//        JButton deleteButton = new JButton ("Remove Current Measurement");
+//        deleteButton.setOpaque(false);
+//        deleteButton.setBackground(new Color(0, 0, 0, 0));
+//        deleteButton.setBorderPainted(false);
+//        deleteButton.addActionListener(new ActionListener()
+//        {
+//            public void actionPerformed(ActionEvent e)
+//            {
+//                CMSMeasurePanel measurePanel = getCurrentPanel();
+//                tabbedPane.remove(tabbedPane.getSelectedComponent());
+//            }
+//        });
+        //deleteButton.setEnabled(true);     // do i need this with add ?? it shows up either way 
+        
         // Add measure tool control panel to tabbed pane
         final MeasureTool measureTool = new MeasureTool(wwdObject);
         measureTool.setController(new MeasureToolController());
-        tabbedPane.add(new CMSMeasurePanel(wwdObject, measureTool));
+        
+        CMSMeasurePanel measurePanel = new CMSMeasurePanel(wwdObject, measureTool);
+      //  measurePanel.add(deleteButton);
+        
+        tabbedPane.add(measurePanel);
         tabbedPane.setTitleAt(1, "1");
         tabbedPane.setSelectedIndex(1);
         tabbedPane.setToolTipTextAt(0, "Create measurement");
         switchMeasureTool();
         
         // Create the dialog from a Frame and set the bounds
-        dialog = new JDialog((Frame) component);
+        dialog = new JDialog((Frame) component);     
         Rectangle bounds = component.getBounds();
         dialog.getContentPane().setLayout(new BorderLayout());
         dialog.setTitle("Measure Tool");
@@ -84,6 +113,12 @@ public class MeasureDialog
         dialog.pack();
     }
 
+    private CMSMeasurePanel getCurrentPanel()
+    {
+        JComponent p = (JComponent) tabbedPane.getSelectedComponent();
+        return (CMSMeasurePanel) p.getClientProperty(FEATURE_OWNER_PROPERTY);
+    }
+        
     public void setVisible(boolean visible)
     {
         dialog.setVisible(visible);

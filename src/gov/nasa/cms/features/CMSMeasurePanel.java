@@ -5,9 +5,11 @@
  */
 package gov.nasa.cms.features;
 
+import gov.nasa.worldwind.Disposable;
 import gov.nasa.worldwind.WorldWindow;
 import gov.nasa.worldwind.avlist.AVKey;
 import gov.nasa.worldwind.geom.*;
+import gov.nasa.worldwind.layers.Layer;
 import gov.nasa.worldwind.util.UnitsFormat;
 import gov.nasa.worldwind.util.measure.MeasureTool;
 
@@ -21,13 +23,12 @@ import java.util.ArrayList;
 /**
  * Measure Tool Control panel for MeasureDialog.java
  *
- * @author Patrick Murris
- * @version $Id: CMSMeasurePanel.java 2226 2014-08-14 15:56:45Z tgaskins $
+ * @author kjdickin
  * @see gov.nasa.worldwind.util.measure.MeasureTool
  */
 public class CMSMeasurePanel extends JPanel {
 
-    private final WorldWindow wwd;
+    private  WorldWindow wwd;
     private final MeasureTool measureTool;
 
     private JComboBox shapeCombo;
@@ -42,6 +43,7 @@ public class CMSMeasurePanel extends JPanel {
     private JButton newButton;
     private JButton pauseButton;
     private JButton endButton;
+    private JButton deleteButton;
     private JLabel[] pointLabels;
     private JLabel lengthLabel;
     private JLabel areaLabel;
@@ -327,6 +329,13 @@ public class CMSMeasurePanel extends JPanel {
         });
         buttonPanel.add(endButton);
         endButton.setEnabled(false);
+        
+        deleteButton = new JButton("Delete");
+        deleteButton.addActionListener((ActionEvent actionEvent) -> {
+            measureTool.clear();
+        });
+        buttonPanel.add(deleteButton);
+        deleteButton.setEnabled(true);
 
         //======== Point Labels ========   
         JPanel pointPanel = new JPanel();
@@ -359,7 +368,7 @@ public class CMSMeasurePanel extends JPanel {
         centerLabel = new JLabel();
         metricPanel.add(centerLabel);
 
-        // Add all the panels to a titled panel
+        //======== Outer Panel ======== 
         JPanel outerPanel = new JPanel();
         outerPanel.setLayout(new BoxLayout(outerPanel, BoxLayout.Y_AXIS));
         // Add the border padding in the dialog
@@ -372,9 +381,7 @@ public class CMSMeasurePanel extends JPanel {
         outerPanel.add(anglesPanel);
         outerPanel.add(checkPanel);
         outerPanel.add(buttonPanel);
-        //outerPanel.add(presetPanel);
         outerPanel.add(metricPanel);
-      //  outerPanel.add(scrollPane);
 
         this.add(outerPanel, BorderLayout.NORTH);
     }
@@ -464,5 +471,26 @@ public class CMSMeasurePanel extends JPanel {
             s = "na";
         }
         centerLabel.setText(s);
+    }
+    
+        public void deletePanel() {
+        this.disposeCurrentMeasureTool();
+    }
+        
+         protected void disposeCurrentMeasureTool() {
+        if (this.measureTool == null) {
+            return;
+        }
+        this.measureTool.dispose();
+    }
+         
+             public WorldWindow getWwd()
+    {
+        return this.wwd;
+    }
+
+    public void setWwd(WorldWindow wwd)
+    {
+        this.wwd = wwd;
     }
 }
