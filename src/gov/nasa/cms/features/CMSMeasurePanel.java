@@ -3,8 +3,9 @@
  * National Aeronautics and Space Administration.
  * All Rights Reserved.
  */
-package gov.nasa.worldwindx.examples;
+package gov.nasa.cms.features;
 
+import gov.nasa.worldwindx.examples.*;
 import gov.nasa.worldwind.WorldWindow;
 import gov.nasa.worldwind.avlist.AVKey;
 import gov.nasa.worldwind.geom.*;
@@ -20,13 +21,13 @@ import java.beans.*;
 import java.util.ArrayList;
 
 /**
- * Control panel for the MeasureTool.
+ * Measure Tool Control panel for MeasureDialog.java
  *
  * @author Patrick Murris
- * @version $Id: MeasureToolPanel.java 2226 2014-08-14 15:56:45Z tgaskins $
+ * @version $Id: CMSMeasurePanel.java 2226 2014-08-14 15:56:45Z tgaskins $
  * @see gov.nasa.worldwind.util.measure.MeasureTool
  */
-public class MeasureToolPanel extends JPanel {
+public class CMSMeasurePanel extends JPanel {
 
     private final WorldWindow wwd;
     private final MeasureTool measureTool;
@@ -38,11 +39,11 @@ public class MeasureToolPanel extends JPanel {
     private JButton lineColorButton;
     private JButton pointColorButton;
     private JButton annotationColorButton;
-    private JCheckBox followCheck;
+   // private JCheckBox followCheck;
     private JCheckBox showControlsCheck;
     private JCheckBox showAnnotationCheck;
-    private JCheckBox rubberBandCheck;
-    private JCheckBox freeHandCheck;
+   // private JCheckBox rubberBandCheck;
+   // private JCheckBox freeHandCheck;
     private JButton newButton;
     private JButton pauseButton;
     private JButton endButton;
@@ -72,12 +73,13 @@ public class MeasureToolPanel extends JPanel {
         POLYGON.add(Position.fromDegrees(44, 7, 0));
     }
 
-    public MeasureToolPanel(WorldWindow wwdObject, MeasureTool measureToolObject) {
+    public CMSMeasurePanel(WorldWindow wwdObject, MeasureTool measureToolObject) {
         super(new BorderLayout());
         this.wwd = wwdObject;
         this.measureTool = measureToolObject;
         this.makePanel(new Dimension(200, 300));
 
+        // Always follow the terrain
        measureTool.setFollowTerrain(true);
                 
         // Handle measure tool events
@@ -243,14 +245,14 @@ public class MeasureToolPanel extends JPanel {
         });
         checkPanel.add(showControlsCheck);
 
-        freeHandCheck = new JCheckBox("Free Hand");
-        freeHandCheck.setSelected(measureTool.getController().isFreeHand());
-        freeHandCheck.addActionListener((ActionEvent event) -> {
-            JCheckBox cb = (JCheckBox) event.getSource();
-            measureTool.getController().setFreeHand(cb.isSelected());
-            wwd.redraw();
-        });
-        checkPanel.add(freeHandCheck);
+//        freeHandCheck = new JCheckBox("Free Hand");
+//        freeHandCheck.setSelected(measureTool.getController().isFreeHand());
+//        freeHandCheck.addActionListener((ActionEvent event) -> {
+//            JCheckBox cb = (JCheckBox) event.getSource();
+//            measureTool.getController().setFreeHand(cb.isSelected());
+//            wwd.redraw();
+//        });
+//        checkPanel.add(freeHandCheck);
 
         showAnnotationCheck = new JCheckBox("Statistics");
         showAnnotationCheck.setSelected(measureTool.isShowAnnotation());
@@ -332,12 +334,12 @@ public class MeasureToolPanel extends JPanel {
         buttonPanel.add(endButton);
         endButton.setEnabled(false);
 
-        deleteButton = new JButton("Delete");
-        deleteButton.addActionListener((ActionEvent actionEvent) -> {
-            
-        });
-        buttonPanel.add(deleteButton);
-        deleteButton.setEnabled(true);
+//        deleteButton = new JButton("Delete");
+//        deleteButton.addActionListener((ActionEvent actionEvent) -> {
+//            
+//        });
+//        buttonPanel.add(deleteButton);
+//        deleteButton.setEnabled(true);
         
         // Preset buttons
         JPanel presetPanel = new JPanel(new GridLayout(1, 2, 5, 5));
@@ -408,8 +410,8 @@ public class MeasureToolPanel extends JPanel {
         // Add all the panels to a titled panel
         JPanel outerPanel = new JPanel();
         outerPanel.setLayout(new BoxLayout(outerPanel, BoxLayout.Y_AXIS));
-        outerPanel.setBorder(
-                new CompoundBorder(BorderFactory.createEmptyBorder(9, 9, 8, 8), new TitledBorder("Measure")));
+        // Add the border padding in the dialog
+        outerPanel.setBorder( new CompoundBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10), new TitledBorder("Measure")));
         outerPanel.setToolTipText("Measure tool control and info");
         outerPanel.add(colorPanel);
         outerPanel.add(shapePanel);
@@ -425,6 +427,7 @@ public class MeasureToolPanel extends JPanel {
         this.add(outerPanel, BorderLayout.NORTH);
     }
 
+    // Updates the position list when the measute tool changes
     private void fillPointsPanel() {
         int i = 0;
         if (measureTool.getPositions() != null) {
@@ -445,6 +448,7 @@ public class MeasureToolPanel extends JPanel {
 
     }
 
+    // Updates the labels when the metric has changed
     private void updateMetric() {
         // Update length label
         double value = measureTool.getLength();

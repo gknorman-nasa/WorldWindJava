@@ -14,7 +14,6 @@ import java.util.ArrayList;
 import javax.swing.JDialog;
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
-import javax.swing.SwingConstants;
 import javax.swing.event.ChangeEvent;
 
 public class MeasureDialog
@@ -45,7 +44,7 @@ public class MeasureDialog
                 // Add new measure tool in a tab when '+' selected
                 MeasureTool measureTool = new MeasureTool(wwdObject);
                 measureTool.setController(new MeasureToolController());
-                tabbedPane.add(new MeasureToolPanel(wwdObject, measureTool));
+                tabbedPane.add(new CMSMeasurePanel(wwdObject, measureTool));
                 tabbedPane.setTitleAt(tabbedPane.getTabCount() - 1, "" + (tabbedPane.getTabCount() - 1));
                 tabbedPane.setSelectedIndex(tabbedPane.getTabCount() - 1);
                 switchMeasureTool();
@@ -58,7 +57,7 @@ public class MeasureDialog
         // Add measure tool control panel to tabbed pane
         final MeasureTool measureTool = new MeasureTool(wwdObject);
         measureTool.setController(new MeasureToolController());
-        tabbedPane.add(new MeasureToolPanel(wwdObject, measureTool));
+        tabbedPane.add(new CMSMeasurePanel(wwdObject, measureTool));
         tabbedPane.setTitleAt(1, "1");
         tabbedPane.setSelectedIndex(1);
         tabbedPane.setToolTipTextAt(0, "Create measurement");
@@ -74,6 +73,11 @@ public class MeasureDialog
         dialog.pack();
     }
 
+    public void deleteCurrentPanel()
+    {
+      //  CMSMeasurePanel mp = getCurrentPanel();
+    }
+    
     public void setVisible(boolean visible)
     {
         dialog.setVisible(visible);
@@ -84,13 +88,13 @@ public class MeasureDialog
         // Disarm last measure tool when changing tab and switching tool
         if (lastTabIndex != -1)
         {
-            MeasureTool mt = ((MeasureToolPanel) tabbedPane.getComponentAt(lastTabIndex)).getMeasureTool();
+            MeasureTool mt = ((CMSMeasurePanel) tabbedPane.getComponentAt(lastTabIndex)).getMeasureTool();
             mt.setArmed(false);
             mt.removePropertyChangeListener(measureToolListener);
         }
         // Update terrain profile from current measure tool
         lastTabIndex = tabbedPane.getSelectedIndex();
-        MeasureTool mt = ((MeasureToolPanel) tabbedPane.getComponentAt(lastTabIndex)).getMeasureTool();
+        MeasureTool mt = ((CMSMeasurePanel) tabbedPane.getComponentAt(lastTabIndex)).getMeasureTool();
         mt.addPropertyChangeListener(measureToolListener);
         updateProfile(mt);
     }
