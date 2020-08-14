@@ -26,9 +26,10 @@ import java.util.ArrayList;
  * @author kjdickin
  * @see gov.nasa.worldwind.util.measure.MeasureTool
  */
-public class CMSMeasurePanel extends JPanel {
+public class CMSMeasurePanel extends JPanel
+{
 
-    private  WorldWindow wwd;
+    private WorldWindow wwd;
     private final MeasureTool measureTool;
 
     private JComboBox shapeCombo;
@@ -56,7 +57,8 @@ public class CMSMeasurePanel extends JPanel {
     private static final ArrayList<Position> PATH = new ArrayList<>();
     private static final ArrayList<Position> POLYGON = new ArrayList<>();
 
-    static {
+    static
+    {
         LINE.add(Position.fromDegrees(44, 7, 0));
         LINE.add(Position.fromDegrees(45, 8, 0));
 
@@ -69,31 +71,37 @@ public class CMSMeasurePanel extends JPanel {
         POLYGON.add(Position.fromDegrees(44, 7, 0));
     }
 
-    public CMSMeasurePanel(WorldWindow wwdObject, MeasureTool measureToolObject) {
+    public CMSMeasurePanel(WorldWindow wwdObject, MeasureTool measureToolObject)
+    {
         super(new BorderLayout());
         this.wwd = wwdObject;
         this.measureTool = measureToolObject;
         this.makePanel(new Dimension(200, 300));
 
         // Always follow the terrain
-       measureTool.setFollowTerrain(true);
-                
+        measureTool.setFollowTerrain(true);
+
         // Handle measure tool events
-        measureTool.addPropertyChangeListener((PropertyChangeEvent event) -> {
+        measureTool.addPropertyChangeListener((PropertyChangeEvent event) ->
+        {
             // Add, remove or change positions
             if (event.getPropertyName().equals(MeasureTool.EVENT_POSITION_ADD)
                     || event.getPropertyName().equals(MeasureTool.EVENT_POSITION_REMOVE)
-                    || event.getPropertyName().equals(MeasureTool.EVENT_POSITION_REPLACE)) {
+                    || event.getPropertyName().equals(MeasureTool.EVENT_POSITION_REPLACE))
+            {
                 fillPointsPanel();    // Update position list when changed
             } // The tool was armed / disarmed
-            else if (event.getPropertyName().equals(MeasureTool.EVENT_ARMED)) {
-                if (measureTool.isArmed()) {
+            else if (event.getPropertyName().equals(MeasureTool.EVENT_ARMED))
+            {
+                if (measureTool.isArmed())
+                {
                     newButton.setEnabled(false);
                     pauseButton.setText("Pause");
                     pauseButton.setEnabled(true);
                     endButton.setEnabled(true);
                     ((Component) wwd).setCursor(Cursor.getPredefinedCursor(Cursor.CROSSHAIR_CURSOR));
-                } else {
+                } else
+                {
                     newButton.setEnabled(true);
                     pauseButton.setText("Pause");
                     pauseButton.setEnabled(false);
@@ -102,29 +110,37 @@ public class CMSMeasurePanel extends JPanel {
                 }
 
             } // Metric changed - sent after each render frame
-            else if (event.getPropertyName().equals(MeasureTool.EVENT_METRIC_CHANGED)) {
+            else if (event.getPropertyName().equals(MeasureTool.EVENT_METRIC_CHANGED))
+            {
                 updateMetric();
             }
         });
     }
 
-    public MeasureTool getMeasureTool() {
+    public MeasureTool getMeasureTool()
+    {
         return this.measureTool;
     }
 
-    private void makePanel(Dimension size) {
+    private void makePanel(Dimension size)
+    {
 
         //======== Measurement Panel ========  
         JPanel shapePanel = new JPanel(new GridLayout(1, 2, 5, 5));
         shapePanel.setBorder(BorderFactory.createEmptyBorder(4, 4, 4, 4));
         shapePanel.add(new JLabel("Measurement Type:"));
-        shapeCombo = new JComboBox<>(new String[]{"Line", "Path", "Polygon", "Circle", "Ellipse", "Square", "Rectangle", "Freehand"});
-        shapeCombo.addActionListener((ActionEvent event) -> {
+        shapeCombo = new JComboBox<>(new String[]
+        {
+            "Line", "Path", "Polygon", "Circle", "Ellipse", "Square", "Rectangle", "Freehand"
+        });
+        shapeCombo.addActionListener((ActionEvent event) ->
+        {
             String item = (String) ((JComboBox) event.getSource()).getSelectedItem();
             // Make sure Freehand isn't enabled for Path unless selected
             measureTool.getController().setFreeHand(false);
             wwd.redraw();
-            switch (item) {
+            switch (item)
+            {
                 case "Line":
                     measureTool.setMeasureShapeType(MeasureTool.SHAPE_LINE);
                     break;
@@ -148,9 +164,9 @@ public class CMSMeasurePanel extends JPanel {
                     break;
                 case "Freehand":
                     // Enable Freehand for Path
-                   measureTool.setMeasureShapeType(MeasureTool.SHAPE_PATH);
-                   measureTool.getController().setFreeHand(true);
-                   wwd.redraw();
+                    measureTool.setMeasureShapeType(MeasureTool.SHAPE_PATH);
+                    measureTool.getController().setFreeHand(true);
+                    wwd.redraw();
                 default:
                     break;
             }
@@ -161,11 +177,16 @@ public class CMSMeasurePanel extends JPanel {
         JPanel pathTypePanel = new JPanel(new GridLayout(1, 2, 5, 5));
         pathTypePanel.setBorder(BorderFactory.createEmptyBorder(4, 4, 4, 4));
         pathTypePanel.add(new JLabel("Path type:"));
-        pathTypeCombo = new JComboBox<>(new String[]{"Linear", "Rhumb", "Great circle"});
+        pathTypeCombo = new JComboBox<>(new String[]
+        {
+            "Linear", "Rhumb", "Great circle"
+        });
         pathTypeCombo.setSelectedIndex(2);
-        pathTypeCombo.addActionListener((ActionEvent event) -> {
+        pathTypeCombo.addActionListener((ActionEvent event) ->
+        {
             String item = (String) ((JComboBox) event.getSource()).getSelectedItem();
-            switch (item) {
+            switch (item)
+            {
                 case "Linear":
                     measureTool.setPathType(AVKey.LINEAR);
                     break;
@@ -185,12 +206,17 @@ public class CMSMeasurePanel extends JPanel {
         JPanel unitsPanel = new JPanel(new GridLayout(1, 2, 5, 5));
         unitsPanel.setBorder(BorderFactory.createEmptyBorder(4, 4, 4, 4));
         unitsPanel.add(new JLabel("Units:"));
-        unitsCombo = new JComboBox<>(new String[]{"M/M\u00b2", "KM/KM\u00b2", "KM/Hectare", "Feet/Feet\u00b2",
-            "Miles/Miles\u00b2", "Nm/Miles\u00b2", "Yards/Acres"});
+        unitsCombo = new JComboBox<>(new String[]
+        {
+            "M/M\u00b2", "KM/KM\u00b2", "KM/Hectare", "Feet/Feet\u00b2",
+            "Miles/Miles\u00b2", "Nm/Miles\u00b2", "Yards/Acres"
+        });
         unitsCombo.setSelectedItem("KM/KM\u00b2");
-        unitsCombo.addActionListener((ActionEvent event) -> {
+        unitsCombo.addActionListener((ActionEvent event) ->
+        {
             String item = (String) ((JComboBox) event.getSource()).getSelectedItem();
-            switch (item) {
+            switch (item)
+            {
                 case "M/M\u00b2":
                     measureTool.getUnitsFormat().setLengthUnits(UnitsFormat.METERS);
                     measureTool.getUnitsFormat().setAreaUnits(UnitsFormat.SQUARE_METERS);
@@ -229,9 +255,13 @@ public class CMSMeasurePanel extends JPanel {
         JPanel anglesPanel = new JPanel(new GridLayout(1, 2, 5, 5));
         anglesPanel.setBorder(BorderFactory.createEmptyBorder(4, 4, 4, 4));
         anglesPanel.add(new JLabel("Angle Format:"));
-        anglesCombo = new JComboBox<>(new String[]{"DD", "DMS"});
+        anglesCombo = new JComboBox<>(new String[]
+        {
+            "DD", "DMS"
+        });
         anglesCombo.setSelectedItem("DD");
-        anglesCombo.addActionListener((ActionEvent event) -> {
+        anglesCombo.addActionListener((ActionEvent event) ->
+        {
             String item = (String) ((JComboBox) event.getSource()).getSelectedItem();
             measureTool.getUnitsFormat().setShowDMS(item.equals("DMS"));
         });
@@ -243,7 +273,8 @@ public class CMSMeasurePanel extends JPanel {
 
         showControlsCheck = new JCheckBox("Control points");
         showControlsCheck.setSelected(measureTool.isShowControlPoints());
-        showControlsCheck.addActionListener((ActionEvent event) -> {
+        showControlsCheck.addActionListener((ActionEvent event) ->
+        {
             JCheckBox cb = (JCheckBox) event.getSource();
             measureTool.setShowControlPoints(cb.isSelected());
             wwd.redraw();
@@ -252,7 +283,8 @@ public class CMSMeasurePanel extends JPanel {
 
         showAnnotationCheck = new JCheckBox("Statistics");
         showAnnotationCheck.setSelected(measureTool.isShowAnnotation());
-        showAnnotationCheck.addActionListener((ActionEvent event) -> {
+        showAnnotationCheck.addActionListener((ActionEvent event) ->
+        {
             JCheckBox cb = (JCheckBox) event.getSource();
             measureTool.setShowAnnotation(cb.isSelected());
             wwd.redraw();
@@ -263,10 +295,12 @@ public class CMSMeasurePanel extends JPanel {
         final JPanel colorPanel = new JPanel(new GridLayout(1, 2, 5, 5));
         colorPanel.setBorder(BorderFactory.createEmptyBorder(4, 4, 4, 4));
         lineColorButton = new JButton("Line");
-        lineColorButton.addActionListener((ActionEvent event) -> {
+        lineColorButton.addActionListener((ActionEvent event) ->
+        {
             Color c = JColorChooser.showDialog(colorPanel,
                     "Choose a color...", ((JButton) event.getSource()).getBackground());
-            if (c != null) {
+            if (c != null)
+            {
                 ((JButton) event.getSource()).setBackground(c);
                 measureTool.setLineColor(c);
                 Color fill = new Color(c.getRed() / 255f * .5f,
@@ -278,10 +312,12 @@ public class CMSMeasurePanel extends JPanel {
         lineColorButton.setBackground(measureTool.getLineColor());
 
         pointColorButton = new JButton("Points");
-        pointColorButton.addActionListener((ActionEvent event) -> {
+        pointColorButton.addActionListener((ActionEvent event) ->
+        {
             Color c = JColorChooser.showDialog(colorPanel,
                     "Choose a color...", ((JButton) event.getSource()).getBackground());
-            if (c != null) {
+            if (c != null)
+            {
                 ((JButton) event.getSource()).setBackground(c);
                 measureTool.getControlPointsAttributes().setBackgroundColor(c);
             }
@@ -290,10 +326,12 @@ public class CMSMeasurePanel extends JPanel {
         pointColorButton.setBackground(measureTool.getControlPointsAttributes().getBackgroundColor());
 
         annotationColorButton = new JButton("Tooltip");
-        annotationColorButton.addActionListener((ActionEvent event) -> {
+        annotationColorButton.addActionListener((ActionEvent event) ->
+        {
             Color c = JColorChooser.showDialog(colorPanel,
                     "Choose a color...", ((JButton) event.getSource()).getBackground());
-            if (c != null) {
+            if (c != null)
+            {
                 ((JButton) event.getSource()).setBackground(c);
                 measureTool.getAnnotationAttributes().setTextColor(c);
             }
@@ -305,7 +343,8 @@ public class CMSMeasurePanel extends JPanel {
         JPanel buttonPanel = new JPanel(new GridLayout(1, 2, 5, 5));
         buttonPanel.setBorder(BorderFactory.createEmptyBorder(4, 4, 4, 4));
         newButton = new JButton("New");
-        newButton.addActionListener((ActionEvent actionEvent) -> {
+        newButton.addActionListener((ActionEvent actionEvent) ->
+        {
             measureTool.clear();
             measureTool.setArmed(true);
         });
@@ -313,7 +352,8 @@ public class CMSMeasurePanel extends JPanel {
         newButton.setEnabled(true);
 
         pauseButton = new JButton("Pause");
-        pauseButton.addActionListener((ActionEvent actionEvent) -> {
+        pauseButton.addActionListener((ActionEvent actionEvent) ->
+        {
             measureTool.setArmed(!measureTool.isArmed());
             pauseButton.setText(!measureTool.isArmed() ? "Resume" : "Pause");
             pauseButton.setEnabled(true);
@@ -324,15 +364,20 @@ public class CMSMeasurePanel extends JPanel {
         pauseButton.setEnabled(false);
 
         endButton = new JButton("End");
-        endButton.addActionListener((ActionEvent actionEvent) -> {
+        endButton.addActionListener((ActionEvent actionEvent) ->
+        {
             measureTool.setArmed(false);
         });
         buttonPanel.add(endButton);
         endButton.setEnabled(false);
-        
+
         deleteButton = new JButton("Delete");
-        deleteButton.addActionListener((ActionEvent actionEvent) -> {
+        deleteButton.addActionListener((ActionEvent actionEvent) ->
+        {
+            // Remove all shapes and control points
             measureTool.clear();
+            // Remove measure tool layers from the WorldWindow
+            deletePanel();
         });
         buttonPanel.add(deleteButton);
         deleteButton.setEnabled(true);
@@ -340,7 +385,8 @@ public class CMSMeasurePanel extends JPanel {
         //======== Point Labels ========   
         JPanel pointPanel = new JPanel();
         this.pointLabels = new JLabel[100];
-        for (int i = 0; i < this.pointLabels.length; i++) {
+        for (int i = 0; i < this.pointLabels.length; i++)
+        {
             this.pointLabels[i] = new JLabel("");
             pointPanel.add(this.pointLabels[i]);
         }
@@ -372,7 +418,7 @@ public class CMSMeasurePanel extends JPanel {
         JPanel outerPanel = new JPanel();
         outerPanel.setLayout(new BoxLayout(outerPanel, BoxLayout.Y_AXIS));
         // Add the border padding in the dialog
-        outerPanel.setBorder( new CompoundBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10), new TitledBorder("Measure")));
+        outerPanel.setBorder(new CompoundBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10), new TitledBorder("Measure")));
         outerPanel.setToolTipText("Measure tool control and info");
         outerPanel.add(colorPanel);
         outerPanel.add(shapePanel);
@@ -387,11 +433,15 @@ public class CMSMeasurePanel extends JPanel {
     }
 
     // Updates the position list when the measute tool changes
-    private void fillPointsPanel() {
+    private void fillPointsPanel()
+    {
         int i = 0;
-        if (measureTool.getPositions() != null) {
-            for (LatLon pos : measureTool.getPositions()) {
-                if (i == this.pointLabels.length) {
+        if (measureTool.getPositions() != null)
+        {
+            for (LatLon pos : measureTool.getPositions())
+            {
+                if (i == this.pointLabels.length)
+                {
                     break;
                 }
 
@@ -401,90 +451,111 @@ public class CMSMeasurePanel extends JPanel {
             }
         }
         // Clear remaining labels
-        for (; i < this.pointLabels.length; i++) {
+        for (; i < this.pointLabels.length; i++)
+        {
             pointLabels[i].setText("");
         }
 
     }
 
     // Updates the labels when the metric has changed
-    private void updateMetric() {
+    private void updateMetric()
+    {
         // Update length label
         double value = measureTool.getLength();
         String s;
-        if (value <= 0) {
+        if (value <= 0)
+        {
             s = "na";
-        } else if (value < 1000) {
+        } else if (value < 1000)
+        {
             s = String.format("%,7.1f m", value);
-        } else {
+        } else
+        {
             s = String.format("%,7.3f km", value / 1000);
         }
         lengthLabel.setText(s);
 
         // Update area label
         value = measureTool.getArea();
-        if (value < 0) {
+        if (value < 0)
+        {
             s = "na";
-        } else if (value < 1e6) {
+        } else if (value < 1e6)
+        {
             s = String.format("%,7.1f m2", value);
-        } else {
+        } else
+        {
             s = String.format("%,7.3f km2", value / 1e6);
         }
         areaLabel.setText(s);
 
         // Update width label
         value = measureTool.getWidth();
-        if (value < 0) {
+        if (value < 0)
+        {
             s = "na";
-        } else if (value < 1000) {
+        } else if (value < 1000)
+        {
             s = String.format("%,7.1f m", value);
-        } else {
+        } else
+        {
             s = String.format("%,7.3f km", value / 1000);
         }
         widthLabel.setText(s);
 
         // Update height label
         value = measureTool.getHeight();
-        if (value < 0) {
+        if (value < 0)
+        {
             s = "na";
-        } else if (value < 1000) {
+        } else if (value < 1000)
+        {
             s = String.format("%,7.1f m", value);
-        } else {
+        } else
+        {
             s = String.format("%,7.3f km", value / 1000);
         }
         heightLabel.setText(s);
 
         // Update heading label
         Angle angle = measureTool.getOrientation();
-        if (angle != null) {
+        if (angle != null)
+        {
             s = String.format("%,6.2f\u00B0", angle.degrees);
-        } else {
+        } else
+        {
             s = "na";
         }
         headingLabel.setText(s);
 
         // Update center label
         Position center = measureTool.getCenterPosition();
-        if (center != null) {
+        if (center != null)
+        {
             s = String.format("%,7.4f\u00B0 %,7.4f\u00B0", center.getLatitude().degrees, center.getLongitude().degrees);
-        } else {
+        } else
+        {
             s = "na";
         }
         centerLabel.setText(s);
     }
-    
-        public void deletePanel() {
+
+    public void deletePanel()
+    {
         this.disposeCurrentMeasureTool();
     }
-        
-         protected void disposeCurrentMeasureTool() {
-        if (this.measureTool == null) {
+
+    protected void disposeCurrentMeasureTool()
+    {
+        if (this.measureTool == null)
+        {
             return;
         }
         this.measureTool.dispose();
     }
-         
-             public WorldWindow getWwd()
+
+    public WorldWindow getWwd()
     {
         return this.wwd;
     }
