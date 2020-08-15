@@ -36,9 +36,16 @@ public class ApplicationTemplate {
         public AppPanel(Dimension canvasSize, boolean includeStatusBar) {
             super(new BorderLayout());
 
-            this.wwd = this.createWorldWindow();
+            this.wwd = this.createWorldWindow(); // stereo after
             ((Component) this.wwd).setPreferredSize(canvasSize);
-
+            
+            
+            //this.wwd // WorldWindowGLCanvas
+            //this.wwd.wwd // WorldWindowGLAutoDrawable
+            //this.wwd.wwd.sceneController // StereoOptionSceneController
+            //this.wwd.getSceneController().propertyChange("redblue");
+            this.wwd.getSceneController();
+            
             // Create the default model as described in the current worldwind properties.
             Model m = (Model) WorldWind.createConfigurationComponent(AVKey.MODEL_CLASS_NAME);
             this.wwd.setModel(m);
@@ -70,7 +77,7 @@ public class ApplicationTemplate {
 
     protected static class AppFrame extends JFrame {
 
-        private Dimension canvasSize = new Dimension(1000, 800);
+        private Dimension canvasSize = new Dimension(1300, 900);
 
         protected AppPanel wwjPanel;
         protected JPanel controlPanel;
@@ -97,7 +104,7 @@ public class ApplicationTemplate {
 
             // Put the pieces together.
             this.getContentPane().add(wwjPanel, BorderLayout.CENTER);
-            if (includeLayerPanel) {
+            if (includeLayerPanel) { // Overridden because we are using CMSLayerManager
                 this.controlPanel = new JPanel(new BorderLayout(10, 10));
                 this.layerPanel = new LayerPanel(this.getWwd());
                 this.controlPanel.add(this.layerPanel, BorderLayout.CENTER);
@@ -249,6 +256,14 @@ public class ApplicationTemplate {
 
     static {
         System.setProperty("java.net.useSystemProxies", "true");
+        // below code allows for window to be run with stereo view enabled
+//        System.setProperty("gov.nasa.worldwind.stereo.mode", "redblue");
+//        //  Configure the initial view parameters so that the balloons are immediately visible.
+//        Configuration.setValue(AVKey.INITIAL_LATITUDE, 46.7045);
+//        Configuration.setValue(AVKey.INITIAL_LONGITUDE, -121.6242);
+//        Configuration.setValue(AVKey.INITIAL_ALTITUDE, 10e3);
+//        Configuration.setValue(AVKey.INITIAL_HEADING, 342);
+//        Configuration.setValue(AVKey.INITIAL_PITCH, 80);
         if (Configuration.isMacOS()) {
             System.setProperty("apple.laf.useScreenMenuBar", "true");
             System.setProperty("com.apple.mrj.application.apple.menu.about.name", "WorldWind Application");
@@ -256,7 +271,8 @@ public class ApplicationTemplate {
             System.setProperty("apple.awt.brushMetalLook", "true");
         } else if (Configuration.isWindowsOS()) {
             System.setProperty("sun.awt.noerasebackground", "true"); // prevents flashing during window resizing
-        }
+        } 
+        
     }
 
     public static AppFrame start(String appName, Class<?> appFrameClass) {
@@ -267,7 +283,7 @@ public class ApplicationTemplate {
         try {
             final AppFrame frame = (AppFrame) appFrameClass.getConstructor().newInstance();
             frame.setTitle(appName);
-            frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+            frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);   
             java.awt.EventQueue.invokeLater(() -> {
                 frame.setVisible(true);
             });
