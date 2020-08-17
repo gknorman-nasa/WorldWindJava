@@ -38,10 +38,6 @@ public class MeasureDialog
     private final PropertyChangeListener measureToolListener = new MeasureToolListener();
     private int lastTabIndex = -1;
     WorldWindow wwdObject;
-    String FEATURE_OWNER_PROPERTY = "gov.nasa.worldwindx.applications.worldwindow.FeatureOwnerProperty";
-    private RenderableLayer shapeLayer;
-    private RenderableLayer controlPointsLayer;
-    private static final String LAYER_NAME = "Measure Tool";
     
     public MeasureDialog(WorldWindow wwdObject, MeasureTool measureToolObject, Component component)
     {
@@ -72,25 +68,10 @@ public class MeasureDialog
                 switchMeasureTool();
             }
         });
-  
-//        JButton deleteButton = new JButton ("Remove Current Measurement");
-//        deleteButton.setOpaque(false);
-//        deleteButton.setBackground(new Color(0, 0, 0, 0));
-//        deleteButton.setBorderPainted(false);
-//        deleteButton.addActionListener(new ActionListener()
-//        {
-//            public void actionPerformed(ActionEvent e)
-//            {
-//                CMSMeasurePanel measurePanel = getCurrentPanel();
-//                tabbedPane.remove(tabbedPane.getSelectedComponent());
-//            }
-//        });
-        //deleteButton.setEnabled(true);     // do i need this with add ?? it shows up either way 
         
         // Add measure tool control panel to tabbed pane
         final MeasureTool measureTool = new MeasureTool(wwdObject);
-        measureTool.setController(new MeasureToolController());
-        
+        measureTool.setController(new MeasureToolController());     
         CMSMeasurePanel measurePanel = new CMSMeasurePanel(wwdObject, measureTool);
       //  measurePanel.add(deleteButton);
         
@@ -113,11 +94,6 @@ public class MeasureDialog
         dialog.pack();
     }
 
-    private CMSMeasurePanel getCurrentPanel()
-    {
-        JComponent p = (JComponent) tabbedPane.getSelectedComponent();
-        return (CMSMeasurePanel) p.getClientProperty(FEATURE_OWNER_PROPERTY);
-    }
         
     public void setVisible(boolean visible)
     {

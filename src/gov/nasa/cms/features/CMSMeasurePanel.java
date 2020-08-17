@@ -19,6 +19,8 @@ import java.awt.*;
 import java.awt.event.*;
 import java.beans.*;
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * Measure Tool Control panel for MeasureDialog.java
@@ -115,11 +117,6 @@ public class CMSMeasurePanel extends JPanel
                 updateMetric();
             }
         });
-    }
-
-    public MeasureTool getMeasureTool()
-    {
-        return this.measureTool;
     }
 
     private void makePanel(Dimension size)
@@ -345,8 +342,9 @@ public class CMSMeasurePanel extends JPanel
         newButton = new JButton("New");
         newButton.addActionListener((ActionEvent actionEvent) ->
         {
-            measureTool.clear();
             measureTool.setArmed(true);
+            measureTool.clear();
+
         });
         buttonPanel.add(newButton);
         newButton.setEnabled(true);
@@ -374,9 +372,9 @@ public class CMSMeasurePanel extends JPanel
         deleteButton = new JButton("Delete");
         deleteButton.addActionListener((ActionEvent actionEvent) ->
         {
-            // Remove all shapes and control points
+            // Remove all shapes and control points from the AppFrame
             measureTool.clear();
-            // Remove measure tool layers from the WorldWindow
+            // Remove Measure Tool layers from the WorldWindow
             deletePanel();
         });
         buttonPanel.add(deleteButton);
@@ -553,6 +551,11 @@ public class CMSMeasurePanel extends JPanel
             return;
         }
         this.measureTool.dispose();
+    }
+   
+    public MeasureTool getMeasureTool()
+    {
+        return this.measureTool;
     }
 
     public WorldWindow getWwd()
