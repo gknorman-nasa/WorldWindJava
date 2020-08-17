@@ -43,10 +43,12 @@ public class CelestialMapper
         private CMSPlaceNamesMenu cmsPlaceNamesMenu;
         private WorldWindow wwd;
         private Apollo apollo;
+        private CMS_KMLViewer cmsKMLViewer;
         
         public AppFrame() 
         { 
             super(true, false, false); // disable layer menu and statisics panel for AppFrame
+            wwd = getWwd();
             getWwd().getModel().getLayers().add(new LayerManagerLayer(getWwd())); // add layer box UI
                         
             // Wait for the elevation to import            
@@ -169,11 +171,15 @@ public class CelestialMapper
                 menu.add(apollo);
             }
             menuBar.add(menu);
-                       
+             
+            //========== "KML Viewer" ===========
+            cmsKMLViewer = new CMS_KMLViewer(this, this.getWwd());
+            menuBar.add(cmsKMLViewer);
            
             
             this.cmsPlaceNamesMenu.setWwd(this.wwd); //sets window for place names   
             this.apollo.setWwd(this.wwd); //sets window for apollo annotations
+            this.cmsKMLViewer.setWwd(this.wwd);
         }
     }
  }
