@@ -223,7 +223,7 @@ public class MeasureTool extends AVListImpl implements Disposable {
         }
         this.wwd = wwd;
         this.applicationLayer = applicationLayer; // can be null
-
+        
         // Set up layers
         this.layer = createCustomRenderableLayer();
         this.shapeLayer = createCustomRenderableLayer();
@@ -1895,6 +1895,7 @@ public class MeasureTool extends AVListImpl implements Disposable {
         this.controlPoints.clear();
 //        this.controlPointsLayer.removeAllRenderables(); // TODO: why commented out? Are annotations being disposed?
     }
+
 
     // *** Control points ***
     public static class ControlPoint extends GlobeAnnotation {
