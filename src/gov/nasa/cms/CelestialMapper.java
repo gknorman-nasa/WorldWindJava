@@ -6,14 +6,10 @@
 package gov.nasa.cms;
 
 import gov.nasa.cms.features.CMSProfile;
-import gov.nasa.cms.features.CMSLayerManager;
+import gov.nasa.cms.features.LayerManagerLayer;
 import gov.nasa.cms.features.MeasureDialog;
+import gov.nasa.cms.features.MoonElevationModel;
 import gov.nasa.worldwind.WorldWindow;
-import gov.nasa.worldwind.geom.*;
-import gov.nasa.worldwind.globes.Globe;
-import gov.nasa.worldwind.layers.*;
-import gov.nasa.worldwind.terrain.LocalElevationModel;
-import gov.nasa.worldwindx.examples.util.ExampleUtil;
 import gov.nasa.worldwind.util.measure.MeasureTool;
 import javax.swing.*;
 import java.awt.*;
@@ -44,81 +40,32 @@ public class CelestialMapper
     {
 
         ActionListener controller;
-        protected RenderableLayer airspaceLayer;
         private CMSPlaceNamesMenu cmsPlaceNamesMenu;
         private WorldWindow wwd;
         private MeasureDialog measureDialog;
         private Apollo apollo;
         private CMSProfile profile;
         private MeasureTool measureTool;
-
-        public AppFrame()
-        {
+        private MoonElevationModel elevationModel;
+        private CMSStereo stereo;
+        
+        public AppFrame() 
+        { 
             super(true, false, false); // disable layer menu and statisics panel for AppFrame
-            getWwd().getModel().getLayers().add(new CMSLayerManager(getWwd())); // add layer box UI
-
+            getWwd().getModel().getLayers().add(new LayerManagerLayer(getWwd())); // add layer box UI
+                        
             // Wait for the elevation to import            
-            this.setCursor(new Cursor(Cursor.WAIT_CURSOR));
+            // Import the lunar elevation data from a Local Elevation Model
+            elevationModel = new MoonElevationModel(this.getWwd());
 
-            // Import the elevation model on a new thread to avoid freezing the UI
-            Thread em = new Thread(new Runnable()
-            {
-                public void run()
-                {
-                    importElevations();
-                    setCursor(Cursor.getDefaultCursor());
-                }
-            });
-            em.start(); // Load the elevation model   
-            makeMenuBar(this, this.controller); // Make the menu bar
-
+            // Make the menu bar
+            makeMenuBar(this, this.controller); 
         }
-
-        // Creates a local elevation model from ELEVATIONS_PATH and sets the view
-        protected void importElevations()
-        {
-            try
-            {
-                // Download the data and save it in a temp file.
-                File sourceFile = ExampleUtil.saveResourceToTempFile(ELEVATIONS_PATH, ".tif");
-
-                // Create a local elevation model from the data.
-                final LocalElevationModel elevationModel = new LocalElevationModel();
-                elevationModel.addElevations(sourceFile);
-
-                SwingUtilities.invokeLater(new Runnable()
-                {
-                    public void run()
-                    {
-                        // Get current model
-                        Globe globe = AppFrame.this.getWwd().getModel().getGlobe();
-                        globe.setElevationModel(elevationModel);
-
-                        // Set the view to look at the imported elevations
-                        Sector modelSector = elevationModel.getSector();
-                        ExampleUtil.goTo(getWwd(), modelSector);
-                    }
-                });
-            } catch (Exception e)
-            {
-                e.printStackTrace();
-            }
-        }
-
+        
         // Menu bar creation
         public void makeMenuBar(JFrame frame, final ActionListener controller)
         {
             JMenuBar menuBar = new JMenuBar();
-
-            //======== "File" ========   
-            JMenu menu = new JMenu("File");
-            {
-                JMenuItem item = new JMenuItem("Import Imagery");
-                item.setActionCommand(OPEN_URL);
-                item.addActionListener(controller);
-                menu.add(item);
-            }
-            menuBar.add(menu);
 
             //======== "CMS Place Names" ========          
             cmsPlaceNamesMenu = new CMSPlaceNamesMenu(this, this.getWwd());
@@ -160,11 +107,15 @@ public class CelestialMapper
             menuBar.add(tools);
 
             //======== "View" ========           
-            menu = new JMenu("View");
+            JMenu menu = new JMenu("View");
             {
                 // Apollo menu item
                 apollo = new Apollo(this, this.getWwd());
                 menu.add(apollo);
+                
+                // Stereo menu item
+                stereo = new CMSStereo(this, this.getWwd());
+                menu.add(stereo);
             }
             menuBar.add(menu);
             frame.setJMenuBar(menuBar);
@@ -172,6 +123,8 @@ public class CelestialMapper
             this.cmsPlaceNamesMenu.setWwd(this.wwd); //sets window for place names   
             this.apollo.setWwd(this.wwd); //sets window for apollo annotations
             this.profile.setWwd(this.wwd); // sets the window for terrain profiler
+            this.elevationModel.setWwd(this.wwd); // sets the window for terrain profiler
+            this.stereo.setWwd(this.wwd);
         }
     }
 }

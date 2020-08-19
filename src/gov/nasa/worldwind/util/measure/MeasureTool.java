@@ -223,7 +223,7 @@ public class MeasureTool extends AVListImpl implements Disposable {
         }
         this.wwd = wwd;
         this.applicationLayer = applicationLayer; // can be null
-
+        
         // Set up layers
         this.layer = createCustomRenderableLayer();
         this.shapeLayer = createCustomRenderableLayer();
@@ -273,14 +273,14 @@ public class MeasureTool extends AVListImpl implements Disposable {
         // Annotation attributes
         this.setInitialLabels();
         this.annotationAttributes = new AnnotationAttributes();
-        this.annotationAttributes.setFrameShape(AVKey.SHAPE_NONE);
-        this.annotationAttributes.setInsets(new Insets(0, 0, 0, 0));
+        this.annotationAttributes.setFrameShape(AVKey.SHAPE_RECTANGLE);
+        this.annotationAttributes.setInsets(new Insets(10, 10, 10, 10));
         this.annotationAttributes.setDrawOffset(new Point(0, 10));
         this.annotationAttributes.setTextAlign(AVKey.CENTER);
         this.annotationAttributes.setEffect(AVKey.TEXT_EFFECT_OUTLINE);
         this.annotationAttributes.setFont(Font.decode("Arial-Bold-14"));
         this.annotationAttributes.setTextColor(Color.WHITE);
-        this.annotationAttributes.setBackgroundColor(Color.BLACK);
+        this.annotationAttributes.setBackgroundColor(new Color(0, 0, 0, 180));   
         this.annotationAttributes.setSize(new Dimension(220, 0));
         this.annotation = new ScreenAnnotation("", new Point(0, 0), this.annotationAttributes);
         this.annotation.getAttributes().setVisible(false);
@@ -1884,7 +1884,7 @@ public class MeasureTool extends AVListImpl implements Disposable {
 
     @Override
     public void dispose() {
-        this.setController(null);
+      //  this.setController(null);
         if (this.applicationLayer != null) {
             this.applicationLayer.removeRenderable(this.layer);
         } else {
@@ -1895,6 +1895,7 @@ public class MeasureTool extends AVListImpl implements Disposable {
         this.controlPoints.clear();
 //        this.controlPointsLayer.removeAllRenderables(); // TODO: why commented out? Are annotations being disposed?
     }
+
 
     // *** Control points ***
     public static class ControlPoint extends GlobeAnnotation {

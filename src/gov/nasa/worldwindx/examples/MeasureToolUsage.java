@@ -9,7 +9,7 @@ import gov.nasa.worldwind.*;
 import gov.nasa.worldwind.geom.LatLon;
 import gov.nasa.worldwind.layers.TerrainProfileLayer;
 import gov.nasa.worldwind.util.measure.*;
-import gov.nasa.cms.features.CMSLayerManager;
+import gov.nasa.cms.features.LayerManagerLayer;
 
 import javax.swing.*;
 import javax.swing.event.*;
@@ -40,7 +40,7 @@ public class MeasureToolUsage extends ApplicationTemplate {
 
         public AppFrame() {
             super(true, false, false); // disable layer menu and statisics panel for AppFrame
-            getWwd().getModel().getLayers().add(new CMSLayerManager(getWwd())); // add layer box UI
+            getWwd().getModel().getLayers().add(new LayerManagerLayer(getWwd())); // add layer box UI
             
 
             // Add measure tool control panel to tabbed pane

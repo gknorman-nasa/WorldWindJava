@@ -24,7 +24,7 @@ import java.awt.*;
  * @author Patrick Murris
  * @version $Id: CMSLayerManager.java 1171 2013-02-11 21:45:02Z dcollins $
  */
-public class CMSLayerManager extends RenderableLayer implements SelectListener
+public class LayerManagerLayer extends RenderableLayer implements SelectListener
 {
     protected WorldWindow wwd;
     protected boolean update = true;
@@ -56,7 +56,7 @@ public class CMSLayerManager extends RenderableLayer implements SelectListener
     protected int dragRefIndex = -1;
     protected Color dragColor = Color.RED;
 
-    public CMSLayerManager(WorldWindow wwd)
+    public LayerManagerLayer(WorldWindow wwd)
     {
         if (wwd == null)
         {

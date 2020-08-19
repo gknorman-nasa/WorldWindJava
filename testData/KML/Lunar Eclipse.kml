@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<kml xmlns="http://earth.google.com/kml/2.0">
+        <GroundOverlay>
+            <name>Eclipse 1</name>
+            <Icon><href>https://storage.googleapis.com/mrpiercey/Lunar%20Eclipse/Lunar_Eclipse001.jpg</href></Icon>
+                <LatLonBox id="khLatLonBox1221909rgb_T_3600x1800_-167772161.0.KMZ">
+                 <north>90.0</north>
+                 <east>180.0</east>
+                 <south>-90.0</south>
+                 <west>-180.0</west>
+            </LatLonBox>
+        </GroundOverlay>
+        <GroundOverlay>
+            <name>Eclipse 5</name>
+            <Icon><href>https://storage.googleapis.com/mrpiercey/Lunar%20Eclipse/Lunar_Eclipse005.jpg</href></Icon>
+                <LatLonBox id="khLatLonBox1221909rgb_T_3600x1800_-167772161.0.KMZ">
+                 <north>90.0</north>
+                 <east>180.0</east>
+                 <south>-90.0</south>
+                 <west>-180.0</west>
+            </LatLonBox>
+        </GroundOverlay>
+        <GroundOverlay>
+            <name>Eclipse 10</name>
+            <Icon><href>https://storage.googleapis.com/mrpiercey/Lunar%20Eclipse/Lunar_Eclipse010.jpg</href></Icon>
+                <LatLonBox id="khLatLonBox1221909rgb_T_3600x1800_-167772161.0.KMZ">
+                 <north>90.0</north>
+                 <east>180.0</east>
+                 <south>-90.0</south>
+                 <west>-180.0</west>
+            </LatLonBox>
+        </GroundOverlay>
+                <GroundOverlay>
+            <name>Eclipse 15</name>
+            <Icon><href>https://storage.googleapis.com/mrpiercey/Lunar%20Eclipse/Lunar_Eclipse015.jpg</href></Icon>
+                <LatLonBox id="khLatLonBox1221909rgb_T_3600x1800_-167772161.0.KMZ">
+                 <north>90.0</north>
+                 <east>180.0</east>
+                 <south>-90.0</south>
+                 <west>-180.0</west>
+            </LatLonBox>
+        </GroundOverlay>
+                <GroundOverlay>
+            <name>Eclipse 20</name>
+            <Icon><href>https://storage.googleapis.com/mrpiercey/Lunar%20Eclipse/Lunar_Eclipse020.jpg</href></Icon>
+                <LatLonBox id="khLatLonBox1221909rgb_T_3600x1800_-167772161.0.KMZ">
+                 <north>90.0</north>
+                 <east>180.0</east>
+                 <south>-90.0</south>
+                 <west>-180.0</west>
+            </LatLonBox>
+        </GroundOverlay>
+                <GroundOverlay>
+            <name>Eclipse 25</name>
+            <Icon><href>https://storage.googleapis.com/mrpiercey/Lunar%20Eclipse/Lunar_Eclipse025.jpg</href></Icon>
+                <LatLonBox id="khLatLonBox1221909rgb_T_3600x1800_-167772161.0.KMZ">
+                 <north>90.0</north>
+                 <east>180.0</east>
+                 <south>-90.0</south>
+                 <west>-180.0</west>
+            </LatLonBox>
+        </GroundOverlay>
+                <GroundOverlay>
+            <name>Eclipse 30</name>
+            <Icon><href>https://storage.googleapis.com/mrpiercey/Lunar%20Eclipse/Lunar_Eclipse030.jpg</href></Icon>
+                <LatLonBox id="khLatLonBox1221909rgb_T_3600x1800_-167772161.0.KMZ">
+                 <north>90.0</north>
+                 <east>180.0</east>
+                 <south>-90.0</south>
+                 <west>-180.0</west>
+            </LatLonBox>
+        </GroundOverlay>
+                <GroundOverlay>
+            <name>Eclipse 35</name>
+            <Icon><href>https://storage.googleapis.com/mrpiercey/Lunar%20Eclipse/Lunar_Eclipse035.jpg</href></Icon>
+                <LatLonBox id="khLatLonBox1221909rgb_T_3600x1800_-167772161.0.KMZ">
+                 <north>90.0</north>
+                 <east>180.0</east>
+                 <south>-90.0</south>
+                 <west>-180.0</west>
+            </LatLonBox>
+        </GroundOverlay>
+                <GroundOverlay>
+            <name>Eclipse 40</name>
+            <Icon><href>https://storage.googleapis.com/mrpiercey/Lunar%20Eclipse/Lunar_Eclipse040.jpg</href></Icon>
+                <LatLonBox id="khLatLonBox1221909rgb_T_3600x1800_-167772161.0.KMZ">
+                 <north>90.0</north>
+                 <east>180.0</east>
+                 <south>-90.0</south>
+                 <west>-180.0</west>
+            </LatLonBox>
+        </GroundOverlay>
+                <GroundOverlay>
+            <name>Eclipse 45</name>
+            <Icon><href>https://storage.googleapis.com/mrpiercey/Lunar%20Eclipse/Lunar_Eclipse045.jpg</href></Icon>
+                <LatLonBox id="khLatLonBox1221909rgb_T_3600x1800_-167772161.0.KMZ">
+                 <north>90.0</north>
+                 <east>180.0</east>
+                 <south>-90.0</south>
+                 <west>-180.0</west>
+            </LatLonBox>
+        </GroundOverlay>
+                <GroundOverlay>
+            <name>Eclipse 50</name>
+            <Icon><href>https://storage.googleapis.com/mrpiercey/Lunar%20Eclipse/Lunar_Eclipse050.jpg</href></Icon>
+                <LatLonBox id="khLatLonBox1221909rgb_T_3600x1800_-167772161.0.KMZ">
+                 <north>90.0</north>
+                 <east>180.0</east>
+                 <south>-90.0</south>
+                 <west>-180.0</west>
+            </LatLonBox>
+        </GroundOverlay>
+                <GroundOverlay>
+            <name>Eclipse 55</name>
+            <Icon><href>https://storage.googleapis.com/mrpiercey/Lunar%20Eclipse/Lunar_Eclipse055.jpg</href></Icon>
+                <LatLonBox id="khLatLonBox1221909rgb_T_3600x1800_-167772161.0.KMZ">
+                 <north>90.0</north>
+                 <east>180.0</east>
+                 <south>-90.0</south>
+                 <west>-180.0</west>
+            </LatLonBox>
+        </GroundOverlay>
+                <GroundOverlay>
+            <name>Eclipse 60</name>
+            <Icon><href>https://storage.googleapis.com/mrpiercey/Lunar%20Eclipse/Lunar_Eclipse060.jpg</href></Icon>
+                <LatLonBox id="khLatLonBox1221909rgb_T_3600x1800_-167772161.0.KMZ">
+                 <north>90.0</north>
+                 <east>180.0</east>
+                 <south>-90.0</south>
+                 <west>-180.0</west>
+            </LatLonBox>
+</kml>
