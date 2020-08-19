@@ -22,6 +22,6 @@ public class LOLAColor extends WMSTiledImageLayer
 
     protected static Document getConfigurationDocument()
     {
-        return WWXML.openDocumentFile("config/Moon/LOLAColor.xml", null);
+        return WWXML.openDocumentFile("gov/nasa/cms/config/Moon/LOLAColor.xml", null);
     }
 }
