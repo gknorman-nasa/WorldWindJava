@@ -2,7 +2,6 @@ package gov.nasa.cms.features;
 
 import gov.nasa.worldwind.WorldWindow;
 import gov.nasa.worldwind.geom.LatLon;
-import gov.nasa.worldwind.layers.RenderableLayer;
 import gov.nasa.worldwind.layers.TerrainProfileLayer;
 import gov.nasa.worldwind.util.measure.MeasureTool;
 import gov.nasa.worldwind.util.measure.MeasureToolController;
@@ -13,6 +12,7 @@ import java.awt.event.ActionListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComponent;
 import javax.swing.JDialog;
@@ -38,11 +38,7 @@ public class MeasureDialog
     private final PropertyChangeListener measureToolListener = new MeasureToolListener();
     private int lastTabIndex = -1;
     WorldWindow wwdObject;
-    String FEATURE_OWNER_PROPERTY = "gov.nasa.worldwindx.applications.worldwindow.FeatureOwnerProperty";
-    private RenderableLayer shapeLayer;
-    private RenderableLayer controlPointsLayer;
-    private static final String LAYER_NAME = "Measure Tool";
-    
+   
     public MeasureDialog(WorldWindow wwdObject, MeasureTool measureToolObject, Component component)
     {
         
@@ -62,7 +58,10 @@ public class MeasureDialog
             {
                 // Add new measure tool in a tab when '+' selected
                 MeasureTool measureTool = new MeasureTool(wwdObject);
+                
                 measureTool.setController(new MeasureToolController());
+                
+                tabbedPane.setOpaque(false);
                 tabbedPane.add(new CMSMeasurePanel(wwdObject, measureTool));
                 tabbedPane.setTitleAt(tabbedPane.getTabCount() - 1, "" + (tabbedPane.getTabCount() - 1));
                 tabbedPane.setSelectedIndex(tabbedPane.getTabCount() - 1);
@@ -72,29 +71,15 @@ public class MeasureDialog
                 switchMeasureTool();
             }
         });
-  
-//        JButton deleteButton = new JButton ("Remove Current Measurement");
-//        deleteButton.setOpaque(false);
-//        deleteButton.setBackground(new Color(0, 0, 0, 0));
-//        deleteButton.setBorderPainted(false);
-//        deleteButton.addActionListener(new ActionListener()
-//        {
-//            public void actionPerformed(ActionEvent e)
-//            {
-//                CMSMeasurePanel measurePanel = getCurrentPanel();
-//                tabbedPane.remove(tabbedPane.getSelectedComponent());
-//            }
-//        });
-        //deleteButton.setEnabled(true);     // do i need this with add ?? it shows up either way 
         
         // Add measure tool control panel to tabbed pane
         final MeasureTool measureTool = new MeasureTool(wwdObject);
-        measureTool.setController(new MeasureToolController());
         
+        measureTool.setController(new MeasureToolController());     
         CMSMeasurePanel measurePanel = new CMSMeasurePanel(wwdObject, measureTool);
-      //  measurePanel.add(deleteButton);
         
         tabbedPane.add(measurePanel);
+        tabbedPane.setOpaque(false);
         tabbedPane.setTitleAt(1, "1");
         tabbedPane.setSelectedIndex(1);
         tabbedPane.setToolTipTextAt(0, "Create measurement");
@@ -110,15 +95,50 @@ public class MeasureDialog
         dialog.setResizable(false);
         // Add the tabbedPane to the dialog
         dialog.getContentPane().add(tabbedPane, BorderLayout.CENTER);
+
+        
+//        JButton deleteButton = new JButton(
+//            new ImageIcon(
+//                this.getClass().getResource("/gov/nasa/worldwindx/applications/worldwindow/images/delete-20x20.png")));
+//        deleteButton.setToolTipText("Remove current measurement");
+//        deleteButton.setOpaque(false);
+//        deleteButton.setBackground(new Color(0, 0, 0, 0));
+//        deleteButton.setBorderPainted(false);
+//        deleteButton.addActionListener(new ActionListener()
+//        {
+//            public void actionPerformed(ActionEvent e)
+//            {
+//                deleteCurrentPanel();
+//                measureTool.getWwd().redraw();
+//            }
+//        });
+//        deleteButton.setEnabled(true);
+//        dialog.getContentPane().add(deleteButton, BorderLayout.SOUTH);
+        
         dialog.pack();
     }
 
+    private void deleteCurrentPanel()
+    {
+        CMSMeasurePanel mp = getCurrentPanel();
+        if (tabbedPane.getTabCount() > 2)
+        {
+            mp.deletePanel();
+            tabbedPane.remove(tabbedPane.getSelectedComponent());
+        }
+        else
+        {
+            mp.clearPanel();
+        }
+    }
+    
+    // Get the current tabbedPane (this function is working)
     private CMSMeasurePanel getCurrentPanel()
     {
         JComponent p = (JComponent) tabbedPane.getSelectedComponent();
-        return (CMSMeasurePanel) p.getClientProperty(FEATURE_OWNER_PROPERTY);
+        return (CMSMeasurePanel) p;
     }
-        
+    
     public void setVisible(boolean visible)
     {
         dialog.setVisible(visible);

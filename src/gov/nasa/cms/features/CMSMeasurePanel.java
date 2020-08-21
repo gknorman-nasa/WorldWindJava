@@ -10,6 +10,7 @@ import gov.nasa.worldwind.WorldWindow;
 import gov.nasa.worldwind.avlist.AVKey;
 import gov.nasa.worldwind.geom.*;
 import gov.nasa.worldwind.layers.Layer;
+import gov.nasa.worldwind.layers.RenderableLayer;
 import gov.nasa.worldwind.util.UnitsFormat;
 import gov.nasa.worldwind.util.measure.MeasureTool;
 
@@ -19,6 +20,8 @@ import java.awt.*;
 import java.awt.event.*;
 import java.beans.*;
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * Measure Tool Control panel for MeasureDialog.java
@@ -30,7 +33,8 @@ public class CMSMeasurePanel extends JPanel
 {
 
     private WorldWindow wwd;
-    private final MeasureTool measureTool;
+    private MeasureTool measureTool;
+    private PropertyChangeListener measureToolListener;
 
     private JComboBox shapeCombo;
     private JComboBox pathTypeCombo;
@@ -76,32 +80,30 @@ public class CMSMeasurePanel extends JPanel
         super(new BorderLayout());
         this.wwd = wwdObject;
         this.measureTool = measureToolObject;
-        this.makePanel(new Dimension(200, 300));
+        
+        JPanel mainPanel = new JPanel();
+        mainPanel.setOpaque(false);
+        this.makePanel(mainPanel);
 
         // Always follow the terrain
         measureTool.setFollowTerrain(true);
 
         // Handle measure tool events
-        measureTool.addPropertyChangeListener((PropertyChangeEvent event) ->
-        {
+        measureTool.addPropertyChangeListener((PropertyChangeEvent event) -> {
             // Add, remove or change positions
             if (event.getPropertyName().equals(MeasureTool.EVENT_POSITION_ADD)
                     || event.getPropertyName().equals(MeasureTool.EVENT_POSITION_REMOVE)
-                    || event.getPropertyName().equals(MeasureTool.EVENT_POSITION_REPLACE))
-            {
+                    || event.getPropertyName().equals(MeasureTool.EVENT_POSITION_REPLACE)) {
                 fillPointsPanel();    // Update position list when changed
             } // The tool was armed / disarmed
-            else if (event.getPropertyName().equals(MeasureTool.EVENT_ARMED))
-            {
-                if (measureTool.isArmed())
-                {
+            else if (event.getPropertyName().equals(MeasureTool.EVENT_ARMED)) {
+                if (measureTool.isArmed()) {
                     newButton.setEnabled(false);
                     pauseButton.setText("Pause");
                     pauseButton.setEnabled(true);
                     endButton.setEnabled(true);
                     ((Component) wwd).setCursor(Cursor.getPredefinedCursor(Cursor.CROSSHAIR_CURSOR));
-                } else
-                {
+                } else {
                     newButton.setEnabled(true);
                     pauseButton.setText("Pause");
                     pauseButton.setEnabled(false);
@@ -110,19 +112,13 @@ public class CMSMeasurePanel extends JPanel
                 }
 
             } // Metric changed - sent after each render frame
-            else if (event.getPropertyName().equals(MeasureTool.EVENT_METRIC_CHANGED))
-            {
+            else if (event.getPropertyName().equals(MeasureTool.EVENT_METRIC_CHANGED)) {
                 updateMetric();
             }
         });
     }
 
-    public MeasureTool getMeasureTool()
-    {
-        return this.measureTool;
-    }
-
-    private void makePanel(Dimension size)
+    private void makePanel(JPanel panel)
     {
 
         //======== Measurement Panel ========  
@@ -347,6 +343,7 @@ public class CMSMeasurePanel extends JPanel
         {
             measureTool.clear();
             measureTool.setArmed(true);
+
         });
         buttonPanel.add(newButton);
         newButton.setEnabled(true);
@@ -371,16 +368,17 @@ public class CMSMeasurePanel extends JPanel
         buttonPanel.add(endButton);
         endButton.setEnabled(false);
 
-        deleteButton = new JButton("Delete");
-        deleteButton.addActionListener((ActionEvent actionEvent) ->
-        {
-            // Remove all shapes and control points
-            measureTool.clear();
-            // Remove measure tool layers from the WorldWindow
-            deletePanel();
-        });
-        buttonPanel.add(deleteButton);
-        deleteButton.setEnabled(true);
+        // In process feature
+//        deleteButton = new JButton("Clear");
+//        deleteButton.addActionListener((ActionEvent actionEvent) ->
+//        {
+//            // Remove all shapes and control points from the AppFrame
+//            measureTool.clear();
+//            // Remove Measure Tool layers from the WorldWindow
+//           // deletePanel();
+//        });
+//        buttonPanel.add(deleteButton);
+//        deleteButton.setEnabled(true);
 
         //======== Point Labels ========   
         JPanel pointPanel = new JPanel();
@@ -457,7 +455,6 @@ public class CMSMeasurePanel extends JPanel
         }
 
     }
-
     // Updates the labels when the metric has changed
     private void updateMetric()
     {
@@ -546,6 +543,11 @@ public class CMSMeasurePanel extends JPanel
         this.disposeCurrentMeasureTool();
     }
 
+     public void clearPanel()
+    {
+        this.disposeCurrentMeasureTool();
+        this.shapeCombo.setSelectedItem(LINE);
+    }
     protected void disposeCurrentMeasureTool()
     {
         if (this.measureTool == null)
@@ -553,7 +555,15 @@ public class CMSMeasurePanel extends JPanel
             return;
         }
         this.measureTool.dispose();
+      //  this.measureTool = null;
     }
+   
+    public MeasureTool getMeasureTool()
+    {
+        return this.measureTool;
+    }
+    
+    
 
     public WorldWindow getWwd()
     {

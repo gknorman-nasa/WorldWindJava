@@ -67,16 +67,6 @@ public class CelestialMapper
         {
             JMenuBar menuBar = new JMenuBar();
 
-            //======== "File" ========   
-            JMenu menu = new JMenu("File");
-            {
-                JMenuItem item = new JMenuItem("Import Imagery");
-                item.setActionCommand(OPEN_URL);
-                item.addActionListener(controller);
-                menu.add(item);
-            }
-            menuBar.add(menu);
-
             //======== "CMS Place Names" ========          
             cmsPlaceNamesMenu = new CMSPlaceNamesMenu(this, this.getWwd());
             menuBar.add(cmsPlaceNamesMenu);
@@ -117,7 +107,7 @@ public class CelestialMapper
             menuBar.add(tools);
 
             //======== "View" ========           
-            menu = new JMenu("View");
+            JMenu menu = new JMenu("View");
             {
                 // Apollo menu item
                 apollo = new Apollo(this, this.getWwd());
