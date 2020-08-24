@@ -11,11 +11,9 @@ import gov.nasa.worldwind.avlist.AVKey;
 import gov.nasa.worldwind.event.*;
 import gov.nasa.worldwind.geom.*;
 import gov.nasa.worldwind.layers.*;
-import gov.nasa.worldwind.layers.Earth.BMNGOneImage;
 import gov.nasa.worldwind.pick.*;
 import gov.nasa.worldwind.render.*;
 import gov.nasa.worldwind.util.*;
-import gov.nasa.worldwindx.applications.sar.ViewMenu;
 import gov.nasa.worldwindx.examples.util.PowerOfTwoPaddedImage;
 
 import static gov.nasa.worldwindx.examples.ApplicationTemplate.insertBeforeCompass;
@@ -48,7 +46,13 @@ public class Apollo extends JCheckBoxMenuItem
     private Color savedBorderColor;
     private BufferedImage savedImage;
     private Annotation lastPickedObject;
-    LayerList layerList;
+    private LayerList layerList;
+    private Layer apollo11;
+    private Layer apollo12;
+    private Layer apollo14;
+    private Layer apollo15;
+    private Layer apollo16;
+    private Layer apollo17;
     
     private final static PowerOfTwoPaddedImage APOLLO11
             = PowerOfTwoPaddedImage.fromPath("images/Apollo11.jpg");
@@ -149,14 +153,36 @@ public class Apollo extends JCheckBoxMenuItem
         //Add Apollo Minimal to layer list panel
         insertBeforeCompass(this.getWwd(), layer);
 
+        /**
+         * ***** Apollo Landing Site WMS Layers *********
+         */
         this.layerList = new LayerList();
-        //layerList = getWwd().getModel().getLayers();
-        layerName = "Apollo Layers";
-        layerList.setDisplayName(layerName);
+        layerList = getWwd().getModel().getLayers(); // Retrive the layer list before adding the layers
         Factory factory = (Factory) WorldWind.createConfigurationComponent(AVKey.LAYER_FACTORY);
-        Layer layer = (Layer) factory.createFromConfigSource("gov/nasa/cms/config/Apollo/Apollo15.xml", null);
-        layer.setEnabled(true);
-        layerList.add(layer);
+        
+        // Load the Apollo images from their XML configuration files
+        apollo11 = (Layer) factory.createFromConfigSource("gov/nasa/cms/config/apollo/Apollo11.xml", null);
+        apollo12 = (Layer) factory.createFromConfigSource("gov/nasa/cms/config/apollo/Apollo12.xml", null);
+        apollo14 = (Layer) factory.createFromConfigSource("gov/nasa/cms/config/apollo/Apollo14.xml", null);
+        apollo15 = (Layer) factory.createFromConfigSource("gov/nasa/cms/config/apollo/Apollo15.xml", null);
+        apollo16 = (Layer) factory.createFromConfigSource("gov/nasa/cms/config/apollo/Apollo16.xml", null);
+        apollo17 = (Layer) factory.createFromConfigSource("gov/nasa/cms/config/apollo/Apollo17.xml", null);     
+        
+        // Enable the layers to be displayed in the layer panel
+        apollo11.setEnabled(true);
+        apollo12.setEnabled(true);
+        apollo14.setEnabled(true);
+        apollo15.setEnabled(true);       
+        apollo16.setEnabled(true);       
+        apollo17.setEnabled(true);
+ 
+        // Add the Apollo image layers to the LayerList
+        layerList.add(apollo11);
+        layerList.add(apollo12);
+        layerList.add(apollo14);
+        layerList.add(apollo15);
+        layerList.add(apollo16);
+        layerList.add(apollo17); 
     }
 
     public GlobeAnnotation makeTopImageBottomTextAnnotation(PowerOfTwoPaddedImage image, String text,
@@ -312,13 +338,11 @@ public class Apollo extends JCheckBoxMenuItem
                     setupAnnotations();
                     setupSelection();
                     
-
-                    
                 } else
                 {
                     String[] ApolloLayers =
                     {
-                        "Apollo Minimal", "Apollo Logo"
+                        "Apollo Minimal", "Apollo Logo", "Apollo 11", "Apollo 12", "Apollo 14", "Apollo 15", "Apollo 16", "Apollo 17"
                     };
                     for (String layer : ApolloLayers)
                     {
