@@ -44,7 +44,7 @@ public class SurfaceImageViewer extends ApplicationTemplate
         private JSlider opacitySlider;
         private SurfaceImageLayer layer;
         private JLabel statusLabel = new JLabel("status: ready");
-
+    protected static final String IMAGE_PATH = "gov/nasa/cms/data/Apollo15.tif";
         public AppFrame()
         {
             super(true, true, false);
@@ -57,7 +57,8 @@ public class SurfaceImageViewer extends ApplicationTemplate
                 this.layer.setName("Surface Images");
 
                 insertBeforeCompass(this.getWwd(), layer);
-
+//layer.addImage(IMAGE_PATH);
+//getWwd().redraw();
                 this.getControlPanel().add(makeControlPanel(), BorderLayout.SOUTH);
             }
             catch (Exception e)

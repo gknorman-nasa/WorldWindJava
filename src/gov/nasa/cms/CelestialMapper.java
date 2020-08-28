@@ -5,6 +5,7 @@
  */
 package gov.nasa.cms;
 
+import gov.nasa.cms.features.Apollo;
 import gov.nasa.cms.features.CMSProfile;
 import gov.nasa.cms.features.LayerManagerLayer;
 import gov.nasa.cms.features.MeasureDialog;
@@ -44,6 +45,7 @@ public class CelestialMapper
         private WorldWindow wwd;
         private MeasureDialog measureDialog;
         private Apollo apollo;
+        private ApolloMenu apolloMenu;
         private CMSProfile profile;
         private MeasureTool measureTool;
         private MoonElevationModel elevationModel;
@@ -108,20 +110,19 @@ public class CelestialMapper
 
             //======== "View" ========           
             JMenu menu = new JMenu("View");
-            {
-                // Apollo menu item
-                apollo = new Apollo(this, this.getWwd());
-                menu.add(apollo);
-                
+            {                
                 // Stereo menu item
                 stereo = new CMSStereo(this, this.getWwd());
                 menu.add(stereo);
+
             }
             menuBar.add(menu);
+            
+            apolloMenu = new ApolloMenu(this, this.getWwd());
+            menuBar.add(apolloMenu);
             frame.setJMenuBar(menuBar);
 
             this.cmsPlaceNamesMenu.setWwd(this.wwd); //sets window for place names   
-            this.apollo.setWwd(this.wwd); //sets window for apollo annotations
             this.profile.setWwd(this.wwd); // sets the window for terrain profiler
             this.elevationModel.setWwd(this.wwd); // sets the window for terrain profiler
             this.stereo.setWwd(this.wwd);

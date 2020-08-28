@@ -3,9 +3,8 @@
  * National Aeronautics and Space Administration.
  * All Rights Reserved.
  */
-package gov.nasa.cms;
+package gov.nasa.cms.features;
 
-import gov.nasa.cms.CelestialMapper.AppFrame;
 import gov.nasa.worldwind.*;
 import gov.nasa.worldwind.avlist.AVKey;
 import gov.nasa.worldwind.event.*;
@@ -152,37 +151,6 @@ public class Apollo extends JCheckBoxMenuItem
 
         //Add Apollo Minimal to layer list panel
         insertBeforeCompass(this.getWwd(), layer);
-
-        /**
-         * ***** Apollo Landing Site WMS Layers *********
-         */
-        this.layerList = new LayerList();
-        layerList = getWwd().getModel().getLayers(); // Retrive the layer list before adding the layers
-        Factory factory = (Factory) WorldWind.createConfigurationComponent(AVKey.LAYER_FACTORY);
-        
-        // Load the Apollo images from their XML configuration files
-        apollo11 = (Layer) factory.createFromConfigSource("gov/nasa/cms/config/apollo/Apollo11.xml", null);
-        apollo12 = (Layer) factory.createFromConfigSource("gov/nasa/cms/config/apollo/Apollo12.xml", null);
-        apollo14 = (Layer) factory.createFromConfigSource("gov/nasa/cms/config/apollo/Apollo14.xml", null);
-        apollo15 = (Layer) factory.createFromConfigSource("gov/nasa/cms/config/apollo/Apollo15.xml", null);
-        apollo16 = (Layer) factory.createFromConfigSource("gov/nasa/cms/config/apollo/Apollo16.xml", null);
-        apollo17 = (Layer) factory.createFromConfigSource("gov/nasa/cms/config/apollo/Apollo17.xml", null);     
-        
-        // Enable the layers to be displayed in the layer panel
-        apollo11.setEnabled(true);
-        apollo12.setEnabled(true);
-        apollo14.setEnabled(true);
-        apollo15.setEnabled(true);       
-        apollo16.setEnabled(true);       
-        apollo17.setEnabled(true);
- 
-        // Add the Apollo image layers to the LayerList
-        layerList.add(apollo11);
-        layerList.add(apollo12);
-        layerList.add(apollo14);
-        layerList.add(apollo15);
-        layerList.add(apollo16);
-        layerList.add(apollo17); 
     }
 
     public GlobeAnnotation makeTopImageBottomTextAnnotation(PowerOfTwoPaddedImage image, String text,
@@ -321,9 +289,9 @@ public class Apollo extends JCheckBoxMenuItem
         }
     }
 
-    public Apollo(AppFrame cms, WorldWindow Wwd)
+    public Apollo(WorldWindow Wwd)
     {
-        super("Apollo");
+        super("Annotations");
 
         this.addActionListener(new ActionListener()
         {

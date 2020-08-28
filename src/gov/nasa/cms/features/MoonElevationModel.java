@@ -52,9 +52,7 @@ public class MoonElevationModel extends CelestialMapper
                             // Get the WorldWindow's current elevation model.
                             wwd.getModel().getGlobe().setElevationModel(elevationModel);
                             
-                            // Set the view to look at the imported elevations, although they might be hard to detect. To
-                            // make them easier to detect, replace the globe's CompoundElevationModel with the new elevation
-                            // model rather than adding it.
+                            // Set the view to look at the imported elevations
                             Sector modelSector = elevationModel.getSector();
                             ExampleUtil.goTo(wwd, modelSector);
                         }

@@ -5,7 +5,9 @@
  */
 package gov.nasa.worldwindx.examples.dataimport;
 
+import gov.nasa.cms.features.MoonElevationModel;
 import gov.nasa.worldwind.WorldWind;
+import gov.nasa.worldwind.WorldWindow;
 import gov.nasa.worldwind.avlist.*;
 import gov.nasa.worldwind.data.*;
 import gov.nasa.worldwind.geom.*;
@@ -29,12 +31,17 @@ import java.io.File;
 public class ImportImagery extends ApplicationTemplate
 {
     // The data to import.
-    protected static final String IMAGE_PATH = "gov/nasa/worldwindx/examples/data/NAC_ROI_APOLLO16LOA_E090S0155_20M.tif";
+    protected static final String IMAGE_PATH = "gov/nasa/cms/data/Apollo15.tif";
 
     public static class AppFrame extends ApplicationTemplate.AppFrame
     {
+            private MoonElevationModel elevationModel;
+                private WorldWindow wwd;
+
         public AppFrame()
         {
+          //  this.elevationModel.setWwd(this.wwd); // sets the window for terrain profiler
+            elevationModel = new MoonElevationModel(this.getWwd());
             // Show the WAIT cursor because the import may take a while.
             this.setCursor(new Cursor(Cursor.WAIT_CURSOR));
 
@@ -42,7 +49,7 @@ public class ImportImagery extends ApplicationTemplate
             Thread t = new Thread(new Runnable()
             {
                 public void run()
-                {
+                {                   
                     importImagery();
 
                     // Restore the cursor.

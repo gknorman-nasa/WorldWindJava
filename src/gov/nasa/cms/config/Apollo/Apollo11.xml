@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <Layer layerType="TiledImageLayer" version="1">
     <DisplayName>Apollo 11</DisplayName>
-    <DatasetName>luna_apollo_11_high_resolution_nac_mosaic</DatasetName>
+    <DatasetName>luna_apollo_11_roi</DatasetName>
     <DataCacheName>Moon/Apollo/Apollo11</DataCacheName>
     <Service serviceName="OGC:WMS" version="1.1.1">
-        <LayerNames>luna_apollo_11_high_resolution_nac_mosaic</LayerNames>
+        <LayerNames>luna_apollo_11_roi</LayerNames>
         <GetMapURL>http://webmap.lroc.asu.edu/?</GetMapURL>
         <GetCapabilitiesURL>http://webmap.lroc.asu.edu/?</GetCapabilitiesURL>
     </Service>
