@@ -19,7 +19,7 @@
     <!-- Main build targets. Provides generic targets that compile the Java sources, bundle JAR libraries, assemble API
          documentation, test the Java sources, and clean up the build output. -->
 
-    <target name="build" depends="assemble, test"
+    <target name="build" depends="assemble"
             description="Default build target. Assembles and tests this project."/>
 
     <target name="clean" description="Deletes the build directory.">
@@ -28,7 +28,7 @@
         <delete file="${basedir}/worldwindx.jar"/>
     </target>
 
-    <target name="assemble" depends="assembleDebug, assembleRelease, assembleJavadoc, assembleSdkArchive"
+    <target name="assemble" depends="assembleDebug, assembleRelease, assembleSdkArchive, assembleCMSArchive"
             description="Assembles JAR libraries for all build types and assembles the project documentation."/>
 
     <!-- Targets for compiling Java sources and bundling JAR libraries. -->
@@ -73,6 +73,7 @@
         <mkdir dir="${worldwind.jar.dir}/release"/>
         <bundleJarFiles srcdir="${worldwind.src.dir}" classdir="${worldwind.classes.dir}/release"
                         destdir="${worldwind.jar.dir}/release" debug="false"/>
+        <copy file="${worldwind.jar.dir}/release/cms.jar" tofile="${basedir}/cms.jar"/>
         <copy file="${worldwind.jar.dir}/release/worldwind.jar" tofile="${basedir}/worldwind.jar"/>
         <copy file="${worldwind.jar.dir}/release/worldwindx.jar" tofile="${basedir}/worldwindx.jar"/>
     </target>
@@ -136,6 +137,18 @@
         </zip>
     </target>
 
+    <target name="assembleCMSArchive" depends="assembleRelease">
+        <zip destfile="${worldwind.build.dir}/cms.zip">
+            <fileset dir="${basedir}">
+                <include name="*.jar"/>
+                <include name="run-cms.bat"/>
+                <include name="run-cms.sh"/>
+                <include name="testData/**"/>
+                <include name="lib-external/gdal/**"/>
+                <type type="file"/>
+            </fileset>
+        </zip>
+    </target>
     <!-- Targets for testing the project sources. -->
 
     <target name="test" depends="unitTest"

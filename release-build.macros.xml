@@ -63,6 +63,21 @@
         <attribute name="destdir"/>
         <attribute name="debug"/>
         <sequential>
+            <jar jarfile="@{destdir}/cms.jar">
+                <manifest>
+                    <attribute name="Permissions" value="all-permissions"/>
+                    <attribute name="Class-Path" value="worldwind.jar worldwindx.jar"/>
+                </manifest>
+                <fileset dir="@{classdir}">
+                    <include name="gov/nasa/cms/**/*.class"/>
+                    <type type="file"/>
+                </fileset>
+                <fileset dir="@{srcdir}">
+                    <include name="gov/nasa/cms/**/*.java" if="@{debug}"/>
+                    <include name="gov/nasa/cms/config/**"/>
+                    <type type="file"/>
+                </fileset>
+            </jar>
             <jar jarfile="@{destdir}/worldwind.jar">
                 <manifest>
                     <attribute name="Permissions" value="all-permissions"/>
