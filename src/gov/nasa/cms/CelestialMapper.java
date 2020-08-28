@@ -31,7 +31,7 @@ public class CelestialMapper
     protected static final String REMOVE_SELECTED = "CelestialMapper.RemoveSelected";
     protected static final String SAVE = "CelestialMapper.Save";
     protected static final String SELECTION_CHANGED = "CelestialMapper.SelectionChanged";
-    protected static final String ELEVATIONS_PATH = "testData/lunar-dem.tif";
+//    protected static final String ELEVATIONS_PATH = "testData/lunar-dem.tif";
 
     //**************************************************************//
     //********************  Main  **********************************//
