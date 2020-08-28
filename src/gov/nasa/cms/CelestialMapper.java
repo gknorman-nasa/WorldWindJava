@@ -45,6 +45,8 @@ public class CelestialMapper
         private Apollo apollo;
         private CMSStereo stereo;
         
+        
+        
         public AppFrame() 
         { 
             super(true, false, false); // disable layer menu and statisics panel for AppFrame
@@ -52,6 +54,7 @@ public class CelestialMapper
                         
             // Wait for the elevation to import            
             this.setCursor(new Cursor(Cursor.WAIT_CURSOR));
+            
             
             // Import the elevation model on a new thread to avoid freezing the UI
             Thread em = new Thread(new Runnable()
@@ -100,7 +103,9 @@ public class CelestialMapper
 
         
         // Menu bar creation
-        public void makeMenuBar(JFrame frame, final ActionListener controller) {
+        public void makeMenuBar(JFrame frame, final ActionListener controller) 
+        {
+            //this.wwd = this.wwjPanel.getWwd();
             JMenuBar menuBar = new JMenuBar();
                  
             //======== "File" ========
@@ -176,10 +181,13 @@ public class CelestialMapper
             menuBar.add(menu);
                        
            
+//            this.cmsPlaceNamesMenu.setWwd(this.wwd); //sets window for place names   
+//            this.apollo.setWwd(this.wwd); //sets window for apollo annotations
+//            this.stereo.setWwd(this.wwd);
             
-            this.cmsPlaceNamesMenu.setWwd(this.wwd); //sets window for place names   
-            this.apollo.setWwd(this.wwd); //sets window for apollo annotations
-            this.stereo.setWwd(this.wwd);
+//            this.cmsPlaceNamesMenu.setWwd(this.getWwd()); //sets window for place names   
+//            this.apollo.setWwd(this.getWwd()); //sets window for apollo annotations
+//            this.stereo.setWwd(this.getWwd());
         }
     }
  }
