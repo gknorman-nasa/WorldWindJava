@@ -3,18 +3,19 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package gov.nasa.cms;
+package gov.nasa.cms.features;
 
 import gov.nasa.cms.features.Apollo;
-import gov.nasa.cms.CelestialMapper.AppFrame;
 import gov.nasa.worldwind.Factory;
 import gov.nasa.worldwind.WorldWind;
 import gov.nasa.worldwind.WorldWindow;
 import gov.nasa.worldwind.avlist.AVKey;
 import gov.nasa.worldwind.geom.Angle;
+import gov.nasa.worldwind.geom.LatLon;
 import gov.nasa.worldwind.geom.Position;
 import gov.nasa.worldwind.layers.Layer;
 import gov.nasa.worldwind.layers.LayerList;
+import gov.nasa.worldwind.view.orbit.BasicOrbitView;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.JCheckBoxMenuItem;
@@ -31,17 +32,16 @@ public class ApolloMenu extends JMenu
 
     private WorldWindow wwd;
     private boolean isItemEnabled;
-    protected static final String IMAGE_PATH = "gov/nasa/cms/data/Apollo15.tif";
+    //protected AppFrame app;
     private LayerList layerList;
     private Apollo apollo;
     private Layer apollo11;
     private Layer apollo12;
-    private Layer apollo14;
     private Layer apollo15;
     private Layer apollo16;
     private Layer apollo17;
 
-    public ApolloMenu(AppFrame frame, WorldWindow Wwd)
+    public ApolloMenu(WorldWindow Wwd)
     {
         super("Apollo");
         this.setWwd(Wwd);
@@ -69,24 +69,21 @@ public class ApolloMenu extends JMenu
 
                 if (isItemEnabled)
                 {
-                    // Create apollo15 from the XML configuration file recieving georeferenced imagery via LROC WMS
+                    // Create from the XML configuration file recieving georeferenced imagery via LROC WMS
                     apollo11 = (Layer) factory.createFromConfigSource("gov/nasa/cms/config/apollo/Apollo11.xml", null);
                     apollo11.setEnabled(true);
                     layerList.add(apollo11); // Add to the LayerList 
 
-                    // Set the lat/lon, heading and pitch to show a "first-person" up close view of the landing site
-                    getWwd().getView().setEyePosition(new Position(Angle.fromDegreesLatitude(0.2), Angle.fromDegreesLongitude(23.47314), 10e3));
-                    
+                    // Zoom to a close up view of the Apollo landing site
+                    zoomTo(LatLon.fromDegrees(0.6, 23.48), Angle.fromDegrees(10), Angle.fromDegrees(70), 2000);
+
                 } else
                 {
-                    Wwd.getModel().getLayers().remove(apollo11); // Removes Apollo 15 from LayerList
+                    Wwd.getModel().getLayers().remove(apollo11); // Removes Apollo 11 from LayerList
+                    
                     // Return to a global view of the moon
-
-                    getWwd().getView().setEyePosition(new Position(Angle.fromDegreesLatitude(0),
-                            Angle.fromDegreesLongitude(0),
-                            8e6));
+                    getWwd().getView().setEyePosition(new Position(Angle.fromDegreesLatitude(0), Angle.fromDegreesLongitude(0), 8e6));
                 }
-                doClick(0); // keep layer menu open
 
             }
         });
@@ -102,25 +99,16 @@ public class ApolloMenu extends JMenu
 
                 if (isItemEnabled)
                 {
-                    // Create apollo15 from the XML configuration file recieving georeferenced imagery via LROC WMS
                     apollo12 = (Layer) factory.createFromConfigSource("gov/nasa/cms/config/apollo/Apollo12.xml", null);
                     apollo12.setEnabled(true);
-                    layerList.add(apollo12); // Add to the LayerList 
+                    layerList.add(apollo12); 
 
-                    // Set the lat/lon, heading and pitch to show a "first-person" up close view of the landing site
-                    getWwd().getView().setEyePosition(new Position(Angle.fromDegreesLatitude(-3), Angle.fromDegreesLongitude(-23.5), 10.5e3));
-                    getWwd().getView().setHeading(Angle.fromDegrees(10));
-                    getWwd().getView().setPitch(Angle.fromDegrees(70));
+                    zoomTo(LatLon.fromDegrees(-3.03, -23.43), Angle.fromDegrees(10), Angle.fromDegrees(70), 1200);
                 } else
                 {
-                    Wwd.getModel().getLayers().remove(apollo12); // Removes Apollo 15 from LayerList
-                    // Return to a global view of the moon
-
-                    getWwd().getView().setEyePosition(new Position(Angle.fromDegreesLatitude(0),
-                            Angle.fromDegreesLongitude(0),
-                            8e6));
+                    Wwd.getModel().getLayers().remove(apollo12); 
+                    getWwd().getView().setEyePosition(new Position(Angle.fromDegreesLatitude(0), Angle.fromDegreesLongitude(0), 8e6));
                 }
-                doClick(0); // keep layer menu open
 
             }
         });
@@ -142,20 +130,12 @@ public class ApolloMenu extends JMenu
                     apollo15.setEnabled(true);
                     layerList.add(apollo15); // Add to the LayerList 
 
-                    // Set the lat/lon, heading and pitch to show a "first-person" up close view of the landing site
-                    getWwd().getView().setEyePosition(new Position(Angle.fromDegreesLatitude(26), Angle.fromDegreesLongitude(3), 10e3));
-                    getWwd().getView().setHeading(Angle.fromDegrees(90));
-                    getWwd().getView().setPitch(Angle.fromDegrees(85));
+                    zoomTo(LatLon.fromDegrees(26, 3.5), Angle.fromDegrees(90), Angle.fromDegrees(70), 3e4);
                 } else
                 {
-                    Wwd.getModel().getLayers().remove(apollo15); // Removes Apollo 15 from LayerList
-                    // Return to a global view of the moon
-
-                    getWwd().getView().setEyePosition(new Position(Angle.fromDegreesLatitude(0),
-                            Angle.fromDegreesLongitude(0),
-                            8e6));
+                    Wwd.getModel().getLayers().remove(apollo15); 
+                    getWwd().getView().setEyePosition(new Position(Angle.fromDegreesLatitude(0), Angle.fromDegreesLongitude(0), 8e6));
                 }
-                doClick(0); // keep layer menu open
 
             }
         });
@@ -172,23 +152,16 @@ public class ApolloMenu extends JMenu
 
                 if (isItemEnabled)
                 {
-                    // Create apollo15 from the XML configuration file recieving georeferenced imagery via LROC WMS
                     apollo16 = (Layer) factory.createFromConfigSource("gov/nasa/cms/config/apollo/Apollo16.xml", null);
                     apollo16.setEnabled(true);
-                    layerList.add(apollo16); // Add to the LayerList 
-
-                    // Set the lat/lon, heading and pitch to show a "first-person" up close view of the landing site
-                    getWwd().getView().setEyePosition(new Position(Angle.fromDegreesLatitude(-8.9759), Angle.fromDegreesLongitude(15.5), 10e3));
+                    layerList.add(apollo16); 
+                    
+                    zoomTo(LatLon.fromDegrees(-8.9, 15.5), Angle.fromDegrees(30), Angle.fromDegrees(70), 2e4);
                 } else
                 {
-                    Wwd.getModel().getLayers().remove(apollo16); // Removes Apollo 15 from LayerList
-                    // Return to a global view of the moon
-
-                    getWwd().getView().setEyePosition(new Position(Angle.fromDegreesLatitude(0),
-                            Angle.fromDegreesLongitude(0),
-                            8e6));
+                    Wwd.getModel().getLayers().remove(apollo16);
+                    getWwd().getView().setEyePosition(new Position(Angle.fromDegreesLatitude(0), Angle.fromDegreesLongitude(0), 8e6));
                 }
-                doClick(0); // keep layer menu open
 
             }
         });
@@ -205,28 +178,28 @@ public class ApolloMenu extends JMenu
 
                 if (isItemEnabled)
                 {
-                    // Create apollo15 from the XML configuration file recieving georeferenced imagery via LROC WMS
                     apollo17 = (Layer) factory.createFromConfigSource("gov/nasa/cms/config/apollo/Apollo17.xml", null);
                     apollo17.setEnabled(true);
                     layerList.add(apollo17); // Add to the LayerList 
 
-                    // Set the lat/lon, heading and pitch to show a "first-person" up close view of the landing site
-                    getWwd().getView().setEyePosition(new Position(Angle.fromDegreesLatitude(19.5), Angle.fromDegreesLongitude(30.7655), 10e3));
-                    getWwd().getView().setHeading(Angle.fromDegrees(10));
-                    getWwd().getView().setPitch(Angle.fromDegrees(70));
+                    zoomTo(LatLon.fromDegrees(19.5, 30.5), Angle.fromDegrees(30), Angle.fromDegrees(70), 3e4);
                 } else
                 {
-                    Wwd.getModel().getLayers().remove(apollo17); // Removes Apollo 15 from LayerList
-                    // Return to a global view of the moon
-                    getWwd().getView().setEyePosition(new Position(Angle.fromDegreesLatitude(0),
-                            Angle.fromDegreesLongitude(0),
-                            8e6));
+                    Wwd.getModel().getLayers().remove(apollo17);
+                    getWwd().getView().setEyePosition(new Position(Angle.fromDegreesLatitude(0), Angle.fromDegreesLongitude(0), 8e6));
                 }
-                doClick(0); // keep layer menu open
 
             }
         });
         this.add(apolloMenuItem);
+    }
+
+    // Zooms to the landing site at the passed in latitude/longitude, heading, pitch and zoom level
+    protected void zoomTo(LatLon latLon, Angle heading, Angle pitch, double zoom)
+    {
+        BasicOrbitView view = (BasicOrbitView) this.getWwd().getView();
+        view.stopMovement();
+        view.addPanToAnimator(new Position(latLon, 0), heading, pitch, zoom, true);
     }
 
     public WorldWindow getWwd()

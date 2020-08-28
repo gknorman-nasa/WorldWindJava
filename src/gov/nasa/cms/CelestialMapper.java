@@ -5,6 +5,7 @@
  */
 package gov.nasa.cms;
 
+import gov.nasa.cms.features.ApolloMenu;
 import gov.nasa.cms.features.Apollo;
 import gov.nasa.cms.features.CMSProfile;
 import gov.nasa.cms.features.LayerManagerLayer;
@@ -118,7 +119,7 @@ public class CelestialMapper
             }
             menuBar.add(menu);
             
-            apolloMenu = new ApolloMenu(this, this.getWwd());
+            apolloMenu = new ApolloMenu(this.getWwd());
             menuBar.add(apolloMenu);
             frame.setJMenuBar(menuBar);
 
