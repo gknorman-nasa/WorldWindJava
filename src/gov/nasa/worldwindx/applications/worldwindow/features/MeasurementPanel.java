@@ -341,9 +341,9 @@ public class MeasurementPanel extends AbstractFeaturePanel {
         this.newButton.setOpaque(false);
         this.newButton.addActionListener((ActionEvent actionEvent) -> {
             getMeasureTool().clear();
-            if (shapeLayer != null && measureTool.getShape() != null) {
-                shapeLayer.removeRenderable(measureTool.getShape());
-            }
+//            if (shapeLayer != null && measureTool.getShape() != null) {
+//                shapeLayer.removeRenderable(measureTool.getShape());
+//            }
             getMeasureTool().setArmed(true);
         });
         buttonPanel.add(this.newButton);

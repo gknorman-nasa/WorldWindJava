@@ -55,7 +55,7 @@ public class GliderTestApp extends ApplicationTemplate {
     protected static LatLon sw = nw.add(LatLon.fromDegrees(-0.036795 * 200, 0));
     protected static List<LatLon> corners = Arrays.asList(sw, se, ne, nw);
 
-    protected static String cloudImagePath = "gov/nasa/worldwindx/examples/images/GLIDERTestImage-800x519.jpg";
+    protected static String cloudImagePath = "gov/nasa/cms/data/Apollo15.tif";
 
     protected static float[][] makeField(List<LatLon> corners, int width, int height, Angle angle) {
         Sector sector = Sector.boundingSector(corners);

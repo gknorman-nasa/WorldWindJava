@@ -15,18 +15,23 @@ import gov.nasa.worldwind.terrain.LocalElevationModel;
 import gov.nasa.worldwind.util.Logging;
 import gov.nasa.worldwindx.examples.util.ExampleUtil;
 import gov.nasa.worldwindx.examples.util.LayerManagerLayer;
-
+import gov.nasa.cms.features.Apollo;
+import gov.nasa.cms.features.CMSProfile;
+import gov.nasa.cms.features.MeasureDialog;
+import gov.nasa.cms.features.MoonElevationModel;
+import gov.nasa.worldwind.WorldWindow;
+import gov.nasa.worldwind.util.measure.MeasureTool;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.io.*;
 
 /**
- * TO DO
+ * CelestialMapper.java
  *
  */
-public class CelestialMapper extends AppFrame {
-
+public class CelestialMapper extends AppFrame 
+{
     protected static final String CMS_LAYER_NAME = "Celestial Shapes";
     protected static final String CLEAR_SELECTION = "CelestialMapper.ClearSelection";
     protected static final String ENABLE_EDIT = "CelestialMapper.EnableEdit";
@@ -144,7 +149,8 @@ public class CelestialMapper extends AppFrame {
     }
 
     // Menu bar creation
-    public void makeMenuBar(JFrame frame, final ActionListener controller) {
+    public void makeMenuBar(JFrame frame, final ActionListener controller) 
+    {
         //this.wwd = this.wwjPanel.getWwd();
         JMenuBar menuBar = new JMenuBar();
 
@@ -207,9 +213,6 @@ public class CelestialMapper extends AppFrame {
         //======== "View" ========           
         menu = new JMenu("View");
         {
-            // Apollo menu item
-            apollo = new Apollo(this, this.getWwd());
-            menu.add(apollo);
 
             // Stereo menu item
             // stereo = new CMSStereo(this); //, this.getWwd());
@@ -241,14 +244,12 @@ public class CelestialMapper extends AppFrame {
                 restart();
             });
             menu.add(stereoCheckBox);
-        }
-        menuBar.add(menu);
-
 //            this.cmsPlaceNamesMenu.setWwd(this.wwd); //sets window for place names   
 //            this.apollo.setWwd(this.wwd); //sets window for apollo annotations
 //            this.stereo.setWwd(this.wwd);
 //            this.cmsPlaceNamesMenu.setWwd(this.getWwd()); //sets window for place names   
 //            this.apollo.setWwd(this.getWwd()); //sets window for apollo annotations
 //            this.stereo.setWwd(this.getWwd());
+        }
     }
 }

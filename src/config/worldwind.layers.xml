@@ -23,7 +23,6 @@
     <Layer href="gov/nasa/cms/config/Moon/ClementineBasemapV2.xml" actuate="onRequest"/>
     <Layer href="gov/nasa/cms/config/Moon/ClementineLunarOrbiterHybrid.xml" actuate="onRequest"/>
     <Layer href="gov/nasa/cms/config/Moon/LunarOrbiterGlobalMosaic.xml" actuate="onRequest"/>
-
-
+                 
     <Layer className="gov.nasa.worldwind.layers.ScalebarLayer"/>
 </LayerList>
