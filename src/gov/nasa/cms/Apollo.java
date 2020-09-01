@@ -5,7 +5,6 @@
  */
 package gov.nasa.cms;
 
-import gov.nasa.cms.CelestialMapper.AppFrame;
 import gov.nasa.worldwind.*;
 import gov.nasa.worldwind.avlist.AVKey;
 import gov.nasa.worldwind.event.*;
