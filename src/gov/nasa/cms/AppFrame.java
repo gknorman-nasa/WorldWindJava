@@ -122,6 +122,7 @@ public class AppFrame extends JFrame {
 //    public LayerPanel getLayerPanel() {
 //        return this.layerPanel;
 //    }
+    @Deprecated
     public JPanel getControlPanel() {
         return this.controlPanel;
     }

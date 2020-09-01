@@ -55,9 +55,6 @@ public class AppPanel extends JPanel {
     public WorldWindow getWwd() {
         return wwd;
     }
-//        public void setWwd(WorldWindow NewWwd) {
-//            wwd = NewWwd;
-//        }
 
     public StatusBar getStatusBar() {
         return statusBar;

@@ -230,6 +230,13 @@ public class CelestialMapper extends AppFrame {
                     Configuration.setValue(AVKey.INITIAL_PITCH, 80);
                 } else {
                     System.setProperty("gov.nasa.worldwind.stereo.mode", "");
+                    //this.getWwd().getView().setEyePosition(new Position(Angle.fromDegreesLatitude(0), Angle.fromDegreesLongitude(0), 8e6));
+                    //this.goTo((WorldWindow)new Position(Angle.fromDegreesLatitude(0), Angle.fromDegreesLongitude(0), (Sector)8e6));
+                    Configuration.setValue(AVKey.INITIAL_LATITUDE, 0);
+                    Configuration.setValue(AVKey.INITIAL_LONGITUDE, 0);
+                    Configuration.setValue(AVKey.INITIAL_ALTITUDE, 8e6);
+                    Configuration.setValue(AVKey.INITIAL_HEADING, 0);
+                    Configuration.setValue(AVKey.INITIAL_PITCH, 0);
                 }
                 restart();
             });
