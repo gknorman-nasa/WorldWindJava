@@ -43,14 +43,10 @@ public class CelestialMapper extends AppFrame
     ActionListener controller;
     protected RenderableLayer airspaceLayer;
     private CMSPlaceNamesMenu cmsPlaceNamesMenu;
-//    private WorldWindow wwd;
-    private Apollo apollo;
+    private ApolloMenu apolloMenu;
     private boolean stereo;
     private JCheckBoxMenuItem stereoCheckBox;
 
-//    public CelestialMapper() {
-//        super(true, false, false); // disable layer menu and statisics panel for AppFrame
-//    }
     public void restart() {
         getWwd().shutdown();
         //window.shutdown();
@@ -146,18 +142,8 @@ public class CelestialMapper extends AppFrame
     // Menu bar creation
     public void makeMenuBar(JFrame frame, final ActionListener controller) 
     {
-        //this.wwd = this.wwjPanel.getWwd();
         JMenuBar menuBar = new JMenuBar();
 
-        //======== "File" ========
-        JMenu menu = new JMenu("File");
-        {
-            JMenuItem item = new JMenuItem("Import Imagery");
-            item.setActionCommand(OPEN_URL);
-            item.addActionListener(controller);
-            menu.add(item);
-        }
-        menuBar.add(menu);
 
         //======== "CMS Place Names" ========          
         cmsPlaceNamesMenu = new CMSPlaceNamesMenu(this, this.getWwd());
@@ -186,28 +172,12 @@ public class CelestialMapper extends AppFrame
         }
         menuBar.add(tools);
 
-        //======== "Selection" ========            
-        menu = new JMenu("Selection");
-        {
-            JMenuItem item = new JMenuItem("Deselect");
-            item.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_D,
-                    Toolkit.getDefaultToolkit().getMenuShortcutKeyMaskEx()));
-            item.setActionCommand(CLEAR_SELECTION);
-            item.addActionListener(controller);
-            menu.add(item);
-
-            item = new JMenuItem("Delete");
-            item.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_DELETE, 0));
-            item.setActionCommand(REMOVE_SELECTED);
-            item.addActionListener(controller);
-            menu.add(item);
-        }
-        menuBar.add(menu);
         frame.setJMenuBar(menuBar);
 
         //======== "View" ========           
-        menu = new JMenu("View");
+        JMenu menu = new JMenu("View");
         {
+            
 
             // Stereo menu item
             // stereo = new CMSStereo(this); //, this.getWwd());
