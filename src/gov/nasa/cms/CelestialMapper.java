@@ -6,7 +6,6 @@
 package gov.nasa.cms;
 
 import gov.nasa.worldwind.Configuration;
-import gov.nasa.worldwind.WorldWindow;
 import gov.nasa.worldwind.avlist.AVKey;
 import gov.nasa.worldwind.geom.*;
 import gov.nasa.worldwind.globes.Globe;
@@ -16,11 +15,7 @@ import gov.nasa.worldwind.util.Logging;
 import gov.nasa.worldwindx.examples.util.ExampleUtil;
 import gov.nasa.worldwindx.examples.util.LayerManagerLayer;
 import gov.nasa.cms.features.Apollo;
-import gov.nasa.cms.features.CMSProfile;
-import gov.nasa.cms.features.MeasureDialog;
-import gov.nasa.cms.features.MoonElevationModel;
 import gov.nasa.worldwind.WorldWindow;
-import gov.nasa.worldwind.util.measure.MeasureTool;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
@@ -233,8 +228,6 @@ public class CelestialMapper extends AppFrame
                     Configuration.setValue(AVKey.INITIAL_PITCH, 80);
                 } else {
                     System.setProperty("gov.nasa.worldwind.stereo.mode", "");
-                    //this.getWwd().getView().setEyePosition(new Position(Angle.fromDegreesLatitude(0), Angle.fromDegreesLongitude(0), 8e6));
-                    //this.goTo((WorldWindow)new Position(Angle.fromDegreesLatitude(0), Angle.fromDegreesLongitude(0), (Sector)8e6));
                     Configuration.setValue(AVKey.INITIAL_LATITUDE, 0);
                     Configuration.setValue(AVKey.INITIAL_LONGITUDE, 0);
                     Configuration.setValue(AVKey.INITIAL_ALTITUDE, 8e6);
@@ -244,12 +237,7 @@ public class CelestialMapper extends AppFrame
                 restart();
             });
             menu.add(stereoCheckBox);
-//            this.cmsPlaceNamesMenu.setWwd(this.wwd); //sets window for place names   
-//            this.apollo.setWwd(this.wwd); //sets window for apollo annotations
-//            this.stereo.setWwd(this.wwd);
-//            this.cmsPlaceNamesMenu.setWwd(this.getWwd()); //sets window for place names   
-//            this.apollo.setWwd(this.getWwd()); //sets window for apollo annotations
-//            this.stereo.setWwd(this.getWwd());
         }
+        menuBar.add(menu);
     }
 }
