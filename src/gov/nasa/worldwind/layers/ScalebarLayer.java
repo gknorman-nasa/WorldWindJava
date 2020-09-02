@@ -40,7 +40,7 @@ public class ScalebarLayer extends AbstractLayer
 
     protected PickSupport pickSupport = new PickSupport();
     protected Vec4 locationCenter = null;
-    protected Vec4 locationOffset = null;
+    protected Vec4 locationOffset =  null;
     protected long frameStampForPicking;
     protected long frameStampForDrawing;
 
@@ -580,6 +580,8 @@ public class ScalebarLayer extends AbstractLayer
 
         double x;
         double y;
+        
+        
 
         if (this.locationCenter != null)
         {

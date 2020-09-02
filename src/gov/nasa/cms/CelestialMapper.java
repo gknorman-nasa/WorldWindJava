@@ -6,12 +6,17 @@
 package gov.nasa.cms;
 
 import gov.nasa.cms.features.ApolloMenu;
-import gov.nasa.cms.features.Apollo;
+import gov.nasa.cms.features.ApolloAnnotations;
 import gov.nasa.cms.features.CMSProfile;
 import gov.nasa.cms.features.LayerManagerLayer;
 import gov.nasa.cms.features.MeasureDialog;
 import gov.nasa.cms.features.MoonElevationModel;
 import gov.nasa.worldwind.WorldWindow;
+import gov.nasa.worldwind.avlist.AVKey;
+import gov.nasa.worldwind.geom.Position;
+import gov.nasa.worldwind.geom.Vec4;
+import gov.nasa.worldwind.layers.Layer;
+import gov.nasa.worldwind.layers.ScalebarLayer;
 import gov.nasa.worldwind.util.measure.MeasureTool;
 import javax.swing.*;
 import java.awt.*;
@@ -25,16 +30,6 @@ import java.io.*;
 public class CelestialMapper
 {
 
-    protected static final String CMS_LAYER_NAME = "Celestial Shapes";
-    protected static final String CLEAR_SELECTION = "CelestialMapper.ClearSelection";
-    protected static final String ENABLE_EDIT = "CelestialMapper.EnableEdit";
-    protected static final String OPEN = "CelestialMapper.Open";
-    protected static final String OPEN_URL = "CelestialMapper.OpenUrl";
-    protected static final String REMOVE_SELECTED = "CelestialMapper.RemoveSelected";
-    protected static final String SAVE = "CelestialMapper.Save";
-    protected static final String SELECTION_CHANGED = "CelestialMapper.SelectionChanged";
-    protected static final String ELEVATIONS_PATH = "testData/lunar-dem.tif";
-
     //**************************************************************//
     //********************  Main  **********************************//
     //**************************************************************//
@@ -45,26 +40,25 @@ public class CelestialMapper
         private CMSPlaceNamesMenu cmsPlaceNamesMenu;
         private WorldWindow wwd;
         private MeasureDialog measureDialog;
-        private Apollo apollo;
         private ApolloMenu apolloMenu;
         private CMSProfile profile;
         private MeasureTool measureTool;
         private MoonElevationModel elevationModel;
         private CMSStereo stereo;
-        
-        public AppFrame() 
-        { 
+
+        public AppFrame()
+        {
             super(true, false, false); // disable layer menu and statisics panel for AppFrame
             getWwd().getModel().getLayers().add(new LayerManagerLayer(getWwd())); // add layer box UI
-                        
+
             // Wait for the elevation to import            
             // Import the lunar elevation data from a Local Elevation Model
             elevationModel = new MoonElevationModel(this.getWwd());
 
             // Make the menu bar
-            makeMenuBar(this, this.controller); 
+            makeMenuBar(this, this.controller);
         }
-        
+
         // Menu bar creation
         public void makeMenuBar(JFrame frame, final ActionListener controller)
         {
@@ -111,22 +105,27 @@ public class CelestialMapper
 
             //======== "View" ========           
             JMenu menu = new JMenu("View");
-            {                
+            {
                 // Stereo menu item
                 stereo = new CMSStereo(this, this.getWwd());
                 menu.add(stereo);
 
             }
             menuBar.add(menu);
-            
+
+            //======== "Apollo" ========      
             apolloMenu = new ApolloMenu(this.getWwd());
             menuBar.add(apolloMenu);
+
+            // Set the JMenuBar to the menuBar we just created
             frame.setJMenuBar(menuBar);
 
             this.cmsPlaceNamesMenu.setWwd(this.wwd); //sets window for place names   
             this.profile.setWwd(this.wwd); // sets the window for terrain profiler
-            this.elevationModel.setWwd(this.wwd); // sets the window for terrain profiler
-            this.stereo.setWwd(this.wwd);
+            this.elevationModel.setWwd(this.wwd); // sets the window for elevation model
+            this.stereo.setWwd(this.wwd); // sets the window for stereo
+            
+            
         }
     }
 }

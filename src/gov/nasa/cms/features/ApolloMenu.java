@@ -1,11 +1,5 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package gov.nasa.cms.features;
 
-import gov.nasa.cms.features.Apollo;
 import gov.nasa.worldwind.Factory;
 import gov.nasa.worldwind.WorldWind;
 import gov.nasa.worldwind.WorldWindow;
@@ -15,15 +9,21 @@ import gov.nasa.worldwind.geom.LatLon;
 import gov.nasa.worldwind.geom.Position;
 import gov.nasa.worldwind.layers.Layer;
 import gov.nasa.worldwind.layers.LayerList;
+import gov.nasa.worldwind.layers.ScalebarLayer;
 import gov.nasa.worldwind.view.orbit.BasicOrbitView;
+import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.JCheckBoxMenuItem;
 import javax.swing.JMenu;
 
 /**
- * Menu bar for Apollo Currently in demo to show different ways to view the
- * georeferenced imagery
+ * Apollo Menu bar created from a JMenu. The menu uses
+ * {@link gov.nasa.cms.features.ApolloAnnotations} to display the Annotations
+ * feature and five Apollo landing sites as JCheckBoxMenuItems. The landing
+ * sites use approximate Apollo landing coordinates to place the user in a good
+ * location for viewing surroundings.
+ *
  *
  * @author kjdickin
  */
@@ -32,11 +32,11 @@ public class ApolloMenu extends JMenu
 
     private WorldWindow wwd;
     private boolean isItemEnabled;
-    //protected AppFrame app;
     private LayerList layerList;
-    private Apollo apollo;
+    private ApolloAnnotations apollo;
     private Layer apollo11;
     private Layer apollo12;
+    private Layer apollo14;
     private Layer apollo15;
     private Layer apollo16;
     private Layer apollo17;
@@ -45,17 +45,18 @@ public class ApolloMenu extends JMenu
     {
         super("Apollo");
         this.setWwd(Wwd);
+        setupApolloMenu();
     }
 
-    public void setWwd(WorldWindow Wwd)
+    // Sets up the ApolloMenu bar by creating the 6 Apollo landing sites and Apollo annotations layer as JCheckBoxMenuItems
+    protected void setupApolloMenu()
     {
-        this.wwd = Wwd;
         this.layerList = new LayerList();
         layerList = getWwd().getModel().getLayers(); // Retrive the layer list before adding the layers
         Factory factory = (Factory) WorldWind.createConfigurationComponent(AVKey.LAYER_FACTORY);
 
         //======== Annotations ========   
-        apollo = new Apollo(this.getWwd());
+        apollo = new ApolloAnnotations(this.getWwd());
         this.add(apollo);
 
         //======== Apollo 12 ========   
@@ -75,12 +76,12 @@ public class ApolloMenu extends JMenu
                     layerList.add(apollo11); // Add to the LayerList 
 
                     // Zoom to a close up view of the Apollo landing site
-                    zoomTo(LatLon.fromDegrees(0.6, 23.48), Angle.fromDegrees(10), Angle.fromDegrees(70), 2000);
+                    zoomTo(LatLon.fromDegrees(0.67, 23.48), Angle.fromDegrees(10), Angle.fromDegrees(70), 2000);
 
                 } else
                 {
-                    Wwd.getModel().getLayers().remove(apollo11); // Removes Apollo 11 from LayerList
-                    
+                    getWwd().getModel().getLayers().remove(apollo11); // Removes Apollo 11 from LayerList
+
                     // Return to a global view of the moon
                     getWwd().getView().setEyePosition(new Position(Angle.fromDegreesLatitude(0), Angle.fromDegreesLongitude(0), 8e6));
                 }
@@ -88,25 +89,50 @@ public class ApolloMenu extends JMenu
             }
         });
         this.add(apolloMenuItem);
+
         //======== Apollo 12 ========   
         apolloMenuItem = new JCheckBoxMenuItem("Apollo 12");
         apolloMenuItem.addActionListener(new ActionListener()
         {
             public void actionPerformed(ActionEvent event)
             {
-                // Enable and disable when clicked 
                 isItemEnabled = ((JCheckBoxMenuItem) event.getSource()).getState();
 
                 if (isItemEnabled)
                 {
                     apollo12 = (Layer) factory.createFromConfigSource("gov/nasa/cms/config/apollo/Apollo12.xml", null);
                     apollo12.setEnabled(true);
-                    layerList.add(apollo12); 
+                    layerList.add(apollo12);
 
-                    zoomTo(LatLon.fromDegrees(-3.03, -23.43), Angle.fromDegrees(10), Angle.fromDegrees(70), 1200);
+                    zoomTo(LatLon.fromDegrees(-3.01, -23.43), Angle.fromDegrees(10), Angle.fromDegrees(70), 1200);
                 } else
                 {
-                    Wwd.getModel().getLayers().remove(apollo12); 
+                    getWwd().getModel().getLayers().remove(apollo12);
+                    getWwd().getView().setEyePosition(new Position(Angle.fromDegreesLatitude(0), Angle.fromDegreesLongitude(0), 8e6));
+                }
+
+            }
+        });
+        this.add(apolloMenuItem);
+
+        //======== Apollo 14 ========   
+        apolloMenuItem = new JCheckBoxMenuItem("Apollo 14");
+        apolloMenuItem.addActionListener(new ActionListener()
+        {
+            public void actionPerformed(ActionEvent event)
+            {
+                isItemEnabled = ((JCheckBoxMenuItem) event.getSource()).getState();
+
+                if (isItemEnabled)
+                {
+                    apollo14 = (Layer) factory.createFromConfigSource("gov/nasa/cms/config/apollo/Apollo14.xml", null);
+                    apollo14.setEnabled(true);
+                    layerList.add(apollo14);
+
+                    zoomTo(LatLon.fromDegrees(-3.66, -17.4786), Angle.fromDegrees(10), Angle.fromDegrees(70), 1200);
+                } else
+                {
+                    getWwd().getModel().getLayers().remove(apollo14);
                     getWwd().getView().setEyePosition(new Position(Angle.fromDegreesLatitude(0), Angle.fromDegreesLongitude(0), 8e6));
                 }
 
@@ -120,12 +146,10 @@ public class ApolloMenu extends JMenu
         {
             public void actionPerformed(ActionEvent event)
             {
-                // Enable and disable when clicked 
                 isItemEnabled = ((JCheckBoxMenuItem) event.getSource()).getState();
 
                 if (isItemEnabled)
                 {
-                    // Create apollo15 from the XML configuration file recieving georeferenced imagery via LROC WMS
                     apollo15 = (Layer) factory.createFromConfigSource("gov/nasa/cms/config/apollo/Apollo15.xml", null);
                     apollo15.setEnabled(true);
                     layerList.add(apollo15); // Add to the LayerList 
@@ -133,7 +157,7 @@ public class ApolloMenu extends JMenu
                     zoomTo(LatLon.fromDegrees(26, 3.5), Angle.fromDegrees(90), Angle.fromDegrees(70), 3e4);
                 } else
                 {
-                    Wwd.getModel().getLayers().remove(apollo15); 
+                    getWwd().getModel().getLayers().remove(apollo15);
                     getWwd().getView().setEyePosition(new Position(Angle.fromDegreesLatitude(0), Angle.fromDegreesLongitude(0), 8e6));
                 }
 
@@ -154,12 +178,12 @@ public class ApolloMenu extends JMenu
                 {
                     apollo16 = (Layer) factory.createFromConfigSource("gov/nasa/cms/config/apollo/Apollo16.xml", null);
                     apollo16.setEnabled(true);
-                    layerList.add(apollo16); 
-                    
-                    zoomTo(LatLon.fromDegrees(-8.9, 15.5), Angle.fromDegrees(30), Angle.fromDegrees(70), 2e4);
+                    layerList.add(apollo16);
+
+                    zoomTo(LatLon.fromDegrees(-8.9975, 15.47), Angle.fromDegrees(0), Angle.fromDegrees(70), 2500);
                 } else
                 {
-                    Wwd.getModel().getLayers().remove(apollo16);
+                    getWwd().getModel().getLayers().remove(apollo16);
                     getWwd().getView().setEyePosition(new Position(Angle.fromDegreesLatitude(0), Angle.fromDegreesLongitude(0), 8e6));
                 }
 
@@ -173,19 +197,18 @@ public class ApolloMenu extends JMenu
         {
             public void actionPerformed(ActionEvent event)
             {
-                // Enable and disable when clicked 
                 isItemEnabled = ((JCheckBoxMenuItem) event.getSource()).getState();
 
                 if (isItemEnabled)
                 {
                     apollo17 = (Layer) factory.createFromConfigSource("gov/nasa/cms/config/apollo/Apollo17.xml", null);
                     apollo17.setEnabled(true);
-                    layerList.add(apollo17); // Add to the LayerList 
+                    layerList.add(apollo17);
 
-                    zoomTo(LatLon.fromDegrees(19.5, 30.5), Angle.fromDegrees(30), Angle.fromDegrees(70), 3e4);
+                    zoomTo(LatLon.fromDegrees(20, 30.6), Angle.fromDegrees(30), Angle.fromDegrees(70), 3e4);
                 } else
                 {
-                    Wwd.getModel().getLayers().remove(apollo17);
+                    getWwd().getModel().getLayers().remove(apollo17);
                     getWwd().getView().setEyePosition(new Position(Angle.fromDegreesLatitude(0), Angle.fromDegreesLongitude(0), 8e6));
                 }
 
@@ -200,6 +223,11 @@ public class ApolloMenu extends JMenu
         BasicOrbitView view = (BasicOrbitView) this.getWwd().getView();
         view.stopMovement();
         view.addPanToAnimator(new Position(latLon, 0), heading, pitch, zoom, true);
+    }
+
+    public void setWwd(WorldWindow Wwd)
+    {
+        this.wwd = Wwd;
     }
 
     public WorldWindow getWwd()
