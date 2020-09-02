@@ -6,7 +6,7 @@
 package gov.nasa.cms;
 
 import gov.nasa.worldwind.Configuration;
-import gov.nasa.worldwind.avlist.AVKey;
+import javax.swing.JFrame;
 
 /**
  *
@@ -18,6 +18,23 @@ public class CelestialMappingSystem
      
     public static void main(String[] args) 
     {               
-        ApplicationTemplate.start(APP_NAME, CelestialMapper.AppFrame.class);
+        if (Configuration.isMacOS()) {
+            System.setProperty("com.apple.mrj.application.apple.menu.about.name", APP_NAME);
+        }
+
+        try {
+            CelestialMapper cms = new CelestialMapper();
+            cms.initialize();
+            cms.setTitle(APP_NAME);
+            cms.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+            java.awt.EventQueue.invokeLater(() -> {
+                cms.setVisible(true);
+            });
+
+//            return frame;
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.exit(1);
+        }
     }
 }
