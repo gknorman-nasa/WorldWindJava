@@ -20,7 +20,6 @@ import gov.nasa.worldwind.geom.Position;
 import gov.nasa.worldwind.geom.Sector;
 import gov.nasa.worldwind.util.Logging;
 import javax.swing.*;
-import java.awt.*;
 import java.awt.event.*;
 
 /**
@@ -37,12 +36,16 @@ public class CelestialMapper extends AppFrame
     protected RenderableLayer airspaceLayer;
     private CMSPlaceNamesMenu cmsPlaceNamesMenu;
     private ApolloMenu apolloMenu;
-    private boolean stereo;
-    private JCheckBoxMenuItem stereoCheckBox;
     private MoonElevationModel elevationModel;
     private CMSProfile profile;
     private MeasureDialog measureDialog;
     private MeasureTool measureTool;
+   
+    private boolean stereo;
+    private boolean isMeasureDialogOpen;
+    
+    private JCheckBoxMenuItem stereoCheckBox;
+    private JCheckBoxMenuItem measurementCheckBox;
 
     public void restart()
     {
@@ -123,31 +126,31 @@ public class CelestialMapper extends AppFrame
             // Terrain Profiler
             profile = new CMSProfile(this.getWwd());
             tools.add(profile);
-
             menuBar.add(tools);
 
-            // Measurement Dialog
-            JMenuItem openMeasureDialogItem = new JMenuItem("Measurement")
+            // Measure Tool
+            measurementCheckBox = new JCheckBoxMenuItem("Measurement");
+            measurementCheckBox.setSelected(isMeasureDialogOpen);
+            measurementCheckBox.addActionListener((ActionEvent event) ->
             {
-                public void actionPerformed(ActionEvent actionEvent)
+                isMeasureDialogOpen = !isMeasureDialogOpen;
+                if (isMeasureDialogOpen)
                 {
-                    try
+                    // Only open if the MeasureDialog has never been opened
+                    if (measureDialog == null)
                     {
-                        // Check if the MeasureDialog has already been opened
-                        if (measureDialog == null)
-                        {
-                            // Create the dialog 
-                           measureDialog = new MeasureDialog(getWwd(), measureTool, this);
-                        }
-                        // Display on screen 
-                        measureDialog.setVisible(true);
-                    } catch (Exception e)
-                    {
-                        e.printStackTrace();
+                        // Create the dialog from the WorldWindow, MeasureTool and AppFrame
+                        measureDialog = new MeasureDialog(getWwd(), measureTool, this);
                     }
+                    // Display on screen
+                    measureDialog.setVisible(true);
                 }
-            };
-            tools.add(openMeasureDialogItem);
+                else // Hide the dialog
+                {
+                    measureDialog.setVisible(false);
+                }
+            });
+            tools.add(measurementCheckBox);
         }
         menuBar.add(tools);
 
@@ -191,6 +194,5 @@ public class CelestialMapper extends AppFrame
         menuBar.add(view);
         frame.setJMenuBar(menuBar);
     }
-    
 
 }

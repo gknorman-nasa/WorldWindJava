@@ -16,6 +16,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComponent;
 import javax.swing.JDialog;
+import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
 import javax.swing.event.ChangeEvent;
@@ -29,7 +30,7 @@ import javax.swing.event.ChangeEvent;
  *
  * @author kjdickin
  */
-public class MeasureDialog
+public class MeasureDialog 
 {
 
     private JDialog dialog;

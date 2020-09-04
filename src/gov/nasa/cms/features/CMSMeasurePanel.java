@@ -26,7 +26,6 @@ import java.util.Set;
 /**
  * Measure Tool Control panel for MeasureDialog.java
  *
- * @author kjdickin
  * @see gov.nasa.worldwind.util.measure.MeasureTool
  */
 public class CMSMeasurePanel extends JPanel
