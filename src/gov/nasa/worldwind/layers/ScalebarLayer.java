@@ -32,7 +32,7 @@ public class ScalebarLayer extends AbstractLayer
     protected Dimension size = new Dimension(150, 10);
     protected Color color = Color.white;
     protected int borderWidth = 20;
-    protected String position = AVKey.NORTHWEST;
+    protected String position = AVKey.CENTER;
     protected String resizeBehavior = AVKey.RESIZE_SHRINK_ONLY;
     protected String unit = UNIT_METRIC;
     protected Font defaultFont = Font.decode("Arial-PLAIN-12");
@@ -607,6 +607,11 @@ public class ScalebarLayer extends AbstractLayer
         {
             x = 0d + this.borderWidth;
             y = 0d + this.borderWidth;
+        }
+        else if (this.position.equals(AVKey.CENTER))
+        {
+            x = viewport.getWidth() / 2 - scaledWidth / 2;
+            y = viewport.getHeight() / 2 - 2*scaledHeight;
         }
         else // use North East
         {
