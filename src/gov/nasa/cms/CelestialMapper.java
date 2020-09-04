@@ -29,6 +29,16 @@ import java.awt.event.*;
 public class CelestialMapper extends AppFrame
 {
 
+    protected static final String CMS_LAYER_NAME = "Celestial Shapes";
+    protected static final String CLEAR_SELECTION = "CelestialMapper.ClearSelection";
+    protected static final String ENABLE_EDIT = "CelestialMapper.EnableEdit";
+    protected static final String OPEN = "CelestialMapper.Open";
+    protected static final String OPEN_URL = "CelestialMapper.OpenUrl";
+    protected static final String REMOVE_SELECTED = "CelestialMapper.RemoveSelected";
+    protected static final String SAVE = "CelestialMapper.Save";
+    protected static final String SELECTION_CHANGED = "CelestialMapper.SelectionChanged";
+//    protected static final String ELEVATIONS_PATH = "testData/lunar-dem.tif";
+
     //**************************************************************//
     //********************  Main  **********************************//
     //**************************************************************//

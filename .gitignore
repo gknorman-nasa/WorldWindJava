@@ -1,20 +1,13 @@
 .DS_Store
-
 .idea/shelf
-
 .idea/tasks.xml
-
 .idea/workspace.xml
-
 build
-
 classes
-
 testClasses
-
 worldwind.jar
-
 worldwindx.jar
+cms.jar
 /dist/
 /nbproject/private/
 
