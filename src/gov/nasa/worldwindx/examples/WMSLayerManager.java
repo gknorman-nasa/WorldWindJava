@@ -25,7 +25,10 @@ public class WMSLayerManager
             "https://planetarymaps.usgs.gov/cgi-bin/mapserv?map=/maps/earth/moon_spole.map",
             "https://planetarymaps.usgs.gov/cgi-bin/mapserv?map=/maps/earth/moon_simp_cyl_quads.map",
             "https://wms.wr.usgs.gov/cgi-bin/mapserv?map=/maps/earth/moon_nomen_wms.map",
-            "http://webmap.lroc.asu.edu/"
+            "https://planetarymaps.usgs.gov/cgi-bin/mapserv?map=/maps/mars/mars_simp_cyl.map&",
+            "https://planetarymaps.usgs.gov/cgi-bin/mapserv?map=/maps/saturn/titan_simp_cyl.map&",
+            "http://webmap.lroc.asu.edu/",
+            "https://planetarymaps.usgs.gov/cgi-bin/mapserv?map=/maps/venus/venus_simp_cyl.map&"
         };
 
     protected static class AppFrame extends ApplicationTemplate.AppFrame

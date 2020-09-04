@@ -82,7 +82,7 @@ public class LayerMenu extends JMenu
         public void actionPerformed(ActionEvent actionEvent)
         {
             layer.setEnabled(((JCheckBoxMenuItem) actionEvent.getSource()).getState());
-            if (layer instanceof BMNGOneImage) //toggle other BMNG layers
+            if (layer instanceof LOLAColor) //toggle other BMNG layers
             {
                 for (Layer lyr : this.wwd.getModel().getLayers())
                 {

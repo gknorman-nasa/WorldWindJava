@@ -5,7 +5,7 @@
  */
 package gov.nasa.cms.features;
 
-import gov.nasa.cms.ApplicationTemplate;
+import gov.nasa.cms.AppFrame;
 import gov.nasa.worldwind.WorldWindow;
 import gov.nasa.worldwind.layers.Layer;
 import gov.nasa.worldwind.layers.TerrainProfileLayer;
@@ -33,7 +33,7 @@ public class CMSProfile extends JCheckBoxMenuItem
         this.tpl.setEventSource(this.getWwd()); 
         String layerName = "Terrain Profile"; 
         this.tpl.setName(layerName);
-        ApplicationTemplate.insertBeforeCompass(this.getWwd(), tpl); // display on screen
+        AppFrame.insertBeforeCompass(this.getWwd(), tpl); // display on screen
     }
 
     public CMSProfile(WorldWindow Wwd)

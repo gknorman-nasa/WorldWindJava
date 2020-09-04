@@ -16,6 +16,7 @@ import gov.nasa.worldwind.geom.*;
 import gov.nasa.worldwind.globes.*;
 import gov.nasa.worldwind.layers.*;
 import gov.nasa.worldwind.layers.Earth.BMNGOneImage;
+import gov.nasa.worldwind.layers.Earth.LOLAColor;
 import gov.nasa.worldwind.render.*;
 import gov.nasa.worldwind.render.Polygon;
 import gov.nasa.worldwind.util.*;
@@ -68,10 +69,10 @@ public class FlatAndRoundGlobes
     {
         LayerList layerList = new LayerList();
 
-        layerList.add(new BMNGOneImage());
+        layerList.add(new LOLAColor());
 
         Factory factory = (Factory) WorldWind.createConfigurationComponent(AVKey.LAYER_FACTORY);
-        Layer layer = (Layer) factory.createFromConfigSource("config/Moon/LOLAColor.xml", null);
+        Layer layer = (Layer) factory.createFromConfigSource("gov/nasa/cms/config/Moon/LOLAColor.xml", null);
         layer.setEnabled(true);
         layerList.add(layer);
 

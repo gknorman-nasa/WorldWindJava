@@ -1,11 +1,11 @@
 package gov.nasa.cms.features;
 
+import static gov.nasa.cms.AppFrame.insertBeforePlacenames;
 import gov.nasa.worldwind.WorldWindow;
 import gov.nasa.worldwind.geom.LatLon;
 import gov.nasa.worldwind.layers.TerrainProfileLayer;
 import gov.nasa.worldwind.util.measure.MeasureTool;
 import gov.nasa.worldwind.util.measure.MeasureToolController;
-import static gov.nasa.worldwindx.examples.ApplicationTemplate.insertBeforePlacenames;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -16,6 +16,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComponent;
 import javax.swing.JDialog;
+import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
 import javax.swing.event.ChangeEvent;
@@ -29,7 +30,7 @@ import javax.swing.event.ChangeEvent;
  *
  * @author kjdickin
  */
-public class MeasureDialog
+public class MeasureDialog 
 {
 
     private JDialog dialog;
@@ -37,11 +38,10 @@ public class MeasureDialog
     private JTabbedPane tabbedPane = new JTabbedPane();
     private final PropertyChangeListener measureToolListener = new MeasureToolListener();
     private int lastTabIndex = -1;
-    WorldWindow wwdObject;
    
     public MeasureDialog(WorldWindow wwdObject, MeasureTool measureToolObject, Component component)
     {
-        
+      //  setWwd(wwdObject);
         // Add terrain profile layer
         profile.setEventSource(wwdObject);
         profile.setFollow(TerrainProfileLayer.FOLLOW_PATH);
@@ -190,4 +190,5 @@ public class MeasureDialog
 
         mt.getWwd().redraw();
     }
+
 }

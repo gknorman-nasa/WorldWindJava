@@ -5,7 +5,6 @@
  */
 package gov.nasa.cms;
 
-import gov.nasa.cms.CelestialMapper.AppFrame;
 import gov.nasa.worldwind.WorldWindow;
 import gov.nasa.worldwind.formats.shapefile.DBaseRecord;
 import gov.nasa.worldwind.formats.shapefile.ShapefileLayerFactory;
