@@ -44,6 +44,7 @@ public class CMSMeasurePanel extends JPanel
     private JButton annotationColorButton;
     private JCheckBox showControlsCheck;
     private JCheckBox showAnnotationCheck;
+    private JCheckBox followCheck;
     private JButton newButton;
     private JButton pauseButton;
     private JButton endButton;
@@ -84,7 +85,7 @@ public class CMSMeasurePanel extends JPanel
         mainPanel.setOpaque(false);
         this.makePanel(mainPanel);
 
-        // Always follow the terrain
+        // Follow the terrain to start out with
         measureTool.setFollowTerrain(true);
 
         // Handle measure tool events
@@ -285,6 +286,15 @@ public class CMSMeasurePanel extends JPanel
             wwd.redraw();
         });
         checkPanel.add(showAnnotationCheck);
+        
+        followCheck = new JCheckBox("Follow terrain");
+        followCheck.setSelected(true); // Start out with follow terrain selected
+        followCheck.addActionListener((ActionEvent event) -> {
+            JCheckBox cb = (JCheckBox) event.getSource();
+            measureTool.setFollowTerrain(cb.isSelected());
+            wwd.redraw();
+        });
+        checkPanel.add(followCheck);
 
         //======== Color Buttons ========  
         final JPanel colorPanel = new JPanel(new GridLayout(1, 2, 5, 5));

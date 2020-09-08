@@ -41,7 +41,6 @@ public class MeasureDialog
    
     public MeasureDialog(WorldWindow wwdObject, MeasureTool measureToolObject, Component component)
     {
-      //  setWwd(wwdObject);
         // Add terrain profile layer
         profile.setEventSource(wwdObject);
         profile.setFollow(TerrainProfileLayer.FOLLOW_PATH);
@@ -91,7 +90,7 @@ public class MeasureDialog
         dialog.getContentPane().setLayout(new BorderLayout());
         dialog.setTitle("Measure Tool");
         // Set the location and resizable to false
-        dialog.setLocation(bounds.x, bounds.y + 90);
+        dialog.setLocation(bounds.x, bounds.y + 60);
         dialog.setResizable(false);
         // Add the tabbedPane to the dialog
         dialog.getContentPane().add(tabbedPane, BorderLayout.CENTER);
