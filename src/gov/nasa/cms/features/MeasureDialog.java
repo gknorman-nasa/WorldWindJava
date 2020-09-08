@@ -91,7 +91,7 @@ public class MeasureDialog
         dialog.getContentPane().setLayout(new BorderLayout());
         dialog.setTitle("Measure Tool");
         // Set the location and resizable to false
-        dialog.setLocation(bounds.x, bounds.y + 90);
+        dialog.setLocation(bounds.x, bounds.y + 70); //originally at 90
         dialog.setResizable(false);
         // Add the tabbedPane to the dialog
         dialog.getContentPane().add(tabbedPane, BorderLayout.CENTER);
