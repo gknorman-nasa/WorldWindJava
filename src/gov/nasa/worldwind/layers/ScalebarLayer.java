@@ -23,6 +23,7 @@ import java.awt.geom.*;
  */
 public class ScalebarLayer extends AbstractLayer
 {
+
     // Units constants
     public final static String UNIT_METRIC = "gov.nasa.worldwind.ScalebarLayer.Metric";
     public final static String UNIT_IMPERIAL = "gov.nasa.worldwind.ScalebarLayer.Imperial";
@@ -40,12 +41,13 @@ public class ScalebarLayer extends AbstractLayer
 
     protected PickSupport pickSupport = new PickSupport();
     protected Vec4 locationCenter = null;
-    protected Vec4 locationOffset =  null;
+    protected Vec4 locationOffset = null;
     protected long frameStampForPicking;
     protected long frameStampForDrawing;
 
     protected class OrderedImage implements OrderedRenderable
     {
+
         protected Position referencePosition;
         protected double pixelSize;
 
@@ -71,14 +73,15 @@ public class ScalebarLayer extends AbstractLayer
         }
     }
 
-    /** Renders a scalebar graphic in a screen corner */
+    /**
+     * Renders a scalebar graphic in a screen corner
+     */
     public ScalebarLayer()
     {
         setPickEnabled(false);
     }
 
     // Public properties
-
     /**
      * Get the scalebar graphic Dimension (in pixels)
      *
@@ -142,10 +145,13 @@ public class ScalebarLayer extends AbstractLayer
     }
 
     /**
-     * Sets the scale factor applied to the viewport size to determine the displayed size of the scalebar. This scale
-     * factor is used only when the layer's resize behavior is AVKey.RESIZE_STRETCH or AVKey.RESIZE_SHRINK_ONLY. The
-     * scalebar's width is adjusted to occupy the proportion of the viewport's width indicated by this factor. The
-     * scalebar's height is adjusted to maintain the scalebar's Dimension aspect ratio.
+     * Sets the scale factor applied to the viewport size to determine the
+     * displayed size of the scalebar. This scale factor is used only when the
+     * layer's resize behavior is AVKey.RESIZE_STRETCH or
+     * AVKey.RESIZE_SHRINK_ONLY. The scalebar's width is adjusted to occupy the
+     * proportion of the viewport's width indicated by this factor. The
+     * scalebar's height is adjusted to maintain the scalebar's Dimension aspect
+     * ratio.
      *
      * @param toViewportScale the scalebar to viewport scale factor
      */
@@ -160,8 +166,9 @@ public class ScalebarLayer extends AbstractLayer
     }
 
     /**
-     * Sets the relative viewport location to display the scalebar. Can be one of AVKey.NORTHEAST, AVKey.NORTHWEST,
-     * AVKey.SOUTHEAST (the default), or AVKey.SOUTHWEST. These indicate the corner of the viewport.
+     * Sets the relative viewport location to display the scalebar. Can be one
+     * of AVKey.NORTHEAST, AVKey.NORTHWEST, AVKey.SOUTHEAST (the default), or
+     * AVKey.SOUTHWEST. These indicate the corner of the viewport.
      *
      * @param position the desired scalebar position
      */
@@ -187,11 +194,13 @@ public class ScalebarLayer extends AbstractLayer
     }
 
     /**
-     * Specifies the screen location of the scalebar center. May be null. If this value is non-null, it overrides the
-     * position specified by #setPosition. The location is specified in pixels. The origin is the window's lower left
-     * corner. Positive X values are to the right of the origin, positive Y values are upwards from the origin. The
-     * final scalebar location will be affected by the currently specified location offset if a non-null location offset
-     * has been specified (see #setLocationOffset).
+     * Specifies the screen location of the scalebar center. May be null. If
+     * this value is non-null, it overrides the position specified by
+     * #setPosition. The location is specified in pixels. The origin is the
+     * window's lower left corner. Positive X values are to the right of the
+     * origin, positive Y values are upwards from the origin. The final scalebar
+     * location will be affected by the currently specified location offset if a
+     * non-null location offset has been specified (see #setLocationOffset).
      *
      * @param locationCenter the scalebar center. May be null.
      *
@@ -204,9 +213,11 @@ public class ScalebarLayer extends AbstractLayer
     }
 
     /**
-     * Returns the current location offset. See #setLocationOffset for a description of the offset and its values.
+     * Returns the current location offset. See #setLocationOffset for a
+     * description of the offset and its values.
      *
-     * @return the location offset. Will be null if no offset has been specified.
+     * @return the location offset. Will be null if no offset has been
+     * specified.
      */
     public Vec4 getLocationOffset()
     {
@@ -216,9 +227,10 @@ public class ScalebarLayer extends AbstractLayer
     /**
      * Specifies a placement offset from the scalebar's position on the screen.
      *
-     * @param locationOffset the number of pixels to shift the scalebar from its specified screen position. A positive X
-     *                       value shifts the image to the right. A positive Y value shifts the image up. If null, no
-     *                       offset is applied. The default offset is null.
+     * @param locationOffset the number of pixels to shift the scalebar from its
+     * specified screen position. A positive X value shifts the image to the
+     * right. A positive Y value shifts the image up. If null, no offset is
+     * applied. The default offset is null.
      *
      * @see #setLocationCenter
      * @see #setPosition
@@ -239,13 +251,16 @@ public class ScalebarLayer extends AbstractLayer
     }
 
     /**
-     * Sets the behavior the layer uses to size the scalebar when the viewport size changes, typically when the World
-     * Wind window is resized. If the value is AVKey.RESIZE_KEEP_FIXED_SIZE, the scalebar size is kept to the size
-     * specified in its Dimension scaled by the layer's current icon scale. If the value is AVKey.RESIZE_STRETCH, the
-     * scalebar is resized to have a constant size relative to the current viewport size. If the viewport shrinks the
-     * scalebar size decreases; if it expands then the scalebar enlarges. If the value is AVKey.RESIZE_SHRINK_ONLY (the
-     * default), scalebar sizing behaves as for AVKey.RESIZE_STRETCH but it will not grow larger than the size specified
-     * in its Dimension.
+     * Sets the behavior the layer uses to size the scalebar when the viewport
+     * size changes, typically when the World Wind window is resized. If the
+     * value is AVKey.RESIZE_KEEP_FIXED_SIZE, the scalebar size is kept to the
+     * size specified in its Dimension scaled by the layer's current icon scale.
+     * If the value is AVKey.RESIZE_STRETCH, the scalebar is resized to have a
+     * constant size relative to the current viewport size. If the viewport
+     * shrinks the scalebar size decreases; if it expands then the scalebar
+     * enlarges. If the value is AVKey.RESIZE_SHRINK_ONLY (the default),
+     * scalebar sizing behaves as for AVKey.RESIZE_STRETCH but it will not grow
+     * larger than the size specified in its Dimension.
      *
      * @param resizeBehavior the desired resize behavior
      */
@@ -262,7 +277,8 @@ public class ScalebarLayer extends AbstractLayer
     /**
      * Sets the scalebar offset from the viewport border.
      *
-     * @param borderWidth the number of pixels to offset the scalebar from the borders indicated by {@link
+     * @param borderWidth the number of pixels to offset the scalebar from the
+     * borders indicated by {@link
      *                    #setPosition(String)}.
      */
     public void setBorderWidth(int borderWidth)
@@ -276,7 +292,8 @@ public class ScalebarLayer extends AbstractLayer
     }
 
     /**
-     * Sets the unit the scalebar uses to display distances. Can be one of {@link #UNIT_METRIC} (the default), or {@link
+     * Sets the unit the scalebar uses to display distances. Can be one of
+     * {@link #UNIT_METRIC} (the default), or {@link
      * #UNIT_IMPERIAL}.
      *
      * @param unit the desired unit
@@ -317,7 +334,9 @@ public class ScalebarLayer extends AbstractLayer
     public void doRender(DrawContext dc)
     {
         if (dc.isContinuous2DGlobe() && this.frameStampForDrawing == dc.getFrameTimeStamp())
+        {
             return;
+        }
 
         this.addOrderedImage(dc);
 
@@ -328,7 +347,9 @@ public class ScalebarLayer extends AbstractLayer
     public void doPick(DrawContext dc, Point pickPoint)
     {
         if (dc.isContinuous2DGlobe() && this.frameStampForPicking == dc.getFrameTimeStamp())
+        {
             return;
+        }
 
         this.addOrderedImage(dc);
 
@@ -346,7 +367,9 @@ public class ScalebarLayer extends AbstractLayer
     protected double computePixelSize(DrawContext dc, Position referencePosition)
     {
         if (referencePosition == null)
+        {
             return -1;
+        }
 
         Vec4 groundTarget = dc.getGlobe().computePointFromPosition(referencePosition);
         double eyeDistance = dc.getView().getEyePoint().distanceTo3(groundTarget);
@@ -397,8 +420,7 @@ public class ScalebarLayer extends AbstractLayer
                         scaleSize /= 1000;
                         unitLabel = "Km";
                     }
-                }
-                else if (this.unit.equals(UNIT_IMPERIAL))
+                } else if (this.unit.equals(UNIT_IMPERIAL))
                 {
                     scaleSize *= 3.280839895; // feet
                     unitLabel = "ft";
@@ -407,8 +429,7 @@ public class ScalebarLayer extends AbstractLayer
                         scaleSize /= 5280;
                         unitLabel = "mile(s)";
                     }
-                }
-                else if (this.unit.equals(UNIT_NAUTICAL))
+                } else if (this.unit.equals(UNIT_NAUTICAL))
                 {
                     scaleSize *= 3.280839895; // feet
                     unitLabel = "ft";
@@ -425,9 +446,12 @@ public class ScalebarLayer extends AbstractLayer
                     int digit = Integer.parseInt(String.format("%.0f", scaleSize).substring(0, 1));
                     double divSize = digit * Math.pow(10, pot);
                     if (digit >= 5)
+                    {
                         divSize = 5 * Math.pow(10, pot);
-                    else if (digit >= 2)
+                    } else if (digit >= 2)
+                    {
                         divSize = 2 * Math.pow(10, pot);
+                    }
                     double divWidth = width * divSize / scaleSize;
 
                     // Draw scale
@@ -440,7 +464,7 @@ public class ScalebarLayer extends AbstractLayer
                         Color backColor = this.getBackgroundColor(this.color);
                         float[] colorRGB = backColor.getRGBColorComponents(null);
                         gl.glColor4d(colorRGB[0], colorRGB[1], colorRGB[2], (double) backColor.getAlpha() / 255d
-                            * this.getOpacity());
+                                * this.getOpacity());
                         gl.glTranslated((width - divWidth) / 2, 0d, 0d);
                         this.drawScale(dc, divWidth, height);
 
@@ -454,10 +478,9 @@ public class ScalebarLayer extends AbstractLayer
                         gl.glLoadIdentity();
                         gl.glDisable(GL.GL_CULL_FACE);
                         drawLabel(dc, label,
-                            locationSW.add3(
-                                new Vec4(divWidth * scale / 2 + (width - divWidth) / 2, height * scale, 0)));
-                    }
-                    else
+                                locationSW.add3(
+                                        new Vec4(divWidth * scale / 2 + (width - divWidth) / 2, height * scale, 0)));
+                    } else
                     {
                         // Picking
                         this.pickSupport.clearPickList();
@@ -476,8 +499,7 @@ public class ScalebarLayer extends AbstractLayer
                     }
                 }
             }
-        }
-        finally
+        } finally
         {
             gl.glColor4d(1d, 1d, 1d, 1d); // restore the default OpenGL color
             gl.glEnable(GL.GL_DEPTH_TEST);
@@ -525,7 +547,7 @@ public class ScalebarLayer extends AbstractLayer
     private void drawLabel(DrawContext dc, String text, Vec4 screenPoint)
     {
         TextRenderer textRenderer = OGLTextRenderer.getOrCreateTextRenderer(dc.getTextRendererCache(),
-            this.defaultFont);
+                this.defaultFont);
 
         Rectangle2D nameBound = textRenderer.getBounds(text);
         int x = (int) (screenPoint.x() - nameBound.getWidth() / 2d);
@@ -548,9 +570,12 @@ public class ScalebarLayer extends AbstractLayer
     {
         Color.RGBtoHSB(color.getRed(), color.getGreen(), color.getBlue(), compArray);
         if (compArray[2] > 0.5)
+        {
             return new Color(0, 0, 0, 0.7f);
-        else
+        } else
+        {
             return new Color(1, 1, 1, 0.7f);
+        }
     }
 
     private double computeScale(java.awt.Rectangle viewport)
@@ -558,16 +583,13 @@ public class ScalebarLayer extends AbstractLayer
         if (this.resizeBehavior.equals(AVKey.RESIZE_SHRINK_ONLY))
         {
             return Math.min(1d, (this.toViewportScale) * viewport.width / this.size.width);
-        }
-        else if (this.resizeBehavior.equals(AVKey.RESIZE_STRETCH))
+        } else if (this.resizeBehavior.equals(AVKey.RESIZE_STRETCH))
         {
             return (this.toViewportScale) * viewport.width / this.size.width;
-        }
-        else if (this.resizeBehavior.equals(AVKey.RESIZE_KEEP_FIXED_SIZE))
+        } else if (this.resizeBehavior.equals(AVKey.RESIZE_KEEP_FIXED_SIZE))
         {
             return 1d;
-        }
-        else
+        } else
         {
             return 1d;
         }
@@ -580,40 +602,33 @@ public class ScalebarLayer extends AbstractLayer
 
         double x;
         double y;
-        
-        
 
         if (this.locationCenter != null)
         {
             x = this.locationCenter.x - scaledWidth / 2;
             y = this.locationCenter.y - scaledHeight / 2;
-        }
-        else if (this.position.equals(AVKey.NORTHEAST))
+        } else if (this.position.equals(AVKey.NORTHEAST))
         {
             x = viewport.getWidth() - scaledWidth - this.borderWidth;
             y = viewport.getHeight() - scaledHeight - this.borderWidth;
-        }
-        else if (this.position.equals(AVKey.SOUTHEAST))
+        } else if (this.position.equals(AVKey.SOUTHEAST))
         {
             x = viewport.getWidth() - scaledWidth - this.borderWidth;
             y = 0d + this.borderWidth;
-        }
-        else if (this.position.equals(AVKey.NORTHWEST))
+        } else if (this.position.equals(AVKey.NORTHWEST))
         {
             x = 0d + this.borderWidth;
             y = viewport.getHeight() - scaledHeight - this.borderWidth;
-        }
-        else if (this.position.equals(AVKey.SOUTHWEST))
+        } else if (this.position.equals(AVKey.SOUTHWEST))
         {
             x = 0d + this.borderWidth;
             y = 0d + this.borderWidth;
-        }
-        else if (this.position.equals(AVKey.CENTER))
+        } else if (this.position.equals(AVKey.CENTER))
         {
             x = viewport.getWidth() / 2 - scaledWidth / 2;
-            y = viewport.getHeight() / 2 - 2*scaledHeight;
-        }
-        else // use North East
+            y = 0d + this.borderWidth ;
+
+        } else // use North East
         {
             x = viewport.getWidth() - scaledWidth / 2 - this.borderWidth;
             y = viewport.getHeight() - scaledHeight / 2 - this.borderWidth;
