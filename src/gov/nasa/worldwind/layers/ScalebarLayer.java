@@ -611,7 +611,7 @@ public class ScalebarLayer extends AbstractLayer
         else if (this.position.equals(AVKey.CENTER))
         {
             x = viewport.getWidth() / 2 - scaledWidth / 2;
-            y = viewport.getHeight() / 2 - scaledHeight - 350;
+            y = 0d + this.borderWidth;
         }
         else // use North East
         {
