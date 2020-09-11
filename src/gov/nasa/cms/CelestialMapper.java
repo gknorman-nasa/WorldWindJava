@@ -18,9 +18,19 @@ import gov.nasa.worldwind.avlist.AVKey;
 import gov.nasa.worldwind.geom.Angle;
 import gov.nasa.worldwind.geom.Position;
 import gov.nasa.worldwind.geom.Sector;
+import gov.nasa.worldwind.render.ScreenImage;
 import gov.nasa.worldwind.util.Logging;
+import java.awt.Point;
+import java.awt.Rectangle;
 import javax.swing.*;
 import java.awt.event.*;
+import java.io.File;
+import java.io.IOException;
+import java.util.HashSet;
+import java.util.Set;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.imageio.ImageIO;
 
 /**
  * CelestialMapper.java
@@ -37,7 +47,7 @@ public class CelestialMapper extends AppFrame
     protected static final String REMOVE_SELECTED = "CelestialMapper.RemoveSelected";
     protected static final String SAVE = "CelestialMapper.Save";
     protected static final String SELECTION_CHANGED = "CelestialMapper.SelectionChanged";
-//    protected static final String ELEVATIONS_PATH = "testData/lunar-dem.tif";
+    protected static final String LOGO_PATH = "gov/nasa/cms/images/cms-logo.png";
 
     //**************************************************************//
     //********************  Main  **********************************//
@@ -50,10 +60,10 @@ public class CelestialMapper extends AppFrame
     private CMSProfile profile;
     private MeasureDialog measureDialog;
     private MeasureTool measureTool;
-   
+
     private boolean stereo;
     private boolean isMeasureDialogOpen;
-    
+
     private JCheckBoxMenuItem stereoCheckBox;
     private JCheckBoxMenuItem measurementCheckBox;
 
@@ -75,6 +85,9 @@ public class CelestialMapper extends AppFrame
 
         // Import the lunar elevation data
         elevationModel = new MoonElevationModel(this.getWwd());
+        
+        this.renderLogo();
+
     }
 
     /**
@@ -154,8 +167,7 @@ public class CelestialMapper extends AppFrame
                     }
                     // Display on screen
                     measureDialog.setVisible(true);
-                }
-                else // Hide the dialog
+                } else // Hide the dialog
                 {
                     measureDialog.setVisible(false);
                 }
@@ -203,6 +215,28 @@ public class CelestialMapper extends AppFrame
         }
         menuBar.add(view);
         frame.setJMenuBar(menuBar);
+    }
+
+    private void renderLogo()
+    {
+        final ScreenImage cmsLogo = new ScreenImage();
+
+        try
+        {
+            cmsLogo.setImageSource(ImageIO.read(new File("src/gov/nasa/cms/images/cms-logo.png")));
+            Rectangle view = getWwd().getView().getViewport();
+            cmsLogo.setScreenLocation(new Point(view.x + 60, view.y + 30));
+        } catch (IOException ex)
+        {
+            Logger.getLogger(CelestialMapper.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        RenderableLayer layer = new RenderableLayer();
+        layer.addRenderable(cmsLogo);
+        layer.setName("Logo");
+
+        getWwd().getModel().getLayers().add(layer);
+
     }
 
 }

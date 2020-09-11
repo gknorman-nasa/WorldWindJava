@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
-  ~ Copyright (C) 2012 United States Government as represented by the Administrator of the
-  ~ National Aeronautics and Space Administration.
-  ~ All Rights Reserved.
-  -->
+~ Copyright (C) 2012 United States Government as represented by the Administrator of the
+~ National Aeronautics and Space Administration.
+~ All Rights Reserved.
+-->
 
 <!-- Lunar Reconnaissance Orbiter (LRO) Wide Area Camera (WAC) image mosaic created by Arizona State University (ASU) and released in June 2013. Updated this version in Feb. 2016 to fix the edges. -->
 <!--$Id: LROWACGlobalMosaic.xml 1382 2013-05-31 00:37:46Z tgaskins $-->
@@ -49,6 +49,9 @@
             <Time units="milliseconds" value="30000"/>
         </ReadTimeout>
     </RetrievalTimeouts>
+<!--    <ScreenCredit creditType="ScreenImage">
+        <FileName>gov/nasa/cms/images/cms-logo.png</FileName>
+    </ScreenCredit>-->
     <!-- The following lines are included just to show how to set the values to other than their defaults -->
     <MaxAbsentTileAttempts>2</MaxAbsentTileAttempts>
     <MinAbsentTileCheckInterval>1000</MinAbsentTileCheckInterval>
