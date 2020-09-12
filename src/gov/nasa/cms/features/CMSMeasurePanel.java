@@ -47,6 +47,7 @@ public class CMSMeasurePanel extends JPanel
     private JButton newButton;
     private JButton pauseButton;
     private JButton endButton;
+    private JCheckBox followCheck;
     private JButton deleteButton;
     private JLabel[] pointLabels;
     private JLabel lengthLabel;
@@ -285,6 +286,15 @@ public class CMSMeasurePanel extends JPanel
             wwd.redraw();
         });
         checkPanel.add(showAnnotationCheck);
+        
+        followCheck = new JCheckBox("Follow terrain");
+        followCheck.setSelected(true); // start off selected
+        followCheck.addActionListener((ActionEvent event) -> {
+            JCheckBox cb = (JCheckBox) event.getSource();
+            measureTool.setFollowTerrain(cb.isSelected());
+            wwd.redraw();
+        });
+        checkPanel.add(followCheck);
 
         //======== Color Buttons ========  
         final JPanel colorPanel = new JPanel(new GridLayout(1, 2, 5, 5));

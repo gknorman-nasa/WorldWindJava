@@ -26,8 +26,6 @@ import javax.swing.*;
 import java.awt.event.*;
 import java.io.File;
 import java.io.IOException;
-import java.util.HashSet;
-import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.imageio.ImageIO;
@@ -38,17 +36,6 @@ import javax.imageio.ImageIO;
  */
 public class CelestialMapper extends AppFrame
 {
-
-    protected static final String CMS_LAYER_NAME = "Celestial Shapes";
-    protected static final String CLEAR_SELECTION = "CelestialMapper.ClearSelection";
-    protected static final String ENABLE_EDIT = "CelestialMapper.EnableEdit";
-    protected static final String OPEN = "CelestialMapper.Open";
-    protected static final String OPEN_URL = "CelestialMapper.OpenUrl";
-    protected static final String REMOVE_SELECTED = "CelestialMapper.RemoveSelected";
-    protected static final String SAVE = "CelestialMapper.Save";
-    protected static final String SELECTION_CHANGED = "CelestialMapper.SelectionChanged";
-    protected static final String LOGO_PATH = "gov/nasa/cms/images/cms-logo.png";
-
     //**************************************************************//
     //********************  Main  **********************************//
     //**************************************************************//
@@ -86,6 +73,7 @@ public class CelestialMapper extends AppFrame
         // Import the lunar elevation data
         elevationModel = new MoonElevationModel(this.getWwd());
         
+        // Display the ScreenImage CMS logo as a RenderableLayer
         this.renderLogo();
 
     }
@@ -217,6 +205,7 @@ public class CelestialMapper extends AppFrame
         frame.setJMenuBar(menuBar);
     }
 
+    // Renders the logo for CMS in the northwest corner of the screen 
     private void renderLogo()
     {
         final ScreenImage cmsLogo = new ScreenImage();
@@ -225,8 +214,9 @@ public class CelestialMapper extends AppFrame
         {
             cmsLogo.setImageSource(ImageIO.read(new File("src/gov/nasa/cms/images/cms-logo.png")));
             Rectangle view = getWwd().getView().getViewport();
-            cmsLogo.setScreenLocation(new Point(view.x + 60, view.y + 30));
-        } catch (IOException ex)
+            // Set the screen location to different points to offset the image size
+            cmsLogo.setScreenLocation(new Point(view.x + 55, view.y + 70));
+        } catch (IOException ex) 
         {
             Logger.getLogger(CelestialMapper.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -236,7 +226,5 @@ public class CelestialMapper extends AppFrame
         layer.setName("Logo");
 
         getWwd().getModel().getLayers().add(layer);
-
     }
-
 }
