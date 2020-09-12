@@ -91,29 +91,10 @@ public class MeasureDialog
         dialog.getContentPane().setLayout(new BorderLayout());
         dialog.setTitle("Measure Tool");
         // Set the location and resizable to false
-        dialog.setLocation(bounds.x, bounds.y + 70); //originally at 90
+        dialog.setLocation(bounds.x, bounds.y + 60);
         dialog.setResizable(false);
         // Add the tabbedPane to the dialog
         dialog.getContentPane().add(tabbedPane, BorderLayout.CENTER);
-
-        
-//        JButton deleteButton = new JButton(
-//            new ImageIcon(
-//                this.getClass().getResource("/gov/nasa/worldwindx/applications/worldwindow/images/delete-20x20.png")));
-//        deleteButton.setToolTipText("Remove current measurement");
-//        deleteButton.setOpaque(false);
-//        deleteButton.setBackground(new Color(0, 0, 0, 0));
-//        deleteButton.setBorderPainted(false);
-//        deleteButton.addActionListener(new ActionListener()
-//        {
-//            public void actionPerformed(ActionEvent e)
-//            {
-//                deleteCurrentPanel();
-//                measureTool.getWwd().redraw();
-//            }
-//        });
-//        deleteButton.setEnabled(true);
-//        dialog.getContentPane().add(deleteButton, BorderLayout.SOUTH);
         
         dialog.pack();
     }
@@ -132,7 +113,7 @@ public class MeasureDialog
         }
     }
     
-    // Get the current tabbedPane (this function is working)
+    // Get the current tabbedPane 
     private CMSMeasurePanel getCurrentPanel()
     {
         JComponent p = (JComponent) tabbedPane.getSelectedComponent();
