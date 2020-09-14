@@ -598,7 +598,7 @@ public class ScalebarLayer extends AbstractLayer
             x = viewport.getWidth() - scaledWidth - this.borderWidth;
             y = 0d + this.borderWidth;
         }
-        else if (this.position.equals(AVKey.NORTHWEST))
+        else if (this.position.equals(AVKey.NORTHWEST)) 
         {
             x = 0d + this.borderWidth;
             y = viewport.getHeight() - scaledHeight - this.borderWidth;
