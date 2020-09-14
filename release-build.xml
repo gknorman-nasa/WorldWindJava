@@ -143,7 +143,7 @@
                 <include name="*.jar"/>
                 <include name="run-cms.bat"/>
                 <include name="run-cms.sh"/>
-                <include name="gov/**"/>
+                <include name="src/gov/**"/>
                 <include name="testData/**"/>
                 <include name="lib-external/gdal/**"/>
                 <type type="file"/>
