@@ -28,7 +28,7 @@
         <delete file="${basedir}/worldwindx.jar"/>
     </target>
 
-    <target name="assemble" depends="assembleDebug, assembleRelease, assembleSdkArchive, assembleCMSArchive"
+    <target name="assemble" depends="assembleDebug, assembleRelease, assembleCMSArchive"
             description="Assembles JAR libraries for all build types and assembles the project documentation."/>
 
     <!-- Targets for compiling Java sources and bundling JAR libraries. -->
