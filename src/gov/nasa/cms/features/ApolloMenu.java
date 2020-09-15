@@ -69,7 +69,7 @@ public class ApolloMenu extends JMenu
                 if (isItemEnabled)
                 {
                     // Create from the XML configuration file recieving georeferenced imagery via LROC WMS
-                    apollo11 = (Layer) factory.createFromConfigSource("gov/nasa/cms/config/apollo/Apollo11.xml", null);
+                    apollo11 = (Layer) factory.createFromConfigSource("cms-data/apollo/Apollo11.xml", null);
                     apollo11.setEnabled(true);
                     layerList.add(apollo11); // Add to the LayerList 
 
@@ -98,7 +98,7 @@ public class ApolloMenu extends JMenu
 
                 if (isItemEnabled)
                 {
-                    apollo12 = (Layer) factory.createFromConfigSource("gov/nasa/cms/config/apollo/Apollo12.xml", null);
+                    apollo12 = (Layer) factory.createFromConfigSource("cms-data/apollo/Apollo12.xml", null);
                     apollo12.setEnabled(true);
                     layerList.add(apollo12);
 
@@ -123,7 +123,7 @@ public class ApolloMenu extends JMenu
 
                 if (isItemEnabled)
                 {
-                    apollo14 = (Layer) factory.createFromConfigSource("gov/nasa/cms/config/apollo/Apollo14.xml", null);
+                    apollo14 = (Layer) factory.createFromConfigSource("cms-data/apollo/Apollo14.xml", null);
                     apollo14.setEnabled(true);
                     layerList.add(apollo14);
 
@@ -148,7 +148,7 @@ public class ApolloMenu extends JMenu
 
                 if (isItemEnabled)
                 {
-                    apollo15 = (Layer) factory.createFromConfigSource("gov/nasa/cms/config/apollo/Apollo15.xml", null);
+                    apollo15 = (Layer) factory.createFromConfigSource("cms-data/apollo/Apollo15.xml", null);
                     apollo15.setEnabled(true);
                     layerList.add(apollo15); // Add to the LayerList 
 
@@ -174,7 +174,7 @@ public class ApolloMenu extends JMenu
 
                 if (isItemEnabled)
                 {
-                    apollo16 = (Layer) factory.createFromConfigSource("gov/nasa/cms/config/apollo/Apollo16.xml", null);
+                    apollo16 = (Layer) factory.createFromConfigSource("cms-data/apollo/Apollo16.xml", null);
                     apollo16.setEnabled(true);
                     layerList.add(apollo16);
 
@@ -199,7 +199,7 @@ public class ApolloMenu extends JMenu
 
                 if (isItemEnabled)
                 {
-                    apollo17 = (Layer) factory.createFromConfigSource("gov/nasa/cms/config/apollo/Apollo17.xml", null);
+                    apollo17 = (Layer) factory.createFromConfigSource("cms-data/apollo/Apollo17.xml", null);
                     apollo17.setEnabled(true);
                     layerList.add(apollo17);
 
