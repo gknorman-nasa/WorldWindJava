@@ -12,7 +12,7 @@
     <Service serviceName="OGC:WMS" version="1.3">
         <GetCapabilitiesURL>https://planetarymaps.usgs.gov/cgi-bin/mapserv?map=/maps/earth/moon_simp_cyl.map</GetCapabilitiesURL>
         <GetMapURL>https://planetarymaps.usgs.gov/cgi-bin/mapserv?map=/maps/earth/moon_simp_cyl.map</GetMapURL>
-        <LayerNames>uv_v2, LOLA_color</LayerNames>
+        <LayerNames>uv_v2</LayerNames>
     </Service>
     <RetrievePropertiesFromService>true</RetrievePropertiesFromService>
     <!-- day month year hours:minutes:seconds timezone -->
