@@ -1,5 +1,6 @@
 package gov.nasa.cms.features;
 
+import gov.nasa.cms.CMSColladaViewer;
 import gov.nasa.worldwind.Factory;
 import gov.nasa.worldwind.WorldWind;
 import gov.nasa.worldwind.WorldWindow;
@@ -38,6 +39,7 @@ public class ApolloMenu extends JMenu
     private Layer apollo15;
     private Layer apollo16;
     private Layer apollo17;
+    private CMSColladaViewer colladaViewer;
 
     public ApolloMenu(WorldWindow Wwd)
     {
@@ -213,6 +215,10 @@ public class ApolloMenu extends JMenu
             }
         });
         this.add(apolloMenuItem);
+        
+        //======== 3D Objects ========   
+        colladaViewer = new CMSColladaViewer(this.getWwd());
+        this.add(colladaViewer);
     }
 
     // Zooms to the landing site at the passed in latitude/longitude, heading, pitch and zoom level
