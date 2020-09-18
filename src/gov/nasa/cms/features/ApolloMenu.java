@@ -83,7 +83,7 @@ public class ApolloMenu extends JMenu
                     getWwd().getModel().getLayers().remove(apollo11); // Removes Apollo 11 from LayerList
 
                     // Return to a global view of the moon
-                    getWwd().getView().setEyePosition(new Position(Angle.fromDegreesLatitude(0), Angle.fromDegreesLongitude(0), 8e6));
+                    zoomTo(LatLon.fromDegrees(0, 0), Angle.fromDegrees(0), Angle.fromDegrees(0), 8e6);
                 }
 
             }
@@ -108,7 +108,7 @@ public class ApolloMenu extends JMenu
                 } else
                 {
                     getWwd().getModel().getLayers().remove(apollo12);
-                    getWwd().getView().setEyePosition(new Position(Angle.fromDegreesLatitude(0), Angle.fromDegreesLongitude(0), 8e6));
+                    zoomTo(LatLon.fromDegrees(0, 0), Angle.fromDegrees(0), Angle.fromDegrees(0), 8e6);
                 }
 
             }
@@ -133,7 +133,7 @@ public class ApolloMenu extends JMenu
                 } else
                 {
                     getWwd().getModel().getLayers().remove(apollo14);
-                    getWwd().getView().setEyePosition(new Position(Angle.fromDegreesLatitude(0), Angle.fromDegreesLongitude(0), 8e6));
+                    zoomTo(LatLon.fromDegrees(0, 0), Angle.fromDegrees(0), Angle.fromDegrees(0), 8e6);
                 }
 
             }
@@ -158,7 +158,7 @@ public class ApolloMenu extends JMenu
                 } else
                 {
                     getWwd().getModel().getLayers().remove(apollo15);
-                    getWwd().getView().setEyePosition(new Position(Angle.fromDegreesLatitude(0), Angle.fromDegreesLongitude(0), 8e6));
+                    zoomTo(LatLon.fromDegrees(0, 0), Angle.fromDegrees(0), Angle.fromDegrees(0), 8e6);
                 }
 
             }
@@ -184,7 +184,7 @@ public class ApolloMenu extends JMenu
                 } else
                 {
                     getWwd().getModel().getLayers().remove(apollo16);
-                    getWwd().getView().setEyePosition(new Position(Angle.fromDegreesLatitude(0), Angle.fromDegreesLongitude(0), 8e6));
+                    zoomTo(LatLon.fromDegrees(0, 0), Angle.fromDegrees(0), Angle.fromDegrees(0), 8e6);
                 }
 
             }
@@ -209,7 +209,7 @@ public class ApolloMenu extends JMenu
                 } else
                 {
                     getWwd().getModel().getLayers().remove(apollo17);
-                    getWwd().getView().setEyePosition(new Position(Angle.fromDegreesLatitude(0), Angle.fromDegreesLongitude(0), 8e6));
+                    zoomTo(LatLon.fromDegrees(0, 0), Angle.fromDegrees(0), Angle.fromDegrees(0), 8e6);
                 }
 
             }
