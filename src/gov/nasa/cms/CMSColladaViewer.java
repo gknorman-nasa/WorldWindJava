@@ -10,6 +10,7 @@ import gov.nasa.worldwind.WorldWindow;
 import gov.nasa.worldwind.geom.Angle;
 import gov.nasa.worldwind.geom.LatLon;
 import gov.nasa.worldwind.geom.Position;
+import gov.nasa.worldwind.geom.Vec4;
 import gov.nasa.worldwind.layers.Layer;
 import gov.nasa.worldwind.layers.RenderableLayer;
 import gov.nasa.worldwind.ogc.collada.ColladaRoot;
@@ -78,34 +79,39 @@ public class CMSColladaViewer extends JCheckBoxMenuItem {
     protected void createObjects()
     {
         // Lunar Lander 3D Object
-        Position LunarLanderPosition = Position.fromDegrees(20.1653, 30.7658, 200);
-        File ColladaFile = new File("cms-data/collada_files/lander_test.dae");
-        //"testData/collada/collada.dae"
+        Position LunarLanderPosition = Position.fromDegrees(20.1653, 30.7658, 100);
+        File ColladaFile = new File("cms-data/collada_files/lander_test.dae");       
+        //testData/collada/collada.dae
         String layerName = "Lunar Lander";
-        setColladaProperties(layerName, LunarLanderPosition, ColladaFile);
+        setColladaProperties(layerName, LunarLanderPosition, ColladaFile, new Vec4(700,700,700,700));
        
         
         // Astronaut 1 3D Object
-        Position FirstAstronautPosition = Position.fromDegrees(20.1640, 30.7255, 200);
-        File ColladaFile2 = new File("testData/collada/cube_triangulate.dae");
+        Position FirstAstronautPosition = Position.fromDegrees(20.1640, 30.7255, 100);
+        File ColladaFile2 = new File("cms-data/collada_files/advance_astro.dae");
+        //testData/collada/cube_triangulate.dae
         layerName = "Astronaut 1";
-        setColladaProperties(layerName, FirstAstronautPosition, ColladaFile2);
+        setColladaProperties(layerName, FirstAstronautPosition, ColladaFile2, new Vec4(100,100,100,100));
 
         
         // Astronaut 2 3D Object
-        Position SecondAstronautPosition = Position.fromDegrees(20.12, 30.7461, 200);
-        File ColladaFile3 = new File("testData/collada/duck_triangulate.dae");
+        Position SecondAstronautPosition = Position.fromDegrees(20.12, 30.7461, 100);
+        File ColladaFile3 = new File("cms-data/collada_files/advance_astro.dae");
+        //testData/collada/duck_triangulate.dae
         layerName = "Astronaut 2";
-        setColladaProperties(layerName, SecondAstronautPosition, ColladaFile3);  
+        setColladaProperties(layerName, SecondAstronautPosition, ColladaFile3, new Vec4(100,100,100,100));  
         
     }
     
-    protected void setColladaProperties(String layerName, Position objectPosition, Object colladaSource)
+    protected void setColladaProperties(String layerName, Position objectPosition, Object colladaSource, Vec4 objectScale)
     {
         try {
         ColladaRoot colladaRoot = ColladaRoot.createAndParse(colladaSource);
         colladaRoot.setPosition(objectPosition);
         colladaRoot.setAltitudeMode(WorldWind.RELATIVE_TO_GROUND);
+        colladaRoot.setModelScale(objectScale);
+        //Angle pitch in parameter
+        //colladaRoot.setPitch(pitch);
         
         // Create a ColladaController to adapt the ColladaRoot to the WorldWind renderable interface.
         ColladaController colladaController = new ColladaController(colladaRoot);
