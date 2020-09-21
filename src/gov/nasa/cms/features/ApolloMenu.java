@@ -1,5 +1,6 @@
 package gov.nasa.cms.features;
 
+import gov.nasa.cms.CMSColladaViewer;
 import gov.nasa.worldwind.Factory;
 import gov.nasa.worldwind.WorldWind;
 import gov.nasa.worldwind.WorldWindow;
@@ -38,12 +39,14 @@ public class ApolloMenu extends JMenu
     private Layer apollo15;
     private Layer apollo16;
     private Layer apollo17;
+    private CMSColladaViewer colladaViewer;
 
     public ApolloMenu(WorldWindow Wwd)
     {
         super("Apollo");
         this.setWwd(Wwd);
         setupApolloMenu();
+        colladaViewer = new CMSColladaViewer(this.getWwd());
     }
 
     // Sets up the ApolloMenu bar by creating the 6 Apollo landing sites and Apollo annotations layer as JCheckBoxMenuItems
@@ -73,15 +76,15 @@ public class ApolloMenu extends JMenu
                     apollo11.setEnabled(true);
                     layerList.add(apollo11); // Add to the LayerList 
 
+                    colladaViewer.createObjects("Apollo 11");
                     // Zoom to a close up view of the Apollo landing site
-                    zoomTo(LatLon.fromDegrees(0.67, 23.48), Angle.fromDegrees(10), Angle.fromDegrees(70), 2000);
-
+                    zoomTo(LatLon.fromDegrees(0.67, 23.48), Angle.fromDegrees(10), Angle.fromDegrees(70), 2000);                   
                 } else
                 {
                     getWwd().getModel().getLayers().remove(apollo11); // Removes Apollo 11 from LayerList
-
+                    colladaViewer.removeColladaObjects();
                     // Return to a global view of the moon
-                    getWwd().getView().setEyePosition(new Position(Angle.fromDegreesLatitude(0), Angle.fromDegreesLongitude(0), 8e6));
+                    zoomTo(LatLon.fromDegrees(0, 0), Angle.fromDegrees(0), Angle.fromDegrees(0), 8e6);
                 }
 
             }
@@ -101,12 +104,13 @@ public class ApolloMenu extends JMenu
                     apollo12 = (Layer) factory.createFromConfigSource("cms-data/apollo/Apollo12.xml", null);
                     apollo12.setEnabled(true);
                     layerList.add(apollo12);
-
+                    colladaViewer.createObjects("Apollo 12");
                     zoomTo(LatLon.fromDegrees(-3.01, -23.43), Angle.fromDegrees(10), Angle.fromDegrees(70), 1200);
                 } else
                 {
                     getWwd().getModel().getLayers().remove(apollo12);
-                    getWwd().getView().setEyePosition(new Position(Angle.fromDegreesLatitude(0), Angle.fromDegreesLongitude(0), 8e6));
+                    colladaViewer.removeColladaObjects();
+                    zoomTo(LatLon.fromDegrees(0, 0), Angle.fromDegrees(0), Angle.fromDegrees(0), 8e6);
                 }
 
             }
@@ -126,12 +130,15 @@ public class ApolloMenu extends JMenu
                     apollo14 = (Layer) factory.createFromConfigSource("cms-data/apollo/Apollo14.xml", null);
                     apollo14.setEnabled(true);
                     layerList.add(apollo14);
+                    
+                    colladaViewer.createObjects("Apollo 14");
 
                     zoomTo(LatLon.fromDegrees(-3.66, -17.4786), Angle.fromDegrees(10), Angle.fromDegrees(70), 1200);
                 } else
                 {
                     getWwd().getModel().getLayers().remove(apollo14);
-                    getWwd().getView().setEyePosition(new Position(Angle.fromDegreesLatitude(0), Angle.fromDegreesLongitude(0), 8e6));
+                    colladaViewer.removeColladaObjects();
+                    zoomTo(LatLon.fromDegrees(0, 0), Angle.fromDegrees(0), Angle.fromDegrees(0), 8e6);
                 }
 
             }
@@ -151,12 +158,15 @@ public class ApolloMenu extends JMenu
                     apollo15 = (Layer) factory.createFromConfigSource("cms-data/apollo/Apollo15.xml", null);
                     apollo15.setEnabled(true);
                     layerList.add(apollo15); // Add to the LayerList 
+                    
+                    colladaViewer.createObjects("Apollo 15");
 
                     zoomTo(LatLon.fromDegrees(26, 3.5), Angle.fromDegrees(90), Angle.fromDegrees(70), 3e4);
                 } else
                 {
                     getWwd().getModel().getLayers().remove(apollo15);
-                    getWwd().getView().setEyePosition(new Position(Angle.fromDegreesLatitude(0), Angle.fromDegreesLongitude(0), 8e6));
+                    colladaViewer.removeColladaObjects();
+                    zoomTo(LatLon.fromDegrees(0, 0), Angle.fromDegrees(0), Angle.fromDegrees(0), 8e6);
                 }
 
             }
@@ -177,12 +187,15 @@ public class ApolloMenu extends JMenu
                     apollo16 = (Layer) factory.createFromConfigSource("cms-data/apollo/Apollo16.xml", null);
                     apollo16.setEnabled(true);
                     layerList.add(apollo16);
+                    
+                    colladaViewer.createObjects("Apollo 16");
 
                     zoomTo(LatLon.fromDegrees(-8.9975, 15.47), Angle.fromDegrees(0), Angle.fromDegrees(70), 2500);
                 } else
                 {
                     getWwd().getModel().getLayers().remove(apollo16);
-                    getWwd().getView().setEyePosition(new Position(Angle.fromDegreesLatitude(0), Angle.fromDegreesLongitude(0), 8e6));
+                    colladaViewer.removeColladaObjects();
+                    zoomTo(LatLon.fromDegrees(0, 0), Angle.fromDegrees(0), Angle.fromDegrees(0), 8e6);
                 }
 
             }
@@ -202,17 +215,24 @@ public class ApolloMenu extends JMenu
                     apollo17 = (Layer) factory.createFromConfigSource("cms-data/apollo/Apollo17.xml", null);
                     apollo17.setEnabled(true);
                     layerList.add(apollo17);
+                    
+                    colladaViewer.createObjects("Apollo 17");
 
                     zoomTo(LatLon.fromDegrees(20, 30.6), Angle.fromDegrees(30), Angle.fromDegrees(70), 3e4);
                 } else
                 {
                     getWwd().getModel().getLayers().remove(apollo17);
-                    getWwd().getView().setEyePosition(new Position(Angle.fromDegreesLatitude(0), Angle.fromDegreesLongitude(0), 8e6));
+                    colladaViewer.removeColladaObjects();
+                    zoomTo(LatLon.fromDegrees(0, 0), Angle.fromDegrees(0), Angle.fromDegrees(0), 8e6);
                 }
 
             }
         });
         this.add(apolloMenuItem);
+        
+//        //======== 3D Objects ========   
+//        colladaViewer = new CMSColladaViewer(this.getWwd());
+//        this.add(colladaViewer);
     }
 
     // Zooms to the landing site at the passed in latitude/longitude, heading, pitch and zoom level

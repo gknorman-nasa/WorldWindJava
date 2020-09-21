@@ -47,7 +47,7 @@ public class CelestialMapper extends AppFrame
     private CMSProfile profile;
     private MeasureDialog measureDialog;
     private MeasureTool measureTool;
-
+    
     private boolean stereo;
     private boolean isMeasureDialogOpen;
 
@@ -195,7 +195,7 @@ public class CelestialMapper extends AppFrame
                 }
                 restart();
             });
-            view.add(stereoCheckBox);
+            view.add(stereoCheckBox);            
         }
         menuBar.add(view);
         frame.setJMenuBar(menuBar);
