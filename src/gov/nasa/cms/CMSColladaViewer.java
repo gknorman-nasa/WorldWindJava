@@ -44,63 +44,63 @@ public class CMSColladaViewer {
         switch (location)
         {
             case "Apollo 11" :
-                Position LunarLanderPosition = Position.fromDegrees(0.6875, 23.4993, 100);
+                Position LunarLanderPosition = Position.fromDegrees(0.6875, 23.4993, 0);
                 createLanderObject(LunarLanderPosition);
 
-                Position FirstAstronautPosition = Position.fromDegrees(0.6862, 23.4823, 100);
+                Position FirstAstronautPosition = Position.fromDegrees(0.6862, 23.4823, 0);
                 createFirstAstronaut(FirstAstronautPosition);
                  
-                Position SecondAstronautPosition = Position.fromDegrees(0.6623, 23.4933, 100);
+                Position SecondAstronautPosition = Position.fromDegrees(0.6623, 23.4933, 0);
                 createSecondAstronaut(SecondAstronautPosition);
                 break;
             case "Apollo 12" :
-                LunarLanderPosition = Position.fromDegrees(-3.01, -23.43, 100);
+                LunarLanderPosition = Position.fromDegrees(-3.01, -23.43, 0);
                 createLanderObject(LunarLanderPosition);
 
-                FirstAstronautPosition = Position.fromDegrees(-3.06, -23.43, 100);
+                FirstAstronautPosition = Position.fromDegrees(-3.06, -23.43, 0);
                 createFirstAstronaut(FirstAstronautPosition);
                  
-                SecondAstronautPosition = Position.fromDegrees(-2.95, -23.43, 100);
+                SecondAstronautPosition = Position.fromDegrees(-2.95, -23.43, 0);
                 createSecondAstronaut(SecondAstronautPosition);
                 break;
             case "Apollo 14" :
-                LunarLanderPosition = Position.fromDegrees(-3.66, -17.4786, 100);
+                LunarLanderPosition = Position.fromDegrees(-3.66, -17.4786, 0);
                 createLanderObject(LunarLanderPosition);
 
-                FirstAstronautPosition = Position.fromDegrees(-3.6720, -17.4453, 100);
+                FirstAstronautPosition = Position.fromDegrees(-3.6720, -17.4453, 0);
                 createFirstAstronaut(FirstAstronautPosition);
                  
-                SecondAstronautPosition = Position.fromDegrees(-3.6845, -17.4853, 100);
+                SecondAstronautPosition = Position.fromDegrees(-3.6845, -17.4853, 0);
                 createSecondAstronaut(SecondAstronautPosition);
                 break;
             case "Apollo 15" :
-                LunarLanderPosition = Position.fromDegrees(26.1008, 3.6527, 100);
+                LunarLanderPosition = Position.fromDegrees(26.1008, 3.6527, 0);
                 createLanderObject(LunarLanderPosition);
 
-                FirstAstronautPosition = Position.fromDegrees(26.0970, 3.6017, 100);
+                FirstAstronautPosition = Position.fromDegrees(26.0970, 3.6017, 0);
                 createFirstAstronaut(FirstAstronautPosition);
                  
-                SecondAstronautPosition = Position.fromDegrees(26.118, 3.6987, 100);
+                SecondAstronautPosition = Position.fromDegrees(26.118, 3.6987, 0);
                 createSecondAstronaut(SecondAstronautPosition);
                 break;
             case "Apollo 16" :
-                LunarLanderPosition = Position.fromDegrees(-8.9913, 15.5144, 100);
+                LunarLanderPosition = Position.fromDegrees(-8.9913, 15.5144, 0);
                 createLanderObject(LunarLanderPosition);
 
-                FirstAstronautPosition = Position.fromDegrees(-8.9899, 15.4944, 100);
+                FirstAstronautPosition = Position.fromDegrees(-8.9899, 15.4944, 0);
                 createFirstAstronaut(FirstAstronautPosition);
                  
-                SecondAstronautPosition = Position.fromDegrees(-8.9999, 15.5344, 100);
+                SecondAstronautPosition = Position.fromDegrees(-8.9999, 15.5344, 0);
                 createSecondAstronaut(SecondAstronautPosition);
                 break;
             case "Apollo 17" : 
-                LunarLanderPosition = Position.fromDegrees(20.1653, 30.7658, 100);
+                LunarLanderPosition = Position.fromDegrees(20.1653, 30.7658, 0);
                 createLanderObject(LunarLanderPosition);
 
-                FirstAstronautPosition = Position.fromDegrees(20.1640, 30.7255, 100);
+                FirstAstronautPosition = Position.fromDegrees(20.1640, 30.7255, 0);
                 createFirstAstronaut(FirstAstronautPosition);
                  
-                SecondAstronautPosition = Position.fromDegrees(20.12, 30.7461, 100);
+                SecondAstronautPosition = Position.fromDegrees(20.12, 30.7461, 0);
                 createSecondAstronaut(SecondAstronautPosition);;
                 break;
             default :

@@ -19,9 +19,11 @@ import javax.swing.JMenu;
 /**
  * Apollo Menu bar created from a JMenu. The menu uses
  * {@link gov.nasa.cms.features.ApolloAnnotations} to display the Annotations
- * feature and five Apollo landing sites as JCheckBoxMenuItems. The landing
+ * feature and six Apollo landing sites as JCheckBoxMenuItems. The landing
  * sites use approximate Apollo landing coordinates to place the user in a good
  * location for viewing surroundings.
+ * 
+ * Landing sites display Collada 3D Astronauts and the Lunar Lander.
  *
  *
  * @author kjdickin
@@ -78,7 +80,7 @@ public class ApolloMenu extends JMenu
 
                     colladaViewer.createObjects("Apollo 11");
                     // Zoom to a close up view of the Apollo landing site
-                    zoomTo(LatLon.fromDegrees(0.67, 23.48), Angle.fromDegrees(10), Angle.fromDegrees(70), 2000);                   
+                    zoomTo(LatLon.fromDegrees(0.67, 23.49), Angle.fromDegrees(30), Angle.fromDegrees(75), 2100);                   
                 } else
                 {
                     getWwd().getModel().getLayers().remove(apollo11); // Removes Apollo 11 from LayerList
@@ -105,7 +107,7 @@ public class ApolloMenu extends JMenu
                     apollo12.setEnabled(true);
                     layerList.add(apollo12);
                     colladaViewer.createObjects("Apollo 12");
-                    zoomTo(LatLon.fromDegrees(-3.01, -23.43), Angle.fromDegrees(10), Angle.fromDegrees(70), 1200);
+                    zoomTo(LatLon.fromDegrees(-3.07, -23.44), Angle.fromDegrees(20), Angle.fromDegrees(75), 2500);
                 } else
                 {
                     getWwd().getModel().getLayers().remove(apollo12);
@@ -133,7 +135,7 @@ public class ApolloMenu extends JMenu
                     
                     colladaViewer.createObjects("Apollo 14");
 
-                    zoomTo(LatLon.fromDegrees(-3.66, -17.4786), Angle.fromDegrees(10), Angle.fromDegrees(70), 1200);
+                    zoomTo(LatLon.fromDegrees(-3.7, -17.5), Angle.fromDegrees(30), Angle.fromDegrees(75), 2600);
                 } else
                 {
                     getWwd().getModel().getLayers().remove(apollo14);
@@ -161,12 +163,12 @@ public class ApolloMenu extends JMenu
                     
                     colladaViewer.createObjects("Apollo 15");
 
-                    zoomTo(LatLon.fromDegrees(26, 3.5), Angle.fromDegrees(90), Angle.fromDegrees(70), 3e4);
+                    zoomTo(LatLon.fromDegrees(26.1, 3.65), Angle.fromDegrees(140), Angle.fromDegrees(80), 4300);
                 } else
                 {
                     getWwd().getModel().getLayers().remove(apollo15);
                     colladaViewer.removeColladaObjects();
-                    zoomTo(LatLon.fromDegrees(0, 0), Angle.fromDegrees(0), Angle.fromDegrees(0), 8e6);
+                    zoomTo(LatLon.fromDegrees(0, 0), Angle.fromDegrees(20), Angle.fromDegrees(0), 8e6);
                 }
 
             }
@@ -190,7 +192,7 @@ public class ApolloMenu extends JMenu
                     
                     colladaViewer.createObjects("Apollo 16");
 
-                    zoomTo(LatLon.fromDegrees(-8.9975, 15.47), Angle.fromDegrees(0), Angle.fromDegrees(70), 2500);
+                    zoomTo(LatLon.fromDegrees(-8.9975, 15.51), Angle.fromDegrees(40), Angle.fromDegrees(75), 3000);
                 } else
                 {
                     getWwd().getModel().getLayers().remove(apollo16);
@@ -218,7 +220,7 @@ public class ApolloMenu extends JMenu
                     
                     colladaViewer.createObjects("Apollo 17");
 
-                    zoomTo(LatLon.fromDegrees(20, 30.6), Angle.fromDegrees(30), Angle.fromDegrees(70), 3e4);
+                    zoomTo(LatLon.fromDegrees(20.15, 30.72), Angle.fromDegrees(90), Angle.fromDegrees(70), 2800);
                 } else
                 {
                     getWwd().getModel().getLayers().remove(apollo17);
