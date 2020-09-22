@@ -1,7 +1,7 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * Copyright (C) 2012 United States Government as represented by the Administrator of the
+ * National Aeronautics and Space Administration.
+ * All Rights Reserved.
  */
 package gov.nasa.cms;
 
@@ -23,8 +23,14 @@ import java.io.File;
  */
 
 /**
+ * 
+ * Illustrates how to use a WorldWind <code>{@link ColladaViewer.java}</code> to
+ * display on-screen 3D COLLADA Objects of Apollo lunar lander spacecraft and astronauts
+ * on Apollo landing sites. 
+ * Class constructors are called from ApolloMenu.java for object placement. 
  *
- * @author twchoi
+ * @author Tyler Choi
+ * @version $Id: CMSColladaViewer.java 2020-09-21 twchoi $
  */
 public class CMSColladaViewer { 
 
