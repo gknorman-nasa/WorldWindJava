@@ -96,7 +96,7 @@ public class CMSColladaViewer {
                 FirstAstronautPosition = Position.fromDegrees(-8.9899, 15.4944, 0);
                 createFirstAstronaut(FirstAstronautPosition);
                  
-                SecondAstronautPosition = Position.fromDegrees(-8.9999, 15.5344, 0);
+                SecondAstronautPosition = Position.fromDegrees(-8.9999, 15.5344, 40);
                 createSecondAstronaut(SecondAstronautPosition);
                 break;
             case "Apollo 17" : 
