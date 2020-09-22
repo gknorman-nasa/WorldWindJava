@@ -135,7 +135,7 @@ public class ApolloMenu extends JMenu
                     
                     colladaViewer.createObjects("Apollo 14");
 
-                    zoomTo(LatLon.fromDegrees(-3.7, -17.5), Angle.fromDegrees(30), Angle.fromDegrees(75), 2200);
+                    zoomTo(LatLon.fromDegrees(-3.7, -17.5), Angle.fromDegrees(30), Angle.fromDegrees(75), 2600);
                 } else
                 {
                     getWwd().getModel().getLayers().remove(apollo14);
@@ -220,7 +220,7 @@ public class ApolloMenu extends JMenu
                     
                     colladaViewer.createObjects("Apollo 17");
 
-                    zoomTo(LatLon.fromDegrees(20.15, 30.67), Angle.fromDegrees(90), Angle.fromDegrees(70), 2500);
+                    zoomTo(LatLon.fromDegrees(20.15, 30.72), Angle.fromDegrees(90), Angle.fromDegrees(70), 2800);
                 } else
                 {
                     getWwd().getModel().getLayers().remove(apollo17);
