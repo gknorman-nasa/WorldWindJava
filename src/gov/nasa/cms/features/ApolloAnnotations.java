@@ -7,6 +7,7 @@ package gov.nasa.cms.features;
 
 import gov.nasa.worldwind.*;
 import gov.nasa.worldwind.avlist.AVKey;
+import gov.nasa.worldwind.avlist.AVList;
 import gov.nasa.worldwind.event.*;
 import gov.nasa.worldwind.geom.*;
 import gov.nasa.worldwind.layers.*;
@@ -65,16 +66,20 @@ public class ApolloAnnotations extends JCheckBoxMenuItem
             = PowerOfTwoPaddedImage.fromPath("images/Apollo16.jpg");
     private final static PowerOfTwoPaddedImage APOLLO17
             = PowerOfTwoPaddedImage.fromPath("images/Apollo17.jpg");
-
+    
+    private final String ApolloURL = "https://www.nasa.gov/mission_pages/apollo/missions/index.html";
     private boolean isItemEnabled;
+    private GlobeAnnotation ga;
 
     public void setupAnnotations()
     {
+        
+        //urlList = new AVList[];
 
         /**
          * ********* Image Annotations for Apollo sites ******
          */
-        GlobeAnnotation ga;
+        
         this.layer = new AnnotationLayer(); //create a single layer displaying all annotations
         String layerName = "Apollo Logo"; // Set layer name from Annotations to Apollo
         layer.setName(layerName);
@@ -201,6 +206,8 @@ public class ApolloAnnotations extends JCheckBoxMenuItem
                 // Select/unselect on left click on annotations
                 if (event.getEventAction().equals(SelectEvent.LEFT_CLICK))
                 {
+                    launchURL(ApolloURL);
+              
                     if (event.hasObjects())
                     {
                         if (event.getTopObject() instanceof Annotation)
@@ -260,11 +267,22 @@ public class ApolloAnnotations extends JCheckBoxMenuItem
                 } // Highlight on rollover
                 else if (event.getEventAction().equals(SelectEvent.ROLLOVER) && !this.dragger.isDragging())
                 {
-                    highlight(event.getTopObject());
+                    highlight(event.getTopObject());                   
                 }
 
             }
         });
+    }
+    
+    private void launchURL(String linkName)
+    {
+        // Try to launch a browser with the clicked URL
+        try
+        {
+            BrowserOpener.browse(new URL((String) linkName));
+        } catch (Exception ignore)
+        {
+        }
     }
 
     public void highlight(Object o)
