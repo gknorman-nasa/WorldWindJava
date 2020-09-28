@@ -68,14 +68,20 @@ public class ApolloAnnotations extends JCheckBoxMenuItem
             = PowerOfTwoPaddedImage.fromPath("images/Apollo17.jpg");
     
     private final String ApolloURL = "https://www.nasa.gov/mission_pages/apollo/missions/index.html";
+    
+    private final String Apollo11URL = "https://www.nasa.gov/mission_pages/apollo/missions/apollo11.html";
+    private final String Apollo12URL = "https://www.nasa.gov/mission_pages/apollo/missions/apollo12.html";
+    private final String Apollo14URL = "https://www.nasa.gov/mission_pages/apollo/missions/apollo14.html";
+    private final String Apollo15URL = "https://www.nasa.gov/mission_pages/apollo/missions/apollo15.html";
+    private final String Apollo16URL = "https://www.nasa.gov/mission_pages/apollo/missions/apollo16.html";
+    private final String Apollo17URL = "https://www.nasa.gov/mission_pages/apollo/missions/apollo17.html";
+    
     private boolean isItemEnabled;
     private GlobeAnnotation ga;
 
     public void setupAnnotations()
     {
         
-        //urlList = new AVList[];
-
         /**
          * ********* Image Annotations for Apollo sites ******
          */
@@ -206,7 +212,12 @@ public class ApolloAnnotations extends JCheckBoxMenuItem
                 // Select/unselect on left click on annotations
                 if (event.getEventAction().equals(SelectEvent.LEFT_CLICK))
                 {
-                    launchURL(ApolloURL);
+                    //launchURL(ApolloURL);
+                    
+                    if (currentAnnotation.getAttributes().getPath().equals(APOLLO11))
+                    {
+                        launchURL(Apollo11URL);
+                    }
               
                     if (event.hasObjects())
                     {
