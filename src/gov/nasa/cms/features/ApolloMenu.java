@@ -41,7 +41,7 @@ public class ApolloMenu extends JMenu
     private Layer apollo15;
     private Layer apollo16;
     private Layer apollo17;
-    private CMSColladaViewer colladaViewer;
+    private final CMSColladaViewer colladaViewer;
 
     public ApolloMenu(WorldWindow Wwd)
     {
@@ -62,7 +62,7 @@ public class ApolloMenu extends JMenu
         apollo = new ApolloAnnotations(this.getWwd());
         this.add(apollo);
 
-        //======== Apollo 12 ========   
+        //======== Apollo 11 ========   
         JCheckBoxMenuItem apolloMenuItem = new JCheckBoxMenuItem("Apollo 11");
         apolloMenuItem.addActionListener(new ActionListener()
         {
@@ -232,11 +232,8 @@ public class ApolloMenu extends JMenu
         });
         this.add(apolloMenuItem);
         
-//        //======== 3D Objects ========   
-//        colladaViewer = new CMSColladaViewer(this.getWwd());
-//        this.add(colladaViewer);
     }
-
+    
     // Zooms to the landing site at the passed in latitude/longitude, heading, pitch and zoom level
     protected void zoomTo(LatLon latLon, Angle heading, Angle pitch, double zoom)
     {
