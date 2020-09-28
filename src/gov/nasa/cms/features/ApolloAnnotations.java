@@ -67,50 +67,41 @@ public class ApolloAnnotations extends JCheckBoxMenuItem
     private final static PowerOfTwoPaddedImage APOLLO17
             = PowerOfTwoPaddedImage.fromPath("images/Apollo17.jpg");
     
-    private final String ApolloURL = "https://www.nasa.gov/mission_pages/apollo/missions/index.html";
-    
-    private final String Apollo11URL = "https://www.nasa.gov/mission_pages/apollo/missions/apollo11.html";
-    private final String Apollo12URL = "https://www.nasa.gov/mission_pages/apollo/missions/apollo12.html";
-    private final String Apollo14URL = "https://www.nasa.gov/mission_pages/apollo/missions/apollo14.html";
-    private final String Apollo15URL = "https://www.nasa.gov/mission_pages/apollo/missions/apollo15.html";
-    private final String Apollo16URL = "https://www.nasa.gov/mission_pages/apollo/missions/apollo16.html";
-    private final String Apollo17URL = "https://www.nasa.gov/mission_pages/apollo/missions/apollo17.html";
-    
     private boolean isItemEnabled;
-    private GlobeAnnotation ga;
-
+    
     public void setupAnnotations()
     {
         
         /**
          * ********* Image Annotations for Apollo sites ******
          */
-        
+        GlobeAnnotation ga;
         this.layer = new AnnotationLayer(); //create a single layer displaying all annotations
         String layerName = "Apollo Logo"; // Set layer name from Annotations to Apollo
         layer.setName(layerName);
 
-        ga = this.makeTopImageBottomTextAnnotation(APOLLO11, "Apollo 11 - July 20, 1969. Mare Tranquillitatis",
+        ga = this.makeTopImageBottomTextAnnotation(APOLLO11, "<a href=\"https://www.nasa.gov/mission_pages/apollo/apollo-11.html\">Apollo 11</a> - July 20, 1969. Mare Tranquillitatis",
                 Position.fromDegrees(0.6875, 23.4333, 0));
+        //ga.setValue("Apollo 11", Apollo11URL);
         layer.addAnnotation(ga);
 
-        ga = this.makeTopImageBottomTextAnnotation(APOLLO12, "Apollo 12 - November 19, 1969. Oceanus Procellarum",
+        ga = this.makeTopImageBottomTextAnnotation(APOLLO12, "<a href=\"https://www.nasa.gov/mission_pages/apollo/apollo-12\">Apollo 12</a> - November 19, 1969. Oceanus Procellarum",
                 Position.fromDegrees(-3.1975, -23.3856, 0));
         layer.addAnnotation(ga);
 
-        ga = this.makeTopImageBottomTextAnnotation(APOLLO14, "Apollo 14 - February 5, 1971. Fra Mauro Highlands",
+        ga = this.makeTopImageBottomTextAnnotation(APOLLO14, "<a href=\"https://www.nasa.gov/mission_pages/apollo/apollo-14\">Apollo 14 - February 5, 1971. Fra Mauro Highlands</a>",
                 Position.fromDegrees(-3.6733, -17.4653, 0));
         layer.addAnnotation(ga);
 
-        ga = this.makeTopImageBottomTextAnnotation(APOLLO15, "Apollo 15 - July 30, 1971. Montes Apenninus",
+        ga = this.makeTopImageBottomTextAnnotation(APOLLO15, "<a href=\"https://www.nasa.gov/mission_pages/apollo/apollo-15\">Apollo 15 - July 30, 1971. Montes Apenninus</a>",
                 Position.fromDegrees(26.1008, 3.6527, 0));
         layer.addAnnotation(ga);
 
-        ga = this.makeTopImageBottomTextAnnotation(APOLLO16, "Apollo 16 - April 20, 1972. Descartes Highlands",
+        ga = this.makeTopImageBottomTextAnnotation(APOLLO16, "<a href=\"https://www.nasa.gov/mission_pages/apollo/apollo-16\">Apollo 16</a> - April 20, 1972. Descartes Highlands",
                 Position.fromDegrees(-8.9913, 15.5144, 0));
         layer.addAnnotation(ga);
 
-        ga = this.makeTopImageBottomTextAnnotation(APOLLO17, "Apollo 17 - December 11, 1972. Taurus-Littrow Valley",
+        ga = this.makeTopImageBottomTextAnnotation(APOLLO17, "<a href=\"https://www.nasa.gov/mission_pages/apollo/apollo-17\">Apollo 17</a> - December 11, 1972. Taurus-Littrow Valley",
                 Position.fromDegrees(20.1653, 30.7658, 0));
         layer.addAnnotation(ga);
 
@@ -214,11 +205,11 @@ public class ApolloAnnotations extends JCheckBoxMenuItem
                 {
                     //launchURL(ApolloURL);
                     
-                    if (currentAnnotation.getAttributes().getPath().equals(APOLLO11))
-                    {
-                        launchURL(Apollo11URL);
-                    }
-              
+//                    if (currentAnnotation.getAttributes().getPath().equals(APOLLO11))
+//                    {
+//                        launchURL(Apollo11URL);
+//                    }
+//              
                     if (event.hasObjects())
                     {
                         if (event.getTopObject() instanceof Annotation)
