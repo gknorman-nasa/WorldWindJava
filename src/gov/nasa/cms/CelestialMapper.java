@@ -54,7 +54,7 @@ public class CelestialMapper extends AppFrame
 
     private JCheckBoxMenuItem stereoCheckBox;
     private JCheckBoxMenuItem measurementCheckBox;
-    private JCheckBoxMenuItem reset;
+    private JMenuItem reset;
 
     public void restart()
     {
@@ -200,7 +200,7 @@ public class CelestialMapper extends AppFrame
             view.add(stereoCheckBox);     
             
             //======== "Reset" =========
-            reset = new JCheckBoxMenuItem("Reset");
+            reset = new JMenuItem("Reset");
             reset.setSelected(resetWindow);
             reset.addActionListener((ActionEvent event) ->
             {
