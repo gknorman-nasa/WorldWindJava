@@ -50,9 +50,11 @@ public class CelestialMapper extends AppFrame
     
     private boolean stereo;
     private boolean isMeasureDialogOpen;
+    private boolean resetWindow;
 
     private JCheckBoxMenuItem stereoCheckBox;
     private JCheckBoxMenuItem measurementCheckBox;
+    private JCheckBoxMenuItem reset;
 
     public void restart()
     {
@@ -195,9 +197,24 @@ public class CelestialMapper extends AppFrame
                 }
                 restart();
             });
-            view.add(stereoCheckBox);            
+            view.add(stereoCheckBox);     
+            
+            //======== "Reset" =========
+            reset = new JCheckBoxMenuItem("Reset");
+            reset.setSelected(resetWindow);
+            reset.addActionListener((ActionEvent event) ->
+            {
+                resetWindow = !resetWindow;
+                if (resetWindow)
+                {
+                    restart(); //resets window to launch status
+                    reset.doClick(1);
+                } 
+            });
+            view.add(reset);
         }
         menuBar.add(view);
+        
         frame.setJMenuBar(menuBar);
     }
 
