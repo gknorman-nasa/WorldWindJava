@@ -80,12 +80,12 @@ public class ApolloAnnotations extends JCheckBoxMenuItem
         String layerName = "Apollo Logo"; // Set layer name from Annotations to Apollo
         layer.setName(layerName);
 
-        ga = this.makeTopImageBottomTextAnnotation(APOLLO11, "<a href=\"https://www.nasa.gov/mission_pages/apollo/apollo-11.html\">Apollo 11</a> - July 20, 1969. Mare Tranquillitatis",
+        ga = this.makeTopImageBottomTextAnnotation(APOLLO11, "<a href=\"https://www.nasa.gov/mission_pages/apollo/apollo-11.html\">Apollo 11 - July 20, 1969. Mare Tranquillitatis</a>",
                 Position.fromDegrees(0.6875, 23.4333, 0));
         //ga.setValue("Apollo 11", Apollo11URL);
         layer.addAnnotation(ga);
 
-        ga = this.makeTopImageBottomTextAnnotation(APOLLO12, "<a href=\"https://www.nasa.gov/mission_pages/apollo/apollo-12\">Apollo 12</a> - November 19, 1969. Oceanus Procellarum",
+        ga = this.makeTopImageBottomTextAnnotation(APOLLO12, "<a href=\"https://www.nasa.gov/mission_pages/apollo/apollo-12\">Apollo 12 - November 19, 1969. Oceanus Procellarum</a>",
                 Position.fromDegrees(-3.1975, -23.3856, 0));
         layer.addAnnotation(ga);
 
@@ -97,11 +97,11 @@ public class ApolloAnnotations extends JCheckBoxMenuItem
                 Position.fromDegrees(26.1008, 3.6527, 0));
         layer.addAnnotation(ga);
 
-        ga = this.makeTopImageBottomTextAnnotation(APOLLO16, "<a href=\"https://www.nasa.gov/mission_pages/apollo/apollo-16\">Apollo 16</a> - April 20, 1972. Descartes Highlands",
+        ga = this.makeTopImageBottomTextAnnotation(APOLLO16, "<a href=\"https://www.nasa.gov/mission_pages/apollo/apollo-16\">Apollo 16 - April 20, 1972. Descartes Highlands</a>",
                 Position.fromDegrees(-8.9913, 15.5144, 0));
         layer.addAnnotation(ga);
 
-        ga = this.makeTopImageBottomTextAnnotation(APOLLO17, "<a href=\"https://www.nasa.gov/mission_pages/apollo/apollo-17\">Apollo 17</a> - December 11, 1972. Taurus-Littrow Valley",
+        ga = this.makeTopImageBottomTextAnnotation(APOLLO17, "<a href=\"https://www.nasa.gov/mission_pages/apollo/apollo-17\">Apollo 17 - December 11, 1972. Taurus-Littrow Valley</a>",
                 Position.fromDegrees(20.1653, 30.7658, 0));
         layer.addAnnotation(ga);
 
