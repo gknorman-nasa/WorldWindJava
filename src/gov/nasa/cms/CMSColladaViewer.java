@@ -36,7 +36,7 @@ public class CMSColladaViewer {
 
     private WorldWindow wwd;
     private final String LanderPath = "cms-data/collada_files/lander_test.dae";
-    private final String Astronaut1 = "cms-data/collada_files/advance_astro.dae";
+    private final String Astronaut1 = "cms-data/collada_files/nasaAstro.dae";
     private final String Astronaut2 = "cms-data/collada_files/advance_astro.dae";
     
     public CMSColladaViewer(WorldWindow Wwd)
