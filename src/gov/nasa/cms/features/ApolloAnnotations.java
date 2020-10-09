@@ -203,13 +203,6 @@ public class ApolloAnnotations extends JCheckBoxMenuItem
                 // Select/unselect on left click on annotations
                 if (event.getEventAction().equals(SelectEvent.LEFT_CLICK))
                 {
-                    //launchURL(ApolloURL);
-                    
-//                    if (currentAnnotation.getAttributes().getPath().equals(APOLLO11))
-//                    {
-//                        launchURL(Apollo11URL);
-//                    }
-//              
                     if (event.hasObjects())
                     {
                         if (event.getTopObject() instanceof Annotation)

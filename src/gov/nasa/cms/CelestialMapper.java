@@ -5,11 +5,13 @@
  */
 package gov.nasa.cms;
 
+import gov.nasa.cms.features.CMSPlaceNamesMenu;
 import gov.nasa.cms.features.ApolloMenu;
 import gov.nasa.cms.features.CMSProfile;
 import gov.nasa.cms.features.LayerManagerLayer;
 import gov.nasa.cms.features.MeasureDialog;
 import gov.nasa.cms.features.MoonElevationModel;
+import gov.nasa.cms.features.SatelliteObject;
 import gov.nasa.worldwind.Configuration;
 import gov.nasa.worldwind.util.measure.MeasureTool;
 import gov.nasa.worldwind.layers.*;
@@ -47,6 +49,7 @@ public class CelestialMapper extends AppFrame
     private CMSProfile profile;
     private MeasureDialog measureDialog;
     private MeasureTool measureTool;
+    private SatelliteObject orbitalSatellite;
     
     private boolean stereo;
     private boolean isMeasureDialogOpen;
@@ -197,7 +200,12 @@ public class CelestialMapper extends AppFrame
                 }
                 restart();
             });
-            view.add(stereoCheckBox);     
+            view.add(stereoCheckBox);    
+            
+            //====== "Satellite" =============
+            orbitalSatellite = new SatelliteObject(this.getWwd());
+            view.add(orbitalSatellite);
+            
             
             //======== "Reset" =========
             reset = new JMenuItem("Reset");
