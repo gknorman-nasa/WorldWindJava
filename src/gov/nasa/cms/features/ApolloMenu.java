@@ -1,6 +1,5 @@
 package gov.nasa.cms.features;
 
-import gov.nasa.cms.CMSColladaViewer;
 import gov.nasa.worldwind.Factory;
 import gov.nasa.worldwind.WorldWind;
 import gov.nasa.worldwind.WorldWindow;

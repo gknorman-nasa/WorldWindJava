@@ -5,21 +5,27 @@
  */
 package gov.nasa.cms;
 
+import gov.nasa.cms.features.CMSPlaceNamesMenu;
 import gov.nasa.cms.features.ApolloMenu;
 import gov.nasa.cms.features.CMSProfile;
 import gov.nasa.cms.features.LayerManagerLayer;
 import gov.nasa.cms.features.MeasureDialog;
 import gov.nasa.cms.features.MoonElevationModel;
+import gov.nasa.cms.features.SatelliteObject;
 import gov.nasa.worldwind.Configuration;
+import gov.nasa.worldwind.WorldWind;
 import gov.nasa.worldwind.util.measure.MeasureTool;
 import gov.nasa.worldwind.layers.*;
 import gov.nasa.worldwind.WorldWindow;
 import gov.nasa.worldwind.avlist.AVKey;
 import gov.nasa.worldwind.geom.Angle;
+import gov.nasa.worldwind.geom.LatLon;
 import gov.nasa.worldwind.geom.Position;
 import gov.nasa.worldwind.geom.Sector;
+import gov.nasa.worldwind.globes.EarthFlat;
 import gov.nasa.worldwind.render.ScreenImage;
 import gov.nasa.worldwind.util.Logging;
+import gov.nasa.worldwind.view.orbit.BasicOrbitView;
 import java.awt.Point;
 import java.awt.Rectangle;
 import javax.swing.*;
@@ -47,12 +53,15 @@ public class CelestialMapper extends AppFrame
     private CMSProfile profile;
     private MeasureDialog measureDialog;
     private MeasureTool measureTool;
+    private SatelliteObject orbitalSatellite;
     
     private boolean stereo;
+    private boolean flat;
     private boolean isMeasureDialogOpen;
     private boolean resetWindow;
 
     private JCheckBoxMenuItem stereoCheckBox;
+    private JCheckBoxMenuItem flatGlobe;
     private JCheckBoxMenuItem measurementCheckBox;
     private JMenuItem reset;
 
@@ -169,12 +178,13 @@ public class CelestialMapper extends AppFrame
         //======== "View" ========           
         JMenu view = new JMenu("View");
         {
+            //======== "Stereo" ==========
             stereoCheckBox = new JCheckBoxMenuItem("Stereo");
             stereoCheckBox.setSelected(stereo);
             stereoCheckBox.addActionListener((ActionEvent event) ->
             {
                 stereo = !stereo;
-                if (stereo)
+                if (stereo && !flat)
                 {
                     // Set the stereo.mode property to request stereo. Request red-blue anaglyph in this case. Can also request
                     // "device" if the display device supports stereo directly. To prevent stereo, leave the property unset or set
@@ -186,8 +196,18 @@ public class CelestialMapper extends AppFrame
                     Configuration.setValue(AVKey.INITIAL_ALTITUDE, 10e4);
                     Configuration.setValue(AVKey.INITIAL_HEADING, 500);
                     Configuration.setValue(AVKey.INITIAL_PITCH, 80);
-                } else
+                } else if (stereo && flat)
                 {
+                    //without this else if loop, the canvas glitches
+//                    Configuration.setValue(AVKey.GLOBE_CLASS_NAME, "gov.nasa.worldwind.globes.Earth");
+//                    System.setProperty("gov.nasa.worldwind.stereo.mode", "redblue");
+//                    //  Configure the initial view parameters so that the balloons are immediately visible.
+//                    Configuration.setValue(AVKey.INITIAL_LATITUDE, 20);
+//                    Configuration.setValue(AVKey.INITIAL_LONGITUDE, 30);
+//                    Configuration.setValue(AVKey.INITIAL_ALTITUDE, 10e4);
+//                    Configuration.setValue(AVKey.INITIAL_HEADING, 500);
+//                    Configuration.setValue(AVKey.INITIAL_PITCH, 80);
+                } else {
                     System.setProperty("gov.nasa.worldwind.stereo.mode", "");
                     Configuration.setValue(AVKey.INITIAL_LATITUDE, 0);
                     Configuration.setValue(AVKey.INITIAL_LONGITUDE, 0);
@@ -197,7 +217,29 @@ public class CelestialMapper extends AppFrame
                 }
                 restart();
             });
-            view.add(stereoCheckBox);     
+            view.add(stereoCheckBox);  
+            
+            //======== "2D Flat Globe" ==========
+            flatGlobe = new JCheckBoxMenuItem("2D Flat");
+            flatGlobe.setSelected(flat);
+            flatGlobe.addActionListener((ActionEvent event) ->
+            {
+                flat = !flat;
+                if (flat)
+                {
+                    Configuration.setValue(AVKey.GLOBE_CLASS_NAME, EarthFlat.class.getName());
+                } else 
+                {
+                    Configuration.setValue(AVKey.GLOBE_CLASS_NAME, "gov.nasa.worldwind.globes.Earth");
+                }
+                restart();
+            });
+            view.add(flatGlobe);
+            
+//            //====== "Satellite" =============
+//            orbitalSatellite = new SatelliteObject(this.getWwd());
+//            view.add(orbitalSatellite);
+            
             
             //======== "Reset" =========
             reset = new JMenuItem("Reset");
@@ -208,7 +250,6 @@ public class CelestialMapper extends AppFrame
                 if (resetWindow)
                 {
                     restart(); //resets window to launch status
-                    reset.doClick(1);
                 } 
             });
             view.add(reset);
