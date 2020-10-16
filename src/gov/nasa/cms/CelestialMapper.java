@@ -198,6 +198,7 @@ public class CelestialMapper extends AppFrame
                     Configuration.setValue(AVKey.INITIAL_PITCH, 80);
                 } else if (stereo && flat)
                 {
+                    //without this else if loop, the canvas glitches
 //                    Configuration.setValue(AVKey.GLOBE_CLASS_NAME, "gov.nasa.worldwind.globes.Earth");
 //                    System.setProperty("gov.nasa.worldwind.stereo.mode", "redblue");
 //                    //  Configure the initial view parameters so that the balloons are immediately visible.
@@ -235,9 +236,9 @@ public class CelestialMapper extends AppFrame
             });
             view.add(flatGlobe);
             
-            //====== "Satellite" =============
-            orbitalSatellite = new SatelliteObject(this.getWwd());
-            view.add(orbitalSatellite);
+//            //====== "Satellite" =============
+//            orbitalSatellite = new SatelliteObject(this.getWwd());
+//            view.add(orbitalSatellite);
             
             
             //======== "Reset" =========

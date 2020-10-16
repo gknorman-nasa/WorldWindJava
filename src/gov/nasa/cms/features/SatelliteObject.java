@@ -29,7 +29,7 @@ public class SatelliteObject extends JCheckBoxMenuItem {
     
     private WorldWindow wwd;
     private boolean isItemEnabled;
-    private final String soyuz = "cms-data/collada_files/soyuz.dae";
+    private final String soyuz = "cms-data/collada_files/LRO-FULL-EXP.dae";
 
     
     public SatelliteObject(WorldWindow Wwd)

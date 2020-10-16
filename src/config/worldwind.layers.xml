@@ -24,5 +24,8 @@
     <Layer href="cms-data/layers/ClementineLunarOrbiterHybrid.xml" actuate="onRequest"/>
     <Layer href="cms-data/layers/LunarOrbiterGlobalMosaic.xml" actuate="onRequest"/>
                  
+    <Layer className="gov.nasa.worldwind.layers.LatLonGraticuleLayer" actuate="onRequest">
+        <Property name="Name" value="Graticule"/>
+    </Layer>/>
     <Layer className="gov.nasa.worldwind.layers.ScalebarLayer"/>
 </LayerList>
