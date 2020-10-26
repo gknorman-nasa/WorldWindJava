@@ -32,13 +32,14 @@ public class ScreenImageDragging extends ApplicationTemplate
 
             // Create a screen image and containing layer for the image/icon
             final ScreenImage screenImage = new ScreenImage();
-            screenImage.setImageSource(ImageIO.read(new File("src/images/32x32-icon-nasa.png")));
+            screenImage.setImageSource(ImageIO.read(new File("cms-data/images/lolacolor-legend.png")));
 
             RenderableLayer layer = new RenderableLayer();
             layer.setName("Screen Image");
             layer.addRenderable(screenImage);
 
             this.getWwd().getModel().getLayers().add(layer);
+
 
             // Tell the input handler to pass mouse events here
             this.getWwd().getInputHandler().addMouseMotionListener(new MouseMotionAdapter()

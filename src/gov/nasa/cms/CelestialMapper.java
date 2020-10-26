@@ -8,24 +8,28 @@ package gov.nasa.cms;
 import gov.nasa.cms.features.CMSPlaceNamesMenu;
 import gov.nasa.cms.features.ApolloMenu;
 import gov.nasa.cms.features.CMSProfile;
+import gov.nasa.cms.features.LayerLegends;
 import gov.nasa.cms.features.LayerManagerLayer;
 import gov.nasa.cms.features.MeasureDialog;
 import gov.nasa.cms.features.MoonElevationModel;
 import gov.nasa.cms.features.SatelliteObject;
 import gov.nasa.worldwind.Configuration;
+import gov.nasa.worldwind.Factory;
 import gov.nasa.worldwind.WorldWind;
 import gov.nasa.worldwind.util.measure.MeasureTool;
 import gov.nasa.worldwind.layers.*;
 import gov.nasa.worldwind.WorldWindow;
 import gov.nasa.worldwind.avlist.AVKey;
+import gov.nasa.worldwind.avlist.AVList;
+import gov.nasa.worldwind.event.SelectEvent;
 import gov.nasa.worldwind.geom.Angle;
-import gov.nasa.worldwind.geom.LatLon;
 import gov.nasa.worldwind.geom.Position;
 import gov.nasa.worldwind.geom.Sector;
 import gov.nasa.worldwind.globes.EarthFlat;
 import gov.nasa.worldwind.render.ScreenImage;
+import gov.nasa.worldwind.render.Size;
 import gov.nasa.worldwind.util.Logging;
-import gov.nasa.worldwind.view.orbit.BasicOrbitView;
+import gov.nasa.worldwindx.examples.ApplicationTemplate;
 import java.awt.Point;
 import java.awt.Rectangle;
 import javax.swing.*;
@@ -40,13 +44,12 @@ import javax.imageio.ImageIO;
  * CelestialMapper.java
  *
  */
-public class CelestialMapper extends AppFrame
-{
+public class CelestialMapper extends AppFrame {
+
     //**************************************************************//
     //********************  Main  **********************************//
     //**************************************************************//
     ActionListener controller;
-    protected RenderableLayer airspaceLayer;
     private CMSPlaceNamesMenu cmsPlaceNamesMenu;
     private ApolloMenu apolloMenu;
     private MoonElevationModel elevationModel;
@@ -54,7 +57,7 @@ public class CelestialMapper extends AppFrame
     private MeasureDialog measureDialog;
     private MeasureTool measureTool;
     private SatelliteObject orbitalSatellite;
-    
+    private LayerLegends legends;
     private boolean stereo;
     private boolean flat;
     private boolean isMeasureDialogOpen;
@@ -65,16 +68,14 @@ public class CelestialMapper extends AppFrame
     private JCheckBoxMenuItem measurementCheckBox;
     private JMenuItem reset;
 
-    public void restart()
-    {
+    public void restart() {
         getWwd().shutdown();
         getContentPane().remove(wwjPanel); //removing component's parent must be JPanel
         this.initialize();
     }
 
     @Override
-    public void initialize()
-    {
+    public void initialize() {
         super.initialize();
         getWwd().getModel().getLayers().add(new LayerManagerLayer(getWwd())); // add layer box UI
 
@@ -83,9 +84,14 @@ public class CelestialMapper extends AppFrame
 
         // Import the lunar elevation data
         elevationModel = new MoonElevationModel(this.getWwd());
-        
+
         // Display the ScreenImage CMS logo as a RenderableLayer
         this.renderLogo();
+
+        this.addLayerToWorldWindow("cms-data/layers/LOLASteel.xml", null, "LOLA Color Shaded Relief Blue Steel");
+        this.addLayerToWorldWindow("cms-data/layers/LOLAColor.xml", null, "LOLA Color Shaded Relief");
+        legends = new LayerLegends(this.getWwd());
+       // this.legendSetup();
 
     }
 
@@ -100,17 +106,14 @@ public class CelestialMapper extends AppFrame
      * @throws IllegalArgumentException if either the <code>wwd</code> or the
      * <code>sector</code> are <code>null</code>.
      */
-    public static void goTo(WorldWindow wwd, Sector sector)
-    {
-        if (wwd == null)
-        {
+    public static void goTo(WorldWindow wwd, Sector sector) {
+        if (wwd == null) {
             String message = Logging.getMessage("nullValue.WorldWindow");
             Logging.logger().severe(message);
             throw new IllegalArgumentException(message);
         }
 
-        if (sector == null)
-        {
+        if (sector == null) {
             String message = Logging.getMessage("nullValue.SectorIsNull");
             Logging.logger().severe(message);
             throw new IllegalArgumentException(message);
@@ -130,8 +133,7 @@ public class CelestialMapper extends AppFrame
     }
 
     // Menu bar creation
-    public void makeMenuBar(JFrame frame, final ActionListener controller)
-    {
+    public void makeMenuBar(JFrame frame, final ActionListener controller) {
         JMenuBar menuBar = new JMenuBar();
 
         //======== "CMS Place Names" ========          
@@ -149,14 +151,12 @@ public class CelestialMapper extends AppFrame
             // Measure Tool
             measurementCheckBox = new JCheckBoxMenuItem("Measurement");
             measurementCheckBox.setSelected(isMeasureDialogOpen);
-            measurementCheckBox.addActionListener((ActionEvent event) ->
-            {
+            measurementCheckBox.addActionListener((ActionEvent event)
+                    -> {
                 isMeasureDialogOpen = !isMeasureDialogOpen;
-                if (isMeasureDialogOpen)
-                {
+                if (isMeasureDialogOpen) {
                     // Only open if the MeasureDialog has never been opened
-                    if (measureDialog == null)
-                    {
+                    if (measureDialog == null) {
                         // Create the dialog from the WorldWindow, MeasureTool and AppFrame
                         measureDialog = new MeasureDialog(getWwd(), measureTool, this);
                     }
@@ -181,11 +181,10 @@ public class CelestialMapper extends AppFrame
             //======== "Stereo" ==========
             stereoCheckBox = new JCheckBoxMenuItem("Stereo");
             stereoCheckBox.setSelected(stereo);
-            stereoCheckBox.addActionListener((ActionEvent event) ->
-            {
+            stereoCheckBox.addActionListener((ActionEvent event)
+                    -> {
                 stereo = !stereo;
-                if (stereo && !flat)
-                {
+                if (stereo && !flat) {
                     // Set the stereo.mode property to request stereo. Request red-blue anaglyph in this case. Can also request
                     // "device" if the display device supports stereo directly. To prevent stereo, leave the property unset or set
                     // it to an empty string.
@@ -196,17 +195,7 @@ public class CelestialMapper extends AppFrame
                     Configuration.setValue(AVKey.INITIAL_ALTITUDE, 10e4);
                     Configuration.setValue(AVKey.INITIAL_HEADING, 500);
                     Configuration.setValue(AVKey.INITIAL_PITCH, 80);
-                } else if (stereo && flat)
-                {
-                    //without this else if loop, the canvas glitches
-//                    Configuration.setValue(AVKey.GLOBE_CLASS_NAME, "gov.nasa.worldwind.globes.Earth");
-//                    System.setProperty("gov.nasa.worldwind.stereo.mode", "redblue");
-//                    //  Configure the initial view parameters so that the balloons are immediately visible.
-//                    Configuration.setValue(AVKey.INITIAL_LATITUDE, 20);
-//                    Configuration.setValue(AVKey.INITIAL_LONGITUDE, 30);
-//                    Configuration.setValue(AVKey.INITIAL_ALTITUDE, 10e4);
-//                    Configuration.setValue(AVKey.INITIAL_HEADING, 500);
-//                    Configuration.setValue(AVKey.INITIAL_PITCH, 80);
+                } else if (stereo && flat) {    // Without this else if loop, the canvas glitches
                 } else {
                     System.setProperty("gov.nasa.worldwind.stereo.mode", "");
                     Configuration.setValue(AVKey.INITIAL_LATITUDE, 0);
@@ -217,61 +206,50 @@ public class CelestialMapper extends AppFrame
                 }
                 restart();
             });
-            view.add(stereoCheckBox);  
-            
+            view.add(stereoCheckBox);
+
             //======== "2D Flat Globe" ==========
             flatGlobe = new JCheckBoxMenuItem("2D Flat");
             flatGlobe.setSelected(flat);
-            flatGlobe.addActionListener((ActionEvent event) ->
-            {
+            flatGlobe.addActionListener((ActionEvent event)
+                    -> {
                 flat = !flat;
-                if (flat)
-                {
+                if (flat) {
                     Configuration.setValue(AVKey.GLOBE_CLASS_NAME, EarthFlat.class.getName());
-                } else 
-                {
+                } else {
                     Configuration.setValue(AVKey.GLOBE_CLASS_NAME, "gov.nasa.worldwind.globes.Earth");
                 }
                 restart();
             });
             view.add(flatGlobe);
-            
-//            //====== "Satellite" =============
-//            orbitalSatellite = new SatelliteObject(this.getWwd());
-//            view.add(orbitalSatellite);
-            
-            
+
             //======== "Reset" =========
             reset = new JMenuItem("Reset");
             reset.setSelected(resetWindow);
-            reset.addActionListener((ActionEvent event) ->
-            {
+            reset.addActionListener((ActionEvent event)
+                    -> {
                 resetWindow = !resetWindow;
-                if (resetWindow)
-                {
+                if (resetWindow) {
                     restart(); //resets window to launch status
-                } 
+                }
             });
             view.add(reset);
         }
         menuBar.add(view);
-        
+
         frame.setJMenuBar(menuBar);
     }
 
     // Renders the logo for CMS in the northwest corner of the screen 
-    private void renderLogo()
-    {
+    private void renderLogo() {
         final ScreenImage cmsLogo = new ScreenImage();
 
-        try
-        {
+        try {
             cmsLogo.setImageSource(ImageIO.read(new File("cms-data/cms-logo.png")));
             Rectangle view = getWwd().getView().getViewport();
             // Set the screen location to different points to offset the image size
             cmsLogo.setScreenLocation(new Point(view.x + 55, view.y + 70));
-        } catch (IOException ex) 
-        {
+        } catch (IOException ex) {
             Logger.getLogger(CelestialMapper.class.getName()).log(Level.SEVERE, null, ex);
         }
 
@@ -281,4 +259,27 @@ public class CelestialMapper extends AppFrame
 
         getWwd().getModel().getLayers().add(layer);
     }
+
+    // Creates a layer from the configuration file, key and layer name and adds  to the LayerList
+    protected void addLayerToWorldWindow(String configFile, AVList params, String layerName) {
+        Layer layer = null;
+        try {
+            Factory factory = (Factory) WorldWind.createConfigurationComponent(AVKey.LAYER_FACTORY);
+            layer = (Layer) factory.createFromConfigSource(configFile, params);
+        } catch (Exception e) {
+            String message = Logging.getMessage("generic.CreationFromConfigurationFailed");
+            Logging.logger().log(java.util.logging.Level.SEVERE, message, e);
+        }
+
+        if (layer == null) {
+            return;
+        }
+
+        layer.setEnabled(true); // TODO: BasicLayerFactory creates layer which is intially disabled
+        layer.setName(layerName);
+        if (!this.getWwd().getModel().getLayers().contains(layer)) {
+            getWwd().getModel().getLayers().add(layer);
+        }
+    }
+
 }

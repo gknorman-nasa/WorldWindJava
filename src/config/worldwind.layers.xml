@@ -17,8 +17,6 @@
     </Layer>
 
     <Layer href="cms-data/layers/LROWACGlobalMosaic.xml" actuate="onLoad"/>
-    <Layer href="cms-data/layers/LOLAColor.xml" actuate="onRequest"/>
-    <Layer href="cms-data/layers/LOLASteel.xml" actuate="onRequest"/>
     <Layer href="cms-data/layers/LOLAGrayscale.xml" actuate="onRequest"/>
     <Layer href="cms-data/layers/ClementineBasemapV2.xml" actuate="onRequest"/>
     <Layer href="cms-data/layers/ClementineLunarOrbiterHybrid.xml" actuate="onRequest"/>

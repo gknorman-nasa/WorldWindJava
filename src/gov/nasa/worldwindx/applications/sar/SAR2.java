@@ -6,11 +6,11 @@
 
 package gov.nasa.worldwindx.applications.sar;
 
+import gov.nasa.cms.layers.LOLAColor;
 import gov.nasa.worldwind.*;
 import gov.nasa.worldwind.avlist.*;
 import gov.nasa.worldwind.exception.WWRuntimeException;
 import gov.nasa.worldwind.geom.Angle;
-import gov.nasa.worldwind.layers.Earth.*;
 import gov.nasa.worldwind.layers.Layer;
 import gov.nasa.worldwind.util.*;
 import gov.nasa.worldwindx.applications.sar.actions.SARScreenShotAction;
@@ -97,11 +97,7 @@ public class SAR2 extends JFrame
             if (layer instanceof LOLAColor)
             {
                 layer.setOpacity(0.5);
-                layer.setEnabled(false);
-            }
-            else if (layer instanceof LOLAColor)
-            {
-                layer.setEnabled(false);
+                layer.setEnabled(true);
             }
         }
 

@@ -47,6 +47,7 @@ public class LayerTreeUsage extends ApplicationTemplate
             // Refresh the tree model with the WorldWindow's current layer list.
             this.layerTree.getModel().refresh(this.getWwd().getModel().getLayers());
 
+
             // Add a controller to handle input events on the layer tree.
             this.controller = new HotSpotController(this.getWwd());
 
