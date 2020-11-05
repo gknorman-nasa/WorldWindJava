@@ -878,7 +878,7 @@ public class AnalysisPanel extends JPanel implements Restorable
         this.doRestoreState(rs, null);
     }
 
-    protected void doGetRestorableState(RestorableSupport rs, RestorableSupport.StateObject context)
+    public void doGetRestorableState(RestorableSupport rs, RestorableSupport.StateObject context)
     {
         // Save examine view mode state if view is currently in examine mode.
         if (TrackViewPanel.VIEW_MODE_EXAMINE.equals(this.trackViewPanel.getViewMode()))
@@ -902,7 +902,7 @@ public class AnalysisPanel extends JPanel implements Restorable
             this.cloudCeilingPanel.doGetRestorableState(rs, rs.addStateObject(context, "cloudCeiling"));
     }
 
-    protected void doRestoreState(RestorableSupport rs, RestorableSupport.StateObject context)
+    public void doRestoreState(RestorableSupport rs, RestorableSupport.StateObject context)
     {
         // Retrieve state values
         Double examinePitchState = rs.getStateValueAsDouble(context, "examinePitch");

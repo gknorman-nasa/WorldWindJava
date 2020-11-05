@@ -274,7 +274,7 @@ public class TrackPanel extends JPanel
         this.doRestoreState(rs, null);
     }
 
-    protected void doGetRestorableState(RestorableSupport rs, RestorableSupport.StateObject context)
+    public void doGetRestorableState(RestorableSupport rs, RestorableSupport.StateObject context)
     {
         // Add state values
         rs.addStateValueAsBoolean(context, "offsetEnabled", this.offsetToggleCheckBox.isSelected());
@@ -285,7 +285,7 @@ public class TrackPanel extends JPanel
         rs.addStateValueAsDouble(context, "offsetValue", value);
     }
 
-    protected void doRestoreState(RestorableSupport rs, RestorableSupport.StateObject context)
+    public void doRestoreState(RestorableSupport rs, RestorableSupport.StateObject context)
     {
         // Retrieve state values
         Boolean offsetEnabledState = rs.getStateValueAsBoolean(context, "offsetEnabled");
