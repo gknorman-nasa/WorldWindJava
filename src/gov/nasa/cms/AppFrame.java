@@ -23,41 +23,15 @@ public class AppFrame extends JFrame {
 
     protected AppPanel wwjPanel;
     protected JPanel controlPanel;
-//    protected LayerPanel layerPanel;
-//    protected StatisticsPanel statsPanel;
 
-//    public AppFrame() {
-    //  this.initializeAppframe(); //true, true, false);
-//    }
-//    public AppFrame(Dimension size) {
-//        this.canvasSize = size;
-//        this.initialize(true, true, false);
-//    }
-//
-//    public AppFrame(boolean includeStatusBar, boolean includeLayerPanel, boolean includeStatsPanel) {
-//        this.initialize(includeStatusBar, includeLayerPanel, includeStatsPanel);
-//    }
-//    protected void initialize(boolean includeStatusBar, boolean includeLayerPanel, boolean includeStatsPanel) {
     public void initialize() {
         // Create the WorldWindow.
         this.wwjPanel = new AppPanel(this.canvasSize); //, includeStatusBar);
         this.wwjPanel.setPreferredSize(canvasSize);
 
-        // Put the pieces together.
+        // Add the panel to the content pane
         this.getContentPane().add(wwjPanel, BorderLayout.CENTER);
-//        if (includeLayerPanel) {
-//            this.controlPanel = new JPanel(new BorderLayout(10, 10));
-//            this.layerPanel = new LayerPanel(this.getWwd());
-//            this.controlPanel.add(this.layerPanel, BorderLayout.CENTER);
-//            this.controlPanel.add(new FlatWorldPanel(this.getWwd()), BorderLayout.NORTH);
-//            this.getContentPane().add(this.controlPanel, BorderLayout.WEST);
-//        }
-//
-//        if (includeStatsPanel || System.getProperty("gov.nasa.worldwind.showStatistics") != null) {
-//            this.statsPanel = new StatisticsPanel(this.wwjPanel.getWwd(), new Dimension(250, canvasSize.height));
-//            this.getContentPane().add(this.statsPanel, BorderLayout.EAST);
-//        }
-
+        
         // Create and install the view controls layer and register a controller for it with the WorldWindow.
         ViewControlsLayer viewControlsLayer = new ViewControlsLayer();
         insertBeforeCompass(getWwd(), viewControlsLayer);
@@ -91,10 +65,7 @@ public class AppFrame extends JFrame {
         WWUtil.alignComponent(null, this, AVKey.CENTER);
         this.setResizable(true);
     }
-
-//    protected AppPanel createAppPanel(Dimension canvasSize) { //, boolean includeStatusBar) {
-//        return new AppPanel(canvasSize); //, includeStatusBar);
-//    }
+    
     public Dimension getCanvasSize() {
         return canvasSize;
     }
@@ -106,9 +77,6 @@ public class AppFrame extends JFrame {
     public WorldWindow getWwd() {
         return this.wwjPanel.getWwd();
     }
-//        public void setWwd(WorldWindow NewWwd) {
-//            this.wwjPanel.setWwd(NewWwd);
-//        }
 
     public StatusBar getStatusBar() {
         return this.wwjPanel.getStatusBar();
@@ -118,18 +86,11 @@ public class AppFrame extends JFrame {
      * @deprecated Use getControlPanel instead.
      * @return This application's layer panel.
      */
-//    @Deprecated
-//    public LayerPanel getLayerPanel() {
-//        return this.layerPanel;
-//    }
     @Deprecated
     public JPanel getControlPanel() {
         return this.controlPanel;
     }
 
-//    public StatisticsPanel getStatsPanel() {
-//        return statsPanel;
-//    }
     public void setToolTipController(ToolTipController controller) {
         if (this.wwjPanel.toolTipController != null) {
             this.wwjPanel.toolTipController.dispose();
@@ -207,24 +168,4 @@ public class AppFrame extends JFrame {
         }
 
     }
-
-//    public static AppFrame start(String appName) { //, Class<?> appFrameClass) {
-//        if (Configuration.isMacOS() && appName != null) {
-//            System.setProperty("com.apple.mrj.application.apple.menu.about.name", appName);
-//        }
-//
-//        try {
-//            final AppFrame frame = (AppFrame) appFrameClass.getConstructor().newInstance();
-//            frame.setTitle(appName);
-//            frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-//            java.awt.EventQueue.invokeLater(() -> {
-//                frame.setVisible(true);
-//            });
-//
-//            return frame;
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//            return null;
-//        }
-//    }
 }

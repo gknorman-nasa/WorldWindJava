@@ -46,13 +46,6 @@ public class ApolloAnnotations extends JCheckBoxMenuItem
     private Color savedBorderColor;
     private BufferedImage savedImage;
     private Annotation lastPickedObject;
-    private LayerList layerList;
-    private Layer apollo11;
-    private Layer apollo12;
-    private Layer apollo14;
-    private Layer apollo15;
-    private Layer apollo16;
-    private Layer apollo17;
     
     private final static PowerOfTwoPaddedImage APOLLO11
             = PowerOfTwoPaddedImage.fromPath("images/Apollo11.jpg");
@@ -135,7 +128,6 @@ public class ApolloAnnotations extends JCheckBoxMenuItem
         spAttr.setFont(Font.decode("Arial-BOLDITALIC-12"));
         spAttr.setTextColor(Color.YELLOW);
         spAttr.setTextAlign(AVKey.CENTER);
-        //spAttr.setFrameShape(AVKey.SHAPE_NONE);
         spAttr.setDrawOffset(new Point(0, 5));
         spAttr.setEffect(AVKey.TEXT_EFFECT_OUTLINE);
         layer.addAnnotation(new GlobeAnnotation("Apollo 11",
