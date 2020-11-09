@@ -33,7 +33,7 @@ public class SimpleShapeDragging extends JFrame
         wwd.setModel(new BasicModel());
 
         // Add a layer containing an image
-        SurfaceImage si = new SurfaceImage("images/400x230-splash-nww.png", Sector.fromDegrees(35, 45, -115, -95));
+        SurfaceImage si = new SurfaceImage("images/400x230-splash-nww.png", Sector.fromDegrees(35, 45, -115, 0));
         RenderableLayer layer = new RenderableLayer();
         layer.addRenderable(si);
         insertBeforePlacenames(wwd, layer);

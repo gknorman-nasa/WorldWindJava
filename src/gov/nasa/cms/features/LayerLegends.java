@@ -43,7 +43,7 @@ public class LayerLegends {
             {
                 if (layer.getName().equals("LOLA Color Shaded Relief Blue Steel")) {
                     try {
-                        // if (layer.isEnabled()) {
+                         if (layer.isEnabled()) {
 
                         lolaSteelLegend.setImageSource(ImageIO.read(new File("cms-data/images/lolasteel-legend.png")));
                         Rectangle view = getWwd().getView().getViewport();
@@ -56,9 +56,9 @@ public class LayerLegends {
                         legendLayer.setName("LOLA Steel Legend");
 
                         getWwd().getModel().getLayers().add(legendLayer);
-                        // } else {
-                        //  getWwd().getModel().getLayers().remove(legendLayer);
-                        // }
+                         } else {
+                          getWwd().getModel().getLayers().remove(legendLayer);
+                         }
 
                     } catch (IOException ex) {
                         Logger.getLogger(CelestialMapper.class.getName()).log(Level.SEVERE, null, ex);
@@ -66,7 +66,7 @@ public class LayerLegends {
 
                     //if (layer.getName().equals("LOLA Color Shaded Relief")) {
                     try {
-                        // if (layer.isEnabled()) {
+                         if (layer.isEnabled()) {
 
                         lolaColorLegend.setImageSource(ImageIO.read(new File("cms-data/images/lolacolor-legend.png")));
                         Rectangle view = getWwd().getView().getViewport();
@@ -79,9 +79,11 @@ public class LayerLegends {
                         colorLegend.setName("LOLA Color Legend");
 
                         getWwd().getModel().getLayers().add(colorLegend);
-                        // } else {
-                        //  getWwd().getModel().getLayers().remove(legendLayer);
-                        // }
+                        
+
+                         } else {
+                          getWwd().getModel().getLayers().remove(legendLayer);
+                         }
 
                     } catch (IOException ex) {
                         Logger.getLogger(CelestialMapper.class.getName()).log(Level.SEVERE, null, ex);

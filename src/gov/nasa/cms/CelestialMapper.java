@@ -8,7 +8,6 @@ package gov.nasa.cms;
 import gov.nasa.cms.features.CMSPlaceNamesMenu;
 import gov.nasa.cms.features.ApolloMenu;
 import gov.nasa.cms.features.CMSProfile;
-import gov.nasa.cms.features.LayerLegends;
 import gov.nasa.cms.features.LayerManagerLayer;
 import gov.nasa.cms.features.MeasureDialog;
 import gov.nasa.cms.features.MoonElevationModel;
@@ -28,6 +27,7 @@ import gov.nasa.worldwind.geom.Sector;
 import gov.nasa.worldwind.globes.EarthFlat;
 import gov.nasa.worldwind.render.ScreenImage;
 import gov.nasa.worldwind.render.Size;
+import gov.nasa.worldwind.util.DataConfigurationUtils;
 import gov.nasa.worldwind.util.Logging;
 import gov.nasa.worldwindx.examples.ApplicationTemplate;
 import java.awt.Point;
@@ -39,6 +39,7 @@ import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.imageio.ImageIO;
+import org.w3c.dom.Element;
 
 /**
  * CelestialMapper.java
@@ -57,7 +58,6 @@ public class CelestialMapper extends AppFrame {
     private MeasureDialog measureDialog;
     private MeasureTool measureTool;
     private SatelliteObject orbitalSatellite;
-    private LayerLegends legends;
     private boolean stereo;
     private boolean flat;
     private boolean isMeasureDialogOpen;
@@ -90,7 +90,7 @@ public class CelestialMapper extends AppFrame {
 
         this.addLayerToWorldWindow("cms-data/layers/LOLASteel.xml", null, "LOLA Color Shaded Relief Blue Steel");
         this.addLayerToWorldWindow("cms-data/layers/LOLAColor.xml", null, "LOLA Color Shaded Relief");
-        legends = new LayerLegends(this.getWwd());
+      //  legends = new LayerLegends(this.getWwd());
        // this.legendSetup();
 
     }
@@ -259,27 +259,90 @@ public class CelestialMapper extends AppFrame {
 
         getWwd().getModel().getLayers().add(layer);
     }
+    
+        public void addLayer(Layer layer)
+    {
+        if (layer != null)
+            getWwd().getModel().getLayers().add(layer);
+    }
 
-    // Creates a layer from the configuration file, key and layer name and adds  to the LayerList
-    protected void addLayerToWorldWindow(String configFile, AVList params, String layerName) {
+    public void removeLayer(Layer layer)
+    {
+        getWwd().getModel().getLayers().remove(layer);
+    }
+
+    public void insertBeforeNamedLayer(Layer layer, String targetLayerName)
+    {
+        if (layer == null)
+            return;
+
+        if (targetLayerName == null)
+        {
+            getWwd().getModel().getLayers().add(layer);
+            return;
+        }
+
+        // Insert the layer into the layer list just before the target layer.
+        int targetPosition = 0;
+        LayerList layers = getWwd().getModel().getLayers();
+        for (Layer l : layers)
+        {
+            if (l.getName().indexOf(targetLayerName) != -1)
+            {
+                targetPosition = layers.indexOf(l);
+                break;
+            }
+        }
+        layers.add(targetPosition, layer);
+    }
+
+    public void insertAfterNamedLayer(Layer layer, String targetLayerName)
+    {
+        if (layer == null)
+            return;
+
+        if (targetLayerName == null)
+        {
+            getWwd().getModel().getLayers().add(layer);
+            return;
+        }
+
+        // Insert the layer into the layer list just after the target layer.
+        int targetPosition = 0;
+        LayerList layers = getWwd().getModel().getLayers();
+        for (Layer l : layers)
+        {
+            if (l.getName().indexOf(targetLayerName) != -1)
+                targetPosition = layers.indexOf(l);
+        }
+        layers.add(targetPosition + 1, layer);
+    }
+    
+        protected void addLayerToWorldWindow(String path, AVList params, String layerName)
+    {
         Layer layer = null;
-        try {
+        try
+        {
             Factory factory = (Factory) WorldWind.createConfigurationComponent(AVKey.LAYER_FACTORY);
-            layer = (Layer) factory.createFromConfigSource(configFile, params);
-        } catch (Exception e) {
+            layer = (Layer) factory.createFromConfigSource(path, params);
+        }
+        catch (Exception e)
+        {
             String message = Logging.getMessage("generic.CreationFromConfigurationFailed");
             Logging.logger().log(java.util.logging.Level.SEVERE, message, e);
         }
 
-        if (layer == null) {
+        if (layer == null)
             return;
-        }
 
-        layer.setEnabled(true); // TODO: BasicLayerFactory creates layer which is intially disabled
+       // layer.setEnabled(true); // TODO: BasicLayerFactory creates layer which is intially disabled
         layer.setName(layerName);
-        if (!this.getWwd().getModel().getLayers().contains(layer)) {
-            getWwd().getModel().getLayers().add(layer);
-        }
+
+        if (!getWwd().getModel().getLayers().contains(layer))
+            ApplicationTemplate.insertBeforePlacenames(getWwd(), layer);
     }
 
-}
+  }
+
+
+

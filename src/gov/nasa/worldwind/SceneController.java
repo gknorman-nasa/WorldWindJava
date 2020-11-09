@@ -6,6 +6,7 @@
 
 package gov.nasa.worldwind;
 
+import gov.nasa.cms.util.LayerLegendController;
 import gov.nasa.worldwind.cache.GpuResourceCache;
 import gov.nasa.worldwind.pick.PickedObjectList;
 import gov.nasa.worldwind.render.*;
@@ -226,6 +227,7 @@ public interface SceneController extends WWObject, Disposable
      * @see #setScreenCreditController(gov.nasa.worldwind.render.ScreenCreditController)
      */
     ScreenCreditController getScreenCreditController();
+    
 
     /**
      * Specifies the {@link gov.nasa.worldwind.render.ScreenCreditController} to use for displaying screen credits for
@@ -235,6 +237,24 @@ public interface SceneController extends WWObject, Disposable
      *                             displayed.
      */
     void setScreenCreditController(ScreenCreditController screenCreditRenderer);
+    
+         /**
+     * Returns the current layer credit controller.
+     *
+     * @return the current layer credit controller. May be null.
+     *
+     * @see #setLayerLegendController(gov.nasa.worldwind.render.LayerLegendController)
+     */
+    LayerLegendController getLayerLegendController();
+    
+        /**
+     * Specifies the {@link gov.nasa.worldwind.render.ScreenCreditController} to use for displaying screen credits for
+     * the model of this screen controller.
+     *
+     * @param layerLegendRenderer the screen credit controller. May be null, in which case screen credits are not
+     *                             displayed.
+     */
+    void setLayerLegendController(LayerLegendController layerLegendRenderer);
 
     /**
      * Returns the {@link GLRuntimeCapabilities} associated with this SceneController.

@@ -5,6 +5,7 @@
  */
 package gov.nasa.cms.features;
 
+import gov.nasa.cms.CelestialMapper;
 import gov.nasa.worldwindx.examples.util.*;
 import gov.nasa.worldwind.WorldWindow;
 import gov.nasa.worldwind.avlist.AVKey;
@@ -17,16 +18,23 @@ import gov.nasa.worldwind.util.Logging;
 import gov.nasa.worldwind.util.tree.BasicTreeNode;
 
 import java.awt.*;
+import java.io.File;
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.imageio.ImageIO;
 
 /**
- * Displays the layer list in a heads-up display in the viewport. Layers can be turned on and off by clicking the check
- * box next to the layer name. The order of layers in the list can be changed by dragging the layer names.
+ * Displays the layer list in a heads-up display in the viewport. Layers can be
+ * turned on and off by clicking the check box next to the layer name. The order
+ * of layers in the list can be changed by dragging the layer names.
  *
  * @author Patrick Murris
  * @version $Id: LayerManagerLayer.java 1171 2013-02-11 21:45:02Z dcollins $
  */
 public class LayerManagerLayer extends RenderableLayer implements SelectListener
 {
+
     protected WorldWindow wwd;
     protected boolean update = true;
 
@@ -56,6 +64,7 @@ public class LayerManagerLayer extends RenderableLayer implements SelectListener
     protected Point dragRefPoint;
     protected int dragRefIndex = -1;
     protected Color dragColor = Color.RED;
+   
 
     public LayerManagerLayer(WorldWindow wwd)
     {
@@ -147,9 +156,11 @@ public class LayerManagerLayer extends RenderableLayer implements SelectListener
     }
 
     /**
-     * Get the <code>Color</code> used to draw the layer names and the frame border when they are not highlighted.
+     * Get the <code>Color</code> used to draw the layer names and the frame
+     * border when they are not highlighted.
      *
-     * @return the <code>Color</code> used to draw the layer names and the frame border when they are not highlighted.
+     * @return the <code>Color</code> used to draw the layer names and the frame
+     * border when they are not highlighted.
      */
     public Color getColor()
     {
@@ -157,10 +168,11 @@ public class LayerManagerLayer extends RenderableLayer implements SelectListener
     }
 
     /**
-     * Set the <code>Color</code> used to draw the layer names and the frame border when they are not highlighted.
+     * Set the <code>Color</code> used to draw the layer names and the frame
+     * border when they are not highlighted.
      *
-     * @param color the <code>Color</code> used to draw the layer names and the frame border when they are not
-     *              highlighted.
+     * @param color the <code>Color</code> used to draw the layer names and the
+     * frame border when they are not highlighted.
      */
     public void setColor(Color color)
     {
@@ -176,9 +188,11 @@ public class LayerManagerLayer extends RenderableLayer implements SelectListener
     }
 
     /**
-     * Get the <code>Color</code> used to draw the layer names and the frame border when they are highlighted.
+     * Get the <code>Color</code> used to draw the layer names and the frame
+     * border when they are highlighted.
      *
-     * @return the <code>Color</code> used to draw the layer names and the frame border when they are highlighted.
+     * @return the <code>Color</code> used to draw the layer names and the frame
+     * border when they are highlighted.
      */
     public Color getHighlightColor()
     {
@@ -186,9 +200,11 @@ public class LayerManagerLayer extends RenderableLayer implements SelectListener
     }
 
     /**
-     * Set the <code>Color</code> used to draw the layer names and the frame border when they are highlighted.
+     * Set the <code>Color</code> used to draw the layer names and the frame
+     * border when they are highlighted.
      *
-     * @param color the <code>Color</code> used to draw the layer names and the frame border when they are highlighted.
+     * @param color the <code>Color</code> used to draw the layer names and the
+     * frame border when they are highlighted.
      */
     public void setHighlightColor(Color color)
     {
@@ -204,9 +220,11 @@ public class LayerManagerLayer extends RenderableLayer implements SelectListener
     }
 
     /**
-     * Get the opacity applied to the layer list when the cursor is outside it's frame.
+     * Get the opacity applied to the layer list when the cursor is outside it's
+     * frame.
      *
-     * @return the opacity applied to the layer list when the cursor is outside it's frame.
+     * @return the opacity applied to the layer list when the cursor is outside
+     * it's frame.
      */
     public double getMinOpacity()
     {
@@ -214,10 +232,11 @@ public class LayerManagerLayer extends RenderableLayer implements SelectListener
     }
 
     /**
-     * Set the opacity applied to the layer list when the cursor is outside it's frame - zero to one, one is fully
-     * opaque.
+     * Set the opacity applied to the layer list when the cursor is outside it's
+     * frame - zero to one, one is fully opaque.
      *
-     * @param opacity the opacity applied to the layer list when the cursor is outside it's frame.
+     * @param opacity the opacity applied to the layer list when the cursor is
+     * outside it's frame.
      */
     public void setMinOpacity(double opacity)
     {
@@ -226,9 +245,11 @@ public class LayerManagerLayer extends RenderableLayer implements SelectListener
     }
 
     /**
-     * Get the opacity applied to the layer list when the cursor is inside it's frame.
+     * Get the opacity applied to the layer list when the cursor is inside it's
+     * frame.
      *
-     * @return the opacity applied to the layer list when the cursor is inside it's frame.
+     * @return the opacity applied to the layer list when the cursor is inside
+     * it's frame.
      */
     public double getMaxOpacity()
     {
@@ -236,10 +257,11 @@ public class LayerManagerLayer extends RenderableLayer implements SelectListener
     }
 
     /**
-     * Set the opacity applied to the layer list when the cursor is inside it's frame - zero to one, one is fully
-     * opaque.
+     * Set the opacity applied to the layer list when the cursor is inside it's
+     * frame - zero to one, one is fully opaque.
      *
-     * @param opacity the opacity applied to the layer list when the cursor is inside it's frame.
+     * @param opacity the opacity applied to the layer list when the cursor is
+     * inside it's frame.
      */
     public void setMaxOpacity(double opacity)
     {
@@ -292,7 +314,8 @@ public class LayerManagerLayer extends RenderableLayer implements SelectListener
     /**
      * Get the layer manager frame offset from the viewport borders.
      *
-     * @return the number of pixels to offset the layer manager frame from the borders indicated by {@link
+     * @return the number of pixels to offset the layer manager frame from the
+     * borders indicated by {@link
      *         #setPosition(String)}.
      */
     public int getBorderWidth()
@@ -303,7 +326,8 @@ public class LayerManagerLayer extends RenderableLayer implements SelectListener
     /**
      * Sets the layer manager frame offset from the viewport borders.
      *
-     * @param borderWidth the number of pixels to offset the layer manager frame from the borders indicated by {@link
+     * @param borderWidth the number of pixels to offset the layer manager frame
+     * from the borders indicated by {@link
      *                    #setPosition(String)}.
      */
     public void setBorderWidth(int borderWidth)
@@ -323,9 +347,11 @@ public class LayerManagerLayer extends RenderableLayer implements SelectListener
     }
 
     /**
-     * Sets the relative viewport location to display the layer manager. Can be one of {@link AVKey#NORTHEAST} (the
-     * default), {@link AVKey#NORTHWEST}, {@link AVKey#SOUTHEAST}, or {@link AVKey#SOUTHWEST}. These indicate the corner
-     * of the viewport to place the frame.
+     * Sets the relative viewport location to display the layer manager. Can be
+     * one of {@link AVKey#NORTHEAST} (the default),
+     * {@link AVKey#NORTHWEST}, {@link AVKey#SOUTHEAST}, or
+     * {@link AVKey#SOUTHWEST}. These indicate the corner of the viewport to
+     * place the frame.
      *
      * @param position the desired layer manager position
      */
@@ -352,11 +378,14 @@ public class LayerManagerLayer extends RenderableLayer implements SelectListener
     }
 
     /**
-     * Specifies the screen location of the layer manager, relative to it's frame center. May be null. If this value is
-     * non-null, it overrides the position specified by #setPosition. The location is specified in pixels. The origin is
-     * the window's lower left corner. Positive X values are to the right of the origin, positive Y values are upwards
-     * from the origin. The final frame location will be affected by the currently specified location offset if a
-     * non-null location offset has been specified (see {@link #setLocationOffset(Vec4)}).
+     * Specifies the screen location of the layer manager, relative to it's
+     * frame center. May be null. If this value is non-null, it overrides the
+     * position specified by #setPosition. The location is specified in pixels.
+     * The origin is the window's lower left corner. Positive X values are to
+     * the right of the origin, positive Y values are upwards from the origin.
+     * The final frame location will be affected by the currently specified
+     * location offset if a non-null location offset has been specified (see
+     * {@link #setLocationOffset(Vec4)}).
      *
      * @param locationCenter the location center. May be null.
      *
@@ -370,9 +399,11 @@ public class LayerManagerLayer extends RenderableLayer implements SelectListener
     }
 
     /**
-     * Returns the current location offset. See #setLocationOffset for a description of the offset and its values.
+     * Returns the current location offset. See #setLocationOffset for a
+     * description of the offset and its values.
      *
-     * @return the location offset. Will be null if no offset has been specified.
+     * @return the location offset. Will be null if no offset has been
+     * specified.
      */
     public Vec4 getLocationOffset()
     {
@@ -380,11 +411,13 @@ public class LayerManagerLayer extends RenderableLayer implements SelectListener
     }
 
     /**
-     * Specifies a placement offset from the layer manager frame position on the screen.
+     * Specifies a placement offset from the layer manager frame position on the
+     * screen.
      *
-     * @param locationOffset the number of pixels to shift the layer manager frame from its specified screen position. A
-     *                       positive X value shifts the frame to the right. A positive Y value shifts the frame up. If
-     *                       null, no offset is applied. The default offset is null.
+     * @param locationOffset the number of pixels to shift the layer manager
+     * frame from its specified screen position. A positive X value shifts the
+     * frame to the right. A positive Y value shifts the frame up. If null, no
+     * offset is applied. The default offset is null.
      *
      * @see #setLocationCenter(gov.nasa.worldwind.geom.Vec4)
      * @see #setPosition(String)
@@ -396,8 +429,9 @@ public class LayerManagerLayer extends RenderableLayer implements SelectListener
     }
 
     /**
-     * Determines whether the layer list frame is minimized. When minimized, the layer list only contains itself as the
-     * only item, and thus shrinks toward it's corner position.
+     * Determines whether the layer list frame is minimized. When minimized, the
+     * layer list only contains itself as the only item, and thus shrinks toward
+     * it's corner position.
      *
      * @return <code>true</code> if the layer list frame is minimized.
      */
@@ -407,10 +441,12 @@ public class LayerManagerLayer extends RenderableLayer implements SelectListener
     }
 
     /**
-     * Set the layer list frame to be minimized. When minimized, the layer list only contains itself as the only item,
-     * and thus shrinks toward it's corner position.
+     * Set the layer list frame to be minimized. When minimized, the layer list
+     * only contains itself as the only item, and thus shrinks toward it's
+     * corner position.
      *
-     * @param minimized <code>true</code> if the layer list frame sould be minimized.
+     * @param minimized <code>true</code> if the layer list frame sould be
+     * minimized.
      */
     public void setMinimized(boolean minimized)
     {
@@ -419,13 +455,17 @@ public class LayerManagerLayer extends RenderableLayer implements SelectListener
     }
 
     /**
-     * Determines whether the layer list can be moved or dragged with the mouse cursor.
+     * Determines whether the layer list can be moved or dragged with the mouse
+     * cursor.
      * <p>
-     * If enabled, dragging the frame will result in a change to it's location offset - {@link
-     * #setLocationOffset(Vec4)}. If the list is also set to snap to corners - {@link #setSnapToCorners(boolean)}, the
-     * frame position may change so as to be attached to the nearest corner - see {@link #setPosition(String)}.
+     * If enabled, dragging the frame will result in a change to it's location
+     * offset - {@link
+     * #setLocationOffset(Vec4)}. If the list is also set to snap to corners -
+     * {@link #setSnapToCorners(boolean)}, the frame position may change so as
+     * to be attached to the nearest corner - see {@link #setPosition(String)}.
      *
-     * @return <code>true</code> if the layer list can be moved or dragged with the mouse cursor.
+     * @return <code>true</code> if the layer list can be moved or dragged with
+     * the mouse cursor.
      */
     public boolean isComponentDragEnabled()
     {
@@ -433,13 +473,17 @@ public class LayerManagerLayer extends RenderableLayer implements SelectListener
     }
 
     /**
-     * Sets whether the layer list can be moved or dragged with the mouse cursor.
+     * Sets whether the layer list can be moved or dragged with the mouse
+     * cursor.
      * <p>
-     * If enabled, dragging the frame will result in a change to it's location offset - {@link
-     * #setLocationOffset(Vec4)}. If the list is also set to snap to corners - {@link #setSnapToCorners(boolean)}, the
-     * frame position may change so as to be attached to the nearest corner - see {@link #setPosition(String)}.
+     * If enabled, dragging the frame will result in a change to it's location
+     * offset - {@link
+     * #setLocationOffset(Vec4)}. If the list is also set to snap to corners -
+     * {@link #setSnapToCorners(boolean)}, the frame position may change so as
+     * to be attached to the nearest corner - see {@link #setPosition(String)}.
      *
-     * @param enabled <code>true</code> if the layer list can be moved or dragged with the mouse cursor.
+     * @param enabled <code>true</code> if the layer list can be moved or
+     * dragged with the mouse cursor.
      */
     public void setComponentDragEnabled(boolean enabled)
     {
@@ -447,10 +491,11 @@ public class LayerManagerLayer extends RenderableLayer implements SelectListener
     }
 
     /**
-     * Determines whether a layer can be moved or dragged within the list with the mouse cursor. If enabled, layers can
-     * be moved up and down the list.
+     * Determines whether a layer can be moved or dragged within the list with
+     * the mouse cursor. If enabled, layers can be moved up and down the list.
      *
-     * @return <code>true</code> if a layer can be moved or dragged within the list.
+     * @return <code>true</code> if a layer can be moved or dragged within the
+     * list.
      */
     public boolean isLayerDragEnabled()
     {
@@ -458,10 +503,11 @@ public class LayerManagerLayer extends RenderableLayer implements SelectListener
     }
 
     /**
-     * Sets whether a layer can be moved or dragged within the list with the mouse cursor. If enabled, layers can be
-     * moved up and down the list.
+     * Sets whether a layer can be moved or dragged within the list with the
+     * mouse cursor. If enabled, layers can be moved up and down the list.
      *
-     * @param enabled <code>true</code> if a layer can be moved or dragged within the list.
+     * @param enabled <code>true</code> if a layer can be moved or dragged
+     * within the list.
      */
     public void setLayerDragEnabled(boolean enabled)
     {
@@ -469,13 +515,17 @@ public class LayerManagerLayer extends RenderableLayer implements SelectListener
     }
 
     /**
-     * Determines whether the layer list snaps to the viewport sides and corners while being dragged.
+     * Determines whether the layer list snaps to the viewport sides and corners
+     * while being dragged.
      * <p>
-     * Dragging the layer list frame will result in a change to it's location offset - {@link #setLocationOffset(Vec4)}.
-     * If the list is also set to snap to corners - {@link #setSnapToCorners(boolean)}, the frame position may change so
-     * as to be attached to the nearest corner - see {@link #setPosition(String)}.
+     * Dragging the layer list frame will result in a change to it's location
+     * offset - {@link #setLocationOffset(Vec4)}. If the list is also set to
+     * snap to corners - {@link #setSnapToCorners(boolean)}, the frame position
+     * may change so as to be attached to the nearest corner - see
+     * {@link #setPosition(String)}.
      *
-     * @return <code>true</code> if the layer list snaps to the viewport sides and corners while being dragged.
+     * @return <code>true</code> if the layer list snaps to the viewport sides
+     * and corners while being dragged.
      */
     public boolean isSnapToCorners()
     {
@@ -483,14 +533,16 @@ public class LayerManagerLayer extends RenderableLayer implements SelectListener
     }
 
     /**
-     * Sets whether the layer list snaps to the viewport sides and corners while being dragged.
+     * Sets whether the layer list snaps to the viewport sides and corners while
+     * being dragged.
      * <p>
-     * Dragging the layer list frame will result in a change to it's location offset - {@link #setLocationOffset(Vec4)}.
-     * If the list is also set to snap to corners the frame position may change so as to be attached to the nearest
-     * corner - see {@link #setPosition(String)}.
+     * Dragging the layer list frame will result in a change to it's location
+     * offset - {@link #setLocationOffset(Vec4)}. If the list is also set to
+     * snap to corners the frame position may change so as to be attached to the
+     * nearest corner - see {@link #setPosition(String)}.
      *
-     * @param enabled <code>true</code> if the layer list should snaps to the viewport sides and corners while being
-     *                dragged.
+     * @param enabled <code>true</code> if the layer list should snaps to the
+     * viewport sides and corners while being dragged.
      */
     public void setSnapToCorners(boolean enabled)
     {
@@ -498,8 +550,9 @@ public class LayerManagerLayer extends RenderableLayer implements SelectListener
     }
 
     /**
-     * Get the selected layer index number in the current <code>Model</code> layer list. A layer is selected when the
-     * cursor is over it in the list. Returns -1 if no layer is currently selected.
+     * Get the selected layer index number in the current <code>Model</code>
+     * layer list. A layer is selected when the cursor is over it in the list.
+     * Returns -1 if no layer is currently selected.
      *
      * @return the selected layer index number or -1 if none is selected.
      */
@@ -509,8 +562,8 @@ public class LayerManagerLayer extends RenderableLayer implements SelectListener
     }
 
     /**
-     * Set the selected layer index number. When selected a layer is highlighted in the list - this usually happens when
-     * the cursor is over it.
+     * Set the selected layer index number. When selected a layer is highlighted
+     * in the list - this usually happens when the cursor is over it.
      *
      * @param index the selected layer index number.
      */
@@ -531,7 +584,7 @@ public class LayerManagerLayer extends RenderableLayer implements SelectListener
         {
             boolean update = false;
             if (event.getEventAction().equals(SelectEvent.ROLLOVER)
-                || event.getEventAction().equals(SelectEvent.LEFT_CLICK))
+                    || event.getEventAction().equals(SelectEvent.LEFT_CLICK))
             {
                 // Highlight annotation
                 if (!this.annotation.getAttributes().isHighlighted())
@@ -560,10 +613,49 @@ public class LayerManagerLayer extends RenderableLayer implements SelectListener
                         {
                             layers.get(i).setEnabled(!layers.get(i).isEnabled());
                             update = true;
+
+                            if (layers.get(i).getName().equals("LOLA Color Shaded Relief"))
+                            {
+                                ScreenImage lolaColorLegend = null;
+                                RenderableLayer colorLegend = new RenderableLayer();
+                                if(lolaColorLegend == null)
+                                {
+                                    lolaColorLegend = new ScreenImage();
+                                }
+
+                                
+                                if (layers.get(i).isEnabled())
+                                {
+                                    try
+                                    {
+                                        lolaColorLegend.setImageSource(ImageIO.read(new File("cms-data/images/lolacolor-legend.png")));
+                                        Rectangle view = wwd.getView().getViewport();
+                                        // Set the screen location to different points to offset the image size
+                                       //  lolaColorLegend.setSize(new Size(Size.EXPLICIT_DIMENSION, 432, AVKey.PIXELS, Size.EXPLICIT_DIMENSION, 69, AVKey.PIXELS));
+
+                                        lolaColorLegend.setScreenLocation(new Point(view.x + 1150, view.y + 670));
+
+                                        colorLegend.addRenderable(lolaColorLegend);
+                                        colorLegend.setName("LOLA Color Legend");
+
+                                        wwd.getModel().getLayers().add(colorLegend);
+                                        
+                                       
+                                    } catch (IOException ex)
+                                    {
+                                        Logger.getLogger(CelestialMapper.class.getName()).log(Level.SEVERE, null, ex);
+                                    }
+                                }
+                                else
+                                {
+                                    wwd.getModel().getLayers().remove(colorLegend);
+                                }
+                                event.consume();
+                            }
                         }
                     }
-                }
-                else
+
+                } else
                 {
                     // Unselect if not on an hyperlink
                     if (this.selectedIndex != -1)
@@ -573,13 +665,16 @@ public class LayerManagerLayer extends RenderableLayer implements SelectListener
                     }
                     // Set cursor
                     if (this.isComponentDragEnabled())
+                    {
                         ((Component) this.wwd).setCursor(Cursor.getPredefinedCursor(Cursor.MOVE_CURSOR));
-                    else
+                    } else
+                    {
                         ((Component) this.wwd).setCursor(Cursor.getDefaultCursor());
+                    }
                 }
             }
             if (event.getEventAction().equals(SelectEvent.DRAG)
-                || event.getEventAction().equals(SelectEvent.DRAG_END))
+                    || event.getEventAction().equals(SelectEvent.DRAG_END))
             {
                 // Handle dragging
                 if (this.isComponentDragEnabled() || this.isLayerDragEnabled())
@@ -588,17 +683,21 @@ public class LayerManagerLayer extends RenderableLayer implements SelectListener
                     this.drag(event);
                     // Update list if dragging a layer, otherwise just redraw the WorldWindow
                     if (this.draggingLayer || wasDraggingLayer)
+                    {
                         update = true;
-                    else
+                    } else
+                    {
                         this.wwd.redraw();
+                    }
                     event.consume();
                 }
             }
             // Redraw annotation if needed
             if (update)
+            {
                 this.update();
-        }
-        else if (event.getEventAction().equals(SelectEvent.ROLLOVER) && this.annotation.getAttributes().isHighlighted())
+            }
+        } else if (event.getEventAction().equals(SelectEvent.ROLLOVER) && this.annotation.getAttributes().isHighlighted())
         {
             // de-highlight annotation
             this.annotation.getAttributes().setHighlighted(false);
@@ -612,7 +711,7 @@ public class LayerManagerLayer extends RenderableLayer implements SelectListener
         if (event.getEventAction().equals(SelectEvent.DRAG))
         {
             if ((this.isComponentDragEnabled() && this.selectedIndex == -1 && this.dragRefIndex == -1)
-                || this.draggingComponent)
+                    || this.draggingComponent)
             {
                 // Dragging the whole list
                 if (!this.draggingComponent)
@@ -622,13 +721,12 @@ public class LayerManagerLayer extends RenderableLayer implements SelectListener
                     this.draggingComponent = true;
                 }
                 Point cursorOffset = new Point(event.getMouseEvent().getPoint().x - this.dragRefCursorPoint.x,
-                    event.getMouseEvent().getPoint().y - this.dragRefCursorPoint.y);
+                        event.getMouseEvent().getPoint().y - this.dragRefCursorPoint.y);
                 Point targetPoint = new Point(this.dragRefPoint.x + cursorOffset.x,
-                    this.dragRefPoint.y - cursorOffset.y);
+                        this.dragRefPoint.y - cursorOffset.y);
                 this.moveTo(targetPoint);
                 event.consume();
-            }
-            else if (this.isLayerDragEnabled())
+            } else if (this.isLayerDragEnabled())
             {
                 // Dragging a layer inside the list
                 if (!this.draggingLayer)
@@ -640,18 +738,17 @@ public class LayerManagerLayer extends RenderableLayer implements SelectListener
                 {
                     // Move dragged layer
                     LayerList layers = this.wwd.getModel().getLayers();
-                    int insertIndex = this.dragRefIndex > this.selectedIndex ?
-                        this.selectedIndex : this.selectedIndex + 1;
-                    int removeIndex = this.dragRefIndex > this.selectedIndex ?
-                        this.dragRefIndex + 1 : this.dragRefIndex;
+                    int insertIndex = this.dragRefIndex > this.selectedIndex
+                            ? this.selectedIndex : this.selectedIndex + 1;
+                    int removeIndex = this.dragRefIndex > this.selectedIndex
+                            ? this.dragRefIndex + 1 : this.dragRefIndex;
                     layers.add(insertIndex, layers.get(this.dragRefIndex));
                     layers.remove(removeIndex);
                     this.dragRefIndex = this.selectedIndex;
                     event.consume();
                 }
             }
-        }
-        else if (event.getEventAction().equals(SelectEvent.DRAG_END))
+        } else if (event.getEventAction().equals(SelectEvent.DRAG_END))
         {
             this.draggingComponent = false;
             this.draggingLayer = false;
@@ -663,7 +760,9 @@ public class LayerManagerLayer extends RenderableLayer implements SelectListener
     {
         Point refPoint = this.annotation.getScreenPoint();
         if (this.locationOffset == null)
+        {
             this.locationOffset = Vec4.ZERO;
+        }
 
         // Compute appropriate offset
         int x = (int) this.locationOffset.x - (refPoint.x - targetPoint.x);
@@ -677,7 +776,9 @@ public class LayerManagerLayer extends RenderableLayer implements SelectListener
         this.locationOffset = new Vec4(x, y, 0);
 
         if (this.snapToCorners)
+        {
             this.snapToCorners();
+        }
     }
 
     protected void snapToCorners()
@@ -692,9 +793,12 @@ public class LayerManagerLayer extends RenderableLayer implements SelectListener
         // Find closest corner position
         String newPos;
         if (centerPoint.x > viewport.width / 2)
+        {
             newPos = (centerPoint.y > viewport.height / 2) ? AVKey.NORTHEAST : AVKey.SOUTHEAST;
-        else
+        } else
+        {
             newPos = (centerPoint.y > viewport.height / 2) ? AVKey.NORTHWEST : AVKey.SOUTHWEST;
+        }
 
         // Adjust offset if position changed
         int x = 0, y = 0;
@@ -702,15 +806,13 @@ public class LayerManagerLayer extends RenderableLayer implements SelectListener
         {
             x = (int) this.locationOffset.x;
             y = (int) this.locationOffset.y;
-        }
-        else
+        } else
         {
             if (newPos.equals(AVKey.NORTHEAST))
             {
                 x = refPoint.x - (viewport.width - width - this.borderWidth);
                 y = refPoint.y - (viewport.height - height - this.borderWidth);
-            }
-            else if (newPos.equals(AVKey.SOUTHEAST))
+            } else if (newPos.equals(AVKey.SOUTHEAST))
             {
                 x = refPoint.x - (viewport.width - width - this.borderWidth);
                 y = refPoint.y - this.borderWidth;
@@ -719,8 +821,7 @@ public class LayerManagerLayer extends RenderableLayer implements SelectListener
             {
                 x = refPoint.x - this.borderWidth;
                 y = refPoint.y - (viewport.height - height - this.borderWidth);
-            }
-            else if (newPos.equals(AVKey.SOUTHWEST))
+            } else if (newPos.equals(AVKey.SOUTHWEST))
             {
                 x = refPoint.x - this.borderWidth;
                 y = refPoint.y - this.borderWidth;
@@ -735,7 +836,9 @@ public class LayerManagerLayer extends RenderableLayer implements SelectListener
         this.locationOffset = new Vec4(x, y, 0);
     }
 
-    /** Schedule the layer list for redrawing before the next render pass. */
+    /**
+     * Schedule the layer list for redrawing before the next render pass.
+     */
     public void update()
     {
         this.update = true;
@@ -743,8 +846,8 @@ public class LayerManagerLayer extends RenderableLayer implements SelectListener
     }
 
     /**
-     * Force the layer list to redraw itself from the current <code>Model</code> with the current highlighted state and
-     * selected layer colors and opacity.
+     * Force the layer list to redraw itself from the current <code>Model</code>
+     * with the current highlighted state and selected layer colors and opacity.
      *
      * @param dc the current {@link DrawContext}.
      *
@@ -772,9 +875,11 @@ public class LayerManagerLayer extends RenderableLayer implements SelectListener
     }
 
     /**
-     * Change the annotation appearance according to the given highlighted state.
+     * Change the annotation appearance according to the given highlighted
+     * state.
      *
-     * @param highlighted <code>true</code> if the annotation should appear highlighted.
+     * @param highlighted <code>true</code> if the annotation should appear
+     * highlighted.
      */
     protected void highlight(boolean highlighted)
     {
@@ -783,8 +888,7 @@ public class LayerManagerLayer extends RenderableLayer implements SelectListener
         {
             this.annotation.getAttributes().setBorderColor(this.highlightColor);
             this.annotation.getAttributes().setOpacity(this.maxOpacity);
-        }
-        else
+        } else
         {
             this.annotation.getAttributes().setBorderColor(this.color);
             this.annotation.getAttributes().setOpacity(this.minOpacity);
@@ -835,16 +939,21 @@ public class LayerManagerLayer extends RenderableLayer implements SelectListener
     public void render(DrawContext dc)
     {
         if (this.update)
+        {
             this.updateNow(dc);
+        }
 
         this.annotation.setScreenPoint(computeLocation(dc.getView().getViewport()));
         super.render(dc);
     }
 
     /**
-     * Compute the draw frame south-west corner screen location according to it's position - see {@link
-     * #setPosition(String)}, location offset - see {@link #setLocationOffset(Vec4)}, or location center - see {@link
-     * #setLocationCenter(Vec4)}, and border distance from the viewport edges - see {@link #setBorderWidth(int)}.
+     * Compute the draw frame south-west corner screen location according to
+     * it's position - see {@link
+     * #setPosition(String)}, location offset - see
+     * {@link #setLocationOffset(Vec4)}, or location center - see {@link
+     * #setLocationCenter(Vec4)}, and border distance from the viewport edges -
+     * see {@link #setBorderWidth(int)}.
      *
      * @param viewport the current <code>Viewport</code> rectangle.
      *
@@ -863,30 +972,25 @@ public class LayerManagerLayer extends RenderableLayer implements SelectListener
         {
             x = (int) this.locationCenter.x - width / 2;
             y = (int) this.locationCenter.y - height / 2;
-        }
-        else if (this.position.equals(AVKey.NORTHEAST))
+        } else if (this.position.equals(AVKey.NORTHEAST))
         {
             x = (int) viewport.getWidth() - width - this.borderWidth;
             y = (int) viewport.getHeight() - height - this.borderWidth;
-        }
-        else if (this.position.equals(AVKey.SOUTHEAST))
+        } else if (this.position.equals(AVKey.SOUTHEAST))
         {
             x = (int) viewport.getWidth() - width - this.borderWidth;
             //noinspection SuspiciousNameCombination
             y = this.borderWidth;
-        }
-        else if (this.position.equals(AVKey.NORTHWEST))
+        } else if (this.position.equals(AVKey.NORTHWEST))
         {
             x = this.borderWidth;
             y = (int) viewport.getHeight() - height - this.borderWidth;
-        }
-        else if (this.position.equals(AVKey.SOUTHWEST))
+        } else if (this.position.equals(AVKey.SOUTHWEST))
         {
             x = this.borderWidth;
             //noinspection SuspiciousNameCombination
             y = this.borderWidth;
-        }
-        else // use North East as default
+        } else // use North East as default
         {
             x = (int) viewport.getWidth() - width - this.borderWidth;
             y = (int) viewport.getHeight() - height - this.borderWidth;

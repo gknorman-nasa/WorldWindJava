@@ -42,6 +42,9 @@
             <LatLon units="degrees" latitude="90" longitude="180"/>
         </NorthEast>
     </Sector>
+    <ScreenCredit creditType="ScreenImage">
+        <FileName>images/lolacolor-legend.png</FileName>
+    </ScreenCredit>
     <ForceLevelZeroLoads>true</ForceLevelZeroLoads>
     <RetainLevelZeroTiles>true</RetainLevelZeroTiles>
     <UseTransparentTextures>false</UseTransparentTextures>
