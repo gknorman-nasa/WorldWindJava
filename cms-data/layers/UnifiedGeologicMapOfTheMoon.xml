@@ -5,24 +5,24 @@
   ~ All Rights Reserved.
   -->
 
-<!-- This mosaic represents the Kaguya Terrain Camera (TC) Ortho mosaic. The mosaic is derived from data acquired by the Terrain Camera (TC) instrument aboard the 
-    Selenological and Engineering Explorer (SELENE) satellite flown by the Japan Aerospace Exploration Agency (JAXA). -->
+<!-- These maps are a series of geologic maps that cover the entire Moon at a scale of 1:5,000,000 originally created in the 1970's - 2013 version -->
 <Layer version="1" layerType="TiledImageLayer">
-    <DisplayName>Kaguya TC Ortho Mosaic</DisplayName>
+    <DisplayName>Unified Geologic Map of The Moon</DisplayName>
     <Service serviceName="OGC:WMS" version="1.3">
-        <GetCapabilitiesURL>https://planetarymaps.usgs.gov/cgi-bin/mapserv?map=/maps/earth/moon_simp_cyl.map</GetCapabilitiesURL>
-        <GetMapURL>https://planetarymaps.usgs.gov/cgi-bin/mapserv?map=/maps/earth/moon_simp_cyl.map</GetMapURL>
-        <LayerNames>KaguyaTC_Ortho</LayerNames>
+        <GetCapabilitiesURL>https://gis.usgs.gov/sciencebase2/services/Catalog/5e18e09ae4b0ecf25c5b04bd/MapServer/WmsServer</GetCapabilitiesURL>
+        <GetMapURL>https://gis.usgs.gov/sciencebase2/services/Catalog/5e18e09ae4b0ecf25c5b04bd/MapServer/WmsServer</GetMapURL>
+        <LayerNames>0,2</LayerNames>
+        <StyleNames>default,default</StyleNames>
     </Service>
     <RetrievePropertiesFromService>true</RetrievePropertiesFromService>
-    <DataCacheName>Moon/KaguyaOrtho</DataCacheName> 
+    <DataCacheName>Moon/UnifiedGeologicMapOfTheMoon</DataCacheName> 
     <ImageFormat>image/jpeg</ImageFormat>
     <AvailableImageFormats>
         <ImageFormat>image/jpeg</ImageFormat>
         <ImageFormat>image/png</ImageFormat>
     </AvailableImageFormats>
     <FormatSuffix>.dds</FormatSuffix>
-    <NumLevels count="5" numEmpty="0"/>
+    <NumLevels count="16" numEmpty="0"/>
     <TileOrigin>
         <LatLon units="degrees" latitude="-90" longitude="-180"/>
     </TileOrigin>
