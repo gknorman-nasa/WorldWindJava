@@ -15,6 +15,10 @@
         <!--Individual properties can be specified within Layer entries, like this:-->
         <Property name="Name" value="Stars"/>
     </Layer>
+    <Layer className="gov.nasa.worldwind.layers.SkyGradientLayer">
+        <!--Individual properties can be specified within Layer entries, like this:-->
+        <Property name="Name" value="Atmosphere"/>
+    </Layer>
 
     <Layer href="cms-data/layers/LROWACGlobalMosaic.xml" actuate="onLoad"/>
     <Layer href="cms-data/layers/LOLAColor.xml" actuate="onRequest"/>

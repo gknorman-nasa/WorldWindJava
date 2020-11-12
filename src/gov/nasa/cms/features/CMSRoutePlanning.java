@@ -147,7 +147,7 @@ public class CMSRoutePlanning extends JFrame {
     private Timer autoSaveTimer;
     protected static final long MIN_AUTO_SAVE_INTERVAL = 1000L;
     
-    private LunarPlaceNamesMenu lunarPlaceNamesMenu;
+    //private LunarPlaceNamesMenu lunarPlaceNamesMenu;
 
     public CMSRoutePlanning()
     {
