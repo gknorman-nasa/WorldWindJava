@@ -20,6 +20,8 @@
     <Layer href="cms-data/layers/LOLAColor.xml" actuate="onRequest"/>
     <Layer href="cms-data/layers/LOLASteel.xml" actuate="onRequest"/>
     <Layer href="cms-data/layers/LOLAGrayscale.xml" actuate="onRequest"/>
+    <Layer href="cms-data/layers/KaguyaTCOrtho.xml" actuate="onRequest"/>
+    <Layer href="cms-data/layers/LOLAKaguyaTCShadedRelief.xml" actuate="onRequest"/>
     <Layer href="cms-data/layers/ClementineBasemapV2.xml" actuate="onRequest"/>
     <Layer href="cms-data/layers/ClementineLunarOrbiterHybrid.xml" actuate="onRequest"/>
     <Layer href="cms-data/layers/LunarOrbiterGlobalMosaic.xml" actuate="onRequest"/>

@@ -5,8 +5,7 @@
   ~ All Rights Reserved.
   -->
 
-<!-- Clementine 750nm basemap version 2 mosaic created by USGS representing the albedo. -->
-<!--$Id: Clementine750nm.xml 1382 2013-05-31 00:37:46Z tgaskins $-->
+<!-- These maps are a series of geologic maps that cover the entire Moon at a scale of 1:5,000,000 originally created in the 1970's - 2013 version -->
 <Layer version="1" layerType="TiledImageLayer">
     <DisplayName>Unified Geologic Map of The Moon</DisplayName>
     <Service serviceName="OGC:WMS" version="1.3">
@@ -16,7 +15,6 @@
         <StyleNames>default,default</StyleNames>
     </Service>
     <RetrievePropertiesFromService>true</RetrievePropertiesFromService>
-    <!-- day month year hours:minutes:seconds timezone -->
     <DataCacheName>Moon/UnifiedGeologicMapOfTheMoon</DataCacheName> 
     <ImageFormat>image/jpeg</ImageFormat>
     <AvailableImageFormats>
