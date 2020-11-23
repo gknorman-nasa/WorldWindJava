@@ -51,15 +51,18 @@ public class CelestialMapper extends AppFrame
     private MeasureDialog measureDialog;
     private MeasureTool measureTool;
     private SatelliteObject orbitalSatellite;
+    private CMSLineOfSight lineOfSight;
     
     private boolean stereo;
     private boolean flat;
     private boolean isMeasureDialogOpen;
     private boolean resetWindow;
+    private boolean sight;
 
     private JCheckBoxMenuItem stereoCheckBox;
     private JCheckBoxMenuItem flatGlobe;
     private JCheckBoxMenuItem measurementCheckBox;
+    private JCheckBoxMenuItem sightLines;
     private JMenuItem reset;
 
     public void restart()
@@ -223,7 +226,21 @@ public class CelestialMapper extends AppFrame
                 }
                 restart();
             });
-            view.add(flatGlobe);           
+            view.add(flatGlobe);    
+            
+            //======== "Line of Sight" =========
+            sightLines = new JCheckBoxMenuItem("Sight Lines");
+            sightLines.setSelected(sight);
+            sightLines.addActionListener((ActionEvent event) ->
+            {
+                sight = !sight;
+                if (sight)
+                {
+                    lineOfSight;
+                }
+            });
+            view.add(sightLines);
+            
             
             //======== "Reset" =========
             reset = new JMenuItem("Reset");
