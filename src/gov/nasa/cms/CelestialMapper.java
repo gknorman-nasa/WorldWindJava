@@ -5,11 +5,13 @@
  */
 package gov.nasa.cms;
 
+import gov.nasa.cms.features.CMSPlaceNamesMenu;
 import gov.nasa.cms.features.ApolloMenu;
 import gov.nasa.cms.features.CMSProfile;
 import gov.nasa.cms.features.LayerManagerLayer;
 import gov.nasa.cms.features.MeasureDialog;
 import gov.nasa.cms.features.MoonElevationModel;
+import gov.nasa.cms.features.SatelliteObject;
 import gov.nasa.worldwind.Configuration;
 import gov.nasa.worldwind.util.measure.MeasureTool;
 import gov.nasa.worldwind.layers.*;
@@ -18,9 +20,18 @@ import gov.nasa.worldwind.avlist.AVKey;
 import gov.nasa.worldwind.geom.Angle;
 import gov.nasa.worldwind.geom.Position;
 import gov.nasa.worldwind.geom.Sector;
+import gov.nasa.worldwind.globes.EarthFlat;
+import gov.nasa.worldwind.render.ScreenImage;
 import gov.nasa.worldwind.util.Logging;
+import java.awt.Point;
+import java.awt.Rectangle;
 import javax.swing.*;
 import java.awt.event.*;
+import java.io.File;
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.imageio.ImageIO;
 
 /**
  * CelestialMapper.java
@@ -28,17 +39,6 @@ import java.awt.event.*;
  */
 public class CelestialMapper extends AppFrame
 {
-
-    protected static final String CMS_LAYER_NAME = "Celestial Shapes";
-    protected static final String CLEAR_SELECTION = "CelestialMapper.ClearSelection";
-    protected static final String ENABLE_EDIT = "CelestialMapper.EnableEdit";
-    protected static final String OPEN = "CelestialMapper.Open";
-    protected static final String OPEN_URL = "CelestialMapper.OpenUrl";
-    protected static final String REMOVE_SELECTED = "CelestialMapper.RemoveSelected";
-    protected static final String SAVE = "CelestialMapper.Save";
-    protected static final String SELECTION_CHANGED = "CelestialMapper.SelectionChanged";
-//    protected static final String ELEVATIONS_PATH = "testData/lunar-dem.tif";
-
     //**************************************************************//
     //********************  Main  **********************************//
     //**************************************************************//
@@ -50,12 +50,17 @@ public class CelestialMapper extends AppFrame
     private CMSProfile profile;
     private MeasureDialog measureDialog;
     private MeasureTool measureTool;
-   
-    private boolean stereo;
-    private boolean isMeasureDialogOpen;
+    private SatelliteObject orbitalSatellite;
     
+    private boolean stereo;
+    private boolean flat;
+    private boolean isMeasureDialogOpen;
+    private boolean resetWindow;
+
     private JCheckBoxMenuItem stereoCheckBox;
+    private JCheckBoxMenuItem flatGlobe;
     private JCheckBoxMenuItem measurementCheckBox;
+    private JMenuItem reset;
 
     public void restart()
     {
@@ -75,6 +80,10 @@ public class CelestialMapper extends AppFrame
 
         // Import the lunar elevation data
         elevationModel = new MoonElevationModel(this.getWwd());
+        
+        // Display the ScreenImage CMS logo as a RenderableLayer
+        this.renderLogo();
+
     }
 
     /**
@@ -109,15 +118,11 @@ public class CelestialMapper extends AppFrame
                 wwd.getSceneController().getVerticalExaggeration(), sector);
 
         // Estimate the distance between the center position and the eye position that is necessary to cause the sector to
-        // fill a viewport with the specified field of view. Note that we change the distance between the center and eye
-        // position here, and leave the field of view constant.
+        // fill a viewport with the specified field of view. 
         Angle fov = wwd.getView().getFieldOfView();
         double zoom = extent.getRadius() / fov.cosHalfAngle() / fov.tanHalfAngle();
 
-        // Configure OrbitView to look at the center of the sector from our estimated distance. This causes OrbitView to
-        // animate to the specified position over several seconds. To affect this change immediately use the following:
-        // ((OrbitView) wwd.getView()).setCenterPosition(new Position(sector.getCentroid(), 0d));
-        // ((OrbitView) wwd.getView()).setZoom(zoom);
+        // Configure OrbitView to look at the center of the sector from our estimated distance. 
         wwd.getView().goTo(new Position(sector.getCentroid(), 0d), zoom);
     }
 
@@ -154,8 +159,7 @@ public class CelestialMapper extends AppFrame
                     }
                     // Display on screen
                     measureDialog.setVisible(true);
-                }
-                else // Hide the dialog
+                } else // Hide the dialog
                 {
                     measureDialog.setVisible(false);
                 }
@@ -171,12 +175,13 @@ public class CelestialMapper extends AppFrame
         //======== "View" ========           
         JMenu view = new JMenu("View");
         {
+            //======== "Stereo" ==========
             stereoCheckBox = new JCheckBoxMenuItem("Stereo");
             stereoCheckBox.setSelected(stereo);
             stereoCheckBox.addActionListener((ActionEvent event) ->
             {
                 stereo = !stereo;
-                if (stereo)
+                if (stereo && !flat)
                 {
                     // Set the stereo.mode property to request stereo. Request red-blue anaglyph in this case. Can also request
                     // "device" if the display device supports stereo directly. To prevent stereo, leave the property unset or set
@@ -188,8 +193,10 @@ public class CelestialMapper extends AppFrame
                     Configuration.setValue(AVKey.INITIAL_ALTITUDE, 10e4);
                     Configuration.setValue(AVKey.INITIAL_HEADING, 500);
                     Configuration.setValue(AVKey.INITIAL_PITCH, 80);
-                } else
+                } else if (stereo && flat)
                 {
+                    //without this else if loop, the canvas glitches               
+                } else {
                     System.setProperty("gov.nasa.worldwind.stereo.mode", "");
                     Configuration.setValue(AVKey.INITIAL_LATITUDE, 0);
                     Configuration.setValue(AVKey.INITIAL_LONGITUDE, 0);
@@ -199,10 +206,63 @@ public class CelestialMapper extends AppFrame
                 }
                 restart();
             });
-            view.add(stereoCheckBox);
+            view.add(stereoCheckBox);  
+            
+            //======== "2D Flat Globe" ==========
+            flatGlobe = new JCheckBoxMenuItem("2D Flat");
+            flatGlobe.setSelected(flat);
+            flatGlobe.addActionListener((ActionEvent event) ->
+            {
+                flat = !flat;
+                if (flat)
+                {
+                    Configuration.setValue(AVKey.GLOBE_CLASS_NAME, EarthFlat.class.getName());
+                } else 
+                {
+                    Configuration.setValue(AVKey.GLOBE_CLASS_NAME, "gov.nasa.worldwind.globes.Earth");
+                }
+                restart();
+            });
+            view.add(flatGlobe);           
+            
+            //======== "Reset" =========
+            reset = new JMenuItem("Reset");
+            reset.setSelected(resetWindow);
+            reset.addActionListener((ActionEvent event) ->
+            {
+                resetWindow = !resetWindow;
+                if (resetWindow)
+                {
+                    restart(); //resets window to launch status
+                } 
+            });
+            view.add(reset);
         }
         menuBar.add(view);
+        
         frame.setJMenuBar(menuBar);
     }
 
+    // Renders the logo for CMS in the northwest corner of the screen 
+    private void renderLogo()
+    {
+        final ScreenImage cmsLogo = new ScreenImage();
+
+        try
+        {
+            cmsLogo.setImageSource(ImageIO.read(new File("cms-data/cms-logo.png")));
+            Rectangle view = getWwd().getView().getViewport();
+            // Set the screen location to different points to offset the image size
+            cmsLogo.setScreenLocation(new Point(view.x + 55, view.y + 70));
+        } catch (IOException ex) 
+        {
+            Logger.getLogger(CelestialMapper.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        RenderableLayer layer = new RenderableLayer();
+        layer.addRenderable(cmsLogo);
+        layer.setName("Logo");
+
+        getWwd().getModel().getLayers().add(layer);
+    }
 }

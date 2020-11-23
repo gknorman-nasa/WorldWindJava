@@ -16,13 +16,22 @@
         <Property name="Name" value="Stars"/>
     </Layer>
 
-    <Layer href="gov/nasa/cms/config/Moon/LROWACGlobalMosaic.xml" actuate="onLoad"/>
-    <Layer href="gov/nasa/cms/config/Moon/LOLAColor.xml" actuate="onRequest"/>
-    <Layer href="gov/nasa/cms/config/Moon/LOLASteel.xml" actuate="onRequest"/>
-    <Layer href="gov/nasa/cms/config/Moon/LOLAGrayscale.xml" actuate="onRequest"/>
-    <Layer href="gov/nasa/cms/config/Moon/ClementineBasemapV2.xml" actuate="onRequest"/>
-    <Layer href="gov/nasa/cms/config/Moon/ClementineLunarOrbiterHybrid.xml" actuate="onRequest"/>
-    <Layer href="gov/nasa/cms/config/Moon/LunarOrbiterGlobalMosaic.xml" actuate="onRequest"/>
+    <Layer href="cms-data/layers/LROWACGlobalMosaic.xml" actuate="onLoad"/>
+    <Layer href="cms-data/layers/LOLAColor.xml" actuate="onRequest"/>
+    <Layer href="cms-data/layers/LOLASteel.xml" actuate="onRequest"/>
+    <Layer href="cms-data/layers/LOLAGrayscale.xml" actuate="onRequest"/>
+    <Layer href="cms-data/layers/KaguyaTCOrtho.xml" actuate="onRequest"/>
+    <Layer href="cms-data/layers/LOLAKaguyaTCShadedRelief.xml" actuate="onRequest"/>
+    <Layer href="cms-data/layers/ClementineBasemapV2.xml" actuate="onRequest"/>
+    <Layer href="cms-data/layers/ClementineLunarOrbiterHybrid.xml" actuate="onRequest"/>
+    <Layer href="cms-data/layers/LunarOrbiterGlobalMosaic.xml" actuate="onRequest"/>
+    <Layer href="cms-data/layers/UnifiedGeologicMapOfTheMoon.xml" actuate="onRequest"/>
                  
+    <Layer className="gov.nasa.worldwind.layers.LatLonGraticuleLayer" actuate="onRequest">
+        <Property name="Name" value="Lat-Lon Graticule"/>
+    </Layer>/>
+    <Layer className="gov.nasa.worldwind.layers.GARSGraticuleLayer" actuate="onRequest">
+        <Property name="Name" value="GARS Graticule"/>
+    </Layer>/>
     <Layer className="gov.nasa.worldwind.layers.ScalebarLayer"/>
 </LayerList>

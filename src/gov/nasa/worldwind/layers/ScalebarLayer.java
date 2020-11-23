@@ -615,7 +615,8 @@ public class ScalebarLayer extends AbstractLayer
         {
             x = viewport.getWidth() - scaledWidth - this.borderWidth;
             y = 0d + this.borderWidth;
-        } else if (this.position.equals(AVKey.NORTHWEST))
+        }
+        else if (this.position.equals(AVKey.NORTHWEST)) 
         {
             x = 0d + this.borderWidth;
             y = viewport.getHeight() - scaledHeight - this.borderWidth;
@@ -626,9 +627,9 @@ public class ScalebarLayer extends AbstractLayer
         } else if (this.position.equals(AVKey.CENTER))
         {
             x = viewport.getWidth() / 2 - scaledWidth / 2;
-            y = 0d + this.borderWidth ;
-
-        } else // use North East
+            y = 0d + this.borderWidth;
+        }
+        else // use North East
         {
             x = viewport.getWidth() - scaledWidth / 2 - this.borderWidth;
             y = viewport.getHeight() - scaledHeight / 2 - this.borderWidth;

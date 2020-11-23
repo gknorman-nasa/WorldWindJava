@@ -288,7 +288,7 @@ public class CMSMeasurePanel extends JPanel
         checkPanel.add(showAnnotationCheck);
         
         followCheck = new JCheckBox("Follow terrain");
-        followCheck.setSelected(true); // Start out with follow terrain selected
+        followCheck.setSelected(true); // start off selected
         followCheck.addActionListener((ActionEvent event) -> {
             JCheckBox cb = (JCheckBox) event.getSource();
             measureTool.setFollowTerrain(cb.isSelected());

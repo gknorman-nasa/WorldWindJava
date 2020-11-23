@@ -28,7 +28,7 @@
         <delete file="${basedir}/worldwindx.jar"/>
     </target>
 
-    <target name="assemble" depends="assembleDebug, assembleRelease, assembleSdkArchive, assembleCMSArchive"
+    <target name="assemble" depends="assembleDebug, assembleRelease, assembleCMSArchive"
             description="Assembles JAR libraries for all build types and assembles the project documentation."/>
 
     <!-- Targets for compiling Java sources and bundling JAR libraries. -->
@@ -121,29 +121,13 @@
     </target>
 
     <!-- Targets for assembling the project SDK archive. -->
-
-    <target name="assembleSdkArchive" depends="assembleRelease">
-        <zip destfile="${worldwind.build.dir}/worldwind.zip">
-            <fileset dir="${basedir}">
-                <include name="**/*"/>
-                <exclude name="build/**"/>
-                <exclude name="classes/**"/>
-                <exclude name="testClasses/**"/>
-                <exclude name="keystore.properties"/>
-                <exclude name="keystore.tar"/>
-                <exclude name="wwstore"/>
-                <type type="file"/>
-            </fileset>
-        </zip>
-    </target>
-
     <target name="assembleCMSArchive" depends="assembleRelease">
         <zip destfile="${worldwind.build.dir}/cms.zip">
             <fileset dir="${basedir}">
                 <include name="*.jar"/>
                 <include name="run-cms.bat"/>
                 <include name="run-cms.sh"/>
-                <include name="testData/**"/>
+                <include name="cms-data/**"/>
                 <include name="lib-external/gdal/**"/>
                 <type type="file"/>
             </fileset>
