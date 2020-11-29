@@ -994,6 +994,19 @@ public class GDALUtils {
         srs.ImportFromProj4("+proj=latlong +datum=WGS84 +no_defs");
         return srs;
     }
+    
+        public static SpatialReference createProjectedSRS() throws WWRuntimeException {
+        if (!GDAL_IS_AVAILABLE.get()) {
+            String message = Logging.getMessage("gdal.GDALNotAvailable");
+            Logging.logger().severe(message);
+            throw new WWRuntimeException(message);
+        }
+
+        SpatialReference srs = new SpatialReference();
+        // Projection gathered from gdalinfo -proj4 command
+        srs.ImportFromProj4("+proj=eqc +lat_ts=0 +lat_0=0 +lon_0=0 +x_0=0 +y_0=0 +R=1737400 +units=m +no_defs");
+        return srs;
+    }
 
     protected static LatLon getLatLonForRasterPoint(double[] gt, int x, int y, CoordinateTransformation ct) {
         if (!GDAL_IS_AVAILABLE.get()) {
@@ -1287,7 +1300,15 @@ public class GDALUtils {
             } else if (srs.IsGeographic() == 0) {
                 String msg = Logging.getMessage("generic.UnexpectedCoordinateSystem", srs.ExportToWkt());
                 Logging.logger().warning(msg);
-                srs = createGeographicSRS();
+                
+                if(srs.IsProjected() == 1)
+                {
+                    srs = createProjectedSRS();
+                }
+                else
+                {
+                    srs = createProjectedSRS();
+                }   
             }
         }
 

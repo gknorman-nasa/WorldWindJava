@@ -783,7 +783,12 @@ public class GeotiffReader implements Disposable {
             {
                 hemi = AVKey.SOUTH;
                 zone = projection - 32700;
-            } else {
+            } else if ((projection == 32767)) // User defined projection
+            {
+                hemi = AVKey.NORTH;
+                zone = projection - 32767;
+            }
+            else {
                 String message = Logging.getMessage("generic.UnknownProjection", projection);
                 Logging.logger().severe(message);
 //                throw new IOException(message);

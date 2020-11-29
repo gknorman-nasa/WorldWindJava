@@ -27,8 +27,9 @@ public class Earth extends EllipsoidalGlobe
 
     public Earth()
     {
-        super(WGS84_EQUATORIAL_RADIUS, WGS84_POLAR_RADIUS, WGS84_ES, EllipsoidalGlobe.makeElevationModel(AVKey.MOON_ELEVATION_MODEL_CONFIG_FILE,
-                "cms-data/layers/LROElevation.xml"));
+        super(WGS84_EQUATORIAL_RADIUS, WGS84_POLAR_RADIUS, WGS84_ES,
+            EllipsoidalGlobe.makeElevationModel(AVKey.MOON_ELEVATION_MODEL_CONFIG_FILE,
+                "cms-data/layers/EarthElevations2.xml"));
     }
 
     public String toString()

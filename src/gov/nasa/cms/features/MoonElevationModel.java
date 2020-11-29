@@ -24,7 +24,7 @@ import java.io.File;
 public class MoonElevationModel extends CelestialMapper {
 
     // The data to import.
-    protected static final String ELEVATIONS_PATH = "cms-data/lunar-dem.tif";
+    protected static final String ELEVATIONS_PATH = "cms-data/lro-downsampled.tif";
     private WorldWindow wwd;
 
     public MoonElevationModel(WorldWindow wwd) {
