@@ -1,7 +1,7 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * Copyright (C) 2012 United States Government as represented by the Administrator of the
+ * National Aeronautics and Space Administration.
+ * All Rights Reserved.
  */
 package gov.nasa.cms;
 
@@ -22,10 +22,8 @@ import gov.nasa.worldwind.render.PointPlacemark;
 import gov.nasa.worldwind.render.PointPlacemarkAttributes;
 import gov.nasa.worldwind.render.ShapeAttributes;
 import gov.nasa.worldwind.terrain.HighResolutionTerrain;
-import java.awt.BorderLayout;
 import java.awt.Cursor;
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.InputEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -40,11 +38,27 @@ import javax.swing.SwingUtilities;
 import javax.swing.border.EmptyBorder;
 
 /**
+ * Shows how to compute terrain intersections using the highest resolution terrain data available from a globe's
+ * elevation model.
+ * <p>
+ * To generate and show intersections, Shift + LeftClick or + RightClick anywhere on the globe. The program forms a grid of locations
+ * around the selected location. The grid points are shown in yellow. It then determines whether a line between the
+ * selected location and each grid point intersects the terrain. If it does, the intersection nearest the selected
+ * location is shown in cyan and a line is drawn from the selected location to the intersection. If there is no
+ * intersection, a line is drawn from the selected location to the grid position.
+ * <p>
+ * If the highest resolution terrain is not available for the area around the selected location, it is retrieved from
+ * the elevation model's source, which is most likely a remote server. Since the high-res data must be retrieved and
+ * then loaded from the local disk cache, it will take some time to compute and show the intersections.
+ * <p>
+ * This example imports functionality from TerrainIntersections.java and uses a {@link gov.nasa.worldwind.terrain.Terrain} object 
+ * To perform the terrain retrieval, generation and intersection calculations.
  *
- * @author twchoi
+ *
+ * @author Tyler Choi
+ * @version $Id: CMSLineOfSight.java 2020-11-30 14:14:38Z twchoi $
  */
 public class CMSLineOfSight extends JCheckBoxMenuItem {
-    
     /**
      * The width and height in degrees of the grid used to calculate intersections.
      */
@@ -59,11 +73,9 @@ public class CMSLineOfSight extends JCheckBoxMenuItem {
      * The desired terrain resolution to use in the intersection calculations.
      */
     protected static final Double TARGET_RESOLUTION = 10d; // meters, or null for globe's highest resolution
-
     protected static final int NUM_THREADS = 4; // set to 1 to run synchronously
-    
     private static final Cursor WaitCursor = new Cursor(Cursor.WAIT_CURSOR);
-
+    
     protected HighResolutionTerrain terrain;
     protected RenderableLayer gridLayer;
     protected RenderableLayer intersectionsLayer;
@@ -76,71 +88,65 @@ public class CMSLineOfSight extends JCheckBoxMenuItem {
     protected int numGridPoints; // used to monitor percentage progress
     protected long startTime, endTime; // for reporting calculation duration
     protected Position previousCurrentPosition;
-    
     private WorldWindow wwd;
     private boolean isItemEnabled;
-    private LayerPanel layerPanel;
-
     
     
     public CMSLineOfSight(AppFrame cms, WorldWindow Wwd)
     {
         super("Sight Lines");
-        this.addActionListener(new ActionListener()
-        {
-            @Override
-            public void actionPerformed(ActionEvent event)
+        setWwd(Wwd); //sets Wwd to Wwd parameter from CelestialMapper
+        this.addActionListener((ActionEvent event) -> {
+            isItemEnabled = ((JCheckBoxMenuItem) event.getSource()).getState();
+            
+            if (isItemEnabled)
             {
-                isItemEnabled = ((JCheckBoxMenuItem) event.getSource()).getState();
-
-                if (isItemEnabled)
+                setSightLineProperties();
+                
+            } else
+            {
+                String[] SightLineLayers = {"Grid", "Intersections", "Sight Lines"};
+                
+                for (String layer : SightLineLayers)
                 {
-                    setWwd(Wwd); //sets Wwd to Wwd parameter from CelestialMapper
-                    setSightLineProperties();
-
-                    
-                } else
-                {
-                    
-//                        Layer selectedLayer = Wwd.getModel().getLayers().getLayerByName(layer);
-//                        Wwd.getModel().getLayers().remove(selectedLayer); 
-                              
-
+                    Layer selectedLayer = this.wwd.getModel().getLayers().getLayerByName(layer);
+                    this.wwd.getModel().getLayers().remove(selectedLayer);
                 }
+                
             }
         });
     }
     
-    protected void setSightLineProperties()
+    public void setSightLineProperties()
     {
         // Create a thread pool.
-        threadPool = new ThreadPoolExecutor(NUM_THREADS, NUM_THREADS, 200, TimeUnit.MILLISECONDS,
+        this.threadPool = new ThreadPoolExecutor(NUM_THREADS, NUM_THREADS, 200, TimeUnit.MILLISECONDS,
                 new LinkedBlockingQueue<>());
 
         // Display a progress bar.
-        progressBar = new JProgressBar(0, 100);
-        progressBar.setBorder(new EmptyBorder(0, 10, 0, 10));
-        progressBar.setBorderPainted(false);
-        progressBar.setStringPainted(true);
-        layerPanel.add(progressBar, BorderLayout.SOUTH);
-
+        this.progressBar = new JProgressBar(0, 100);
+        this.progressBar.setBorder(new EmptyBorder(0, 10, 0, 10));
+        this.progressBar.setBorderPainted(false);
+        this.progressBar.setStringPainted(true);
+        //this.layerPanel.add(this.progressBar, BorderLayout.SOUTH);  //this line causes an error due to different CMS layer panel - twchoi
+                       
         // Be sure to re-use the Terrain object to take advantage of its caching.
-        terrain = new HighResolutionTerrain(getWwd().getModel().getGlobe(), TARGET_RESOLUTION);
+        this.terrain = new HighResolutionTerrain(getWwd().getModel().getGlobe(), TARGET_RESOLUTION);
 
-        gridLayer = new RenderableLayer();
-        gridLayer.setName("Grid");
-        getWwd().getModel().getLayers().add(gridLayer);
+        this.gridLayer = new RenderableLayer();
+        this.gridLayer.setName("Grid");
+        this.getWwd().getModel().getLayers().add(this.gridLayer);
 
-        intersectionsLayer = new RenderableLayer();
-        intersectionsLayer.setName("Intersections");
-        getWwd().getModel().getLayers().add(intersectionsLayer);
+        this.intersectionsLayer = new RenderableLayer();
+        this.intersectionsLayer.setName("Intersections");
+        this.getWwd().getModel().getLayers().add(this.intersectionsLayer);
 
-        sightLinesLayer = new RenderableLayer();
-        sightLinesLayer.setName("Sight Lines");
-        getWwd().getModel().getLayers().add(sightLinesLayer);
+        this.sightLinesLayer = new RenderableLayer();
+        this.sightLinesLayer.setName("Sight Lines");
+        this.getWwd().getModel().getLayers().add(this.sightLinesLayer);
 
         // Set up a mouse handler to generate a grid and start intersection calculations when the user shift-clicks.
-        getWwd().getInputHandler().addMouseListener(new MouseAdapter() {
+        this.getWwd().getInputHandler().addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent mouseEvent) {
                 // Control-Click cancels any currently running operation.
@@ -179,87 +185,16 @@ public class CMSLineOfSight extends JCheckBoxMenuItem {
             }
         });
     }
-       
-
-//    public AppFrame() {
-//        super(true, true, false);
-//
-//        // Create a thread pool.
-//        this.threadPool = new ThreadPoolExecutor(NUM_THREADS, NUM_THREADS, 200, TimeUnit.MILLISECONDS,
-//                new LinkedBlockingQueue<>());
-//
-//        // Display a progress bar.
-//        this.progressBar = new JProgressBar(0, 100);
-//        this.progressBar.setBorder(new EmptyBorder(0, 10, 0, 10));
-//        this.progressBar.setBorderPainted(false);
-//        this.progressBar.setStringPainted(true);
-//        this.layerPanel.add(this.progressBar, BorderLayout.SOUTH);
-//
-//        // Be sure to re-use the Terrain object to take advantage of its caching.
-//        this.terrain = new HighResolutionTerrain(getWwd().getModel().getGlobe(), TARGET_RESOLUTION);
-//
-//        this.gridLayer = new RenderableLayer();
-//        this.gridLayer.setName("Grid");
-//        this.getWwd().getModel().getLayers().add(this.gridLayer);
-//
-//        this.intersectionsLayer = new RenderableLayer();
-//        this.intersectionsLayer.setName("Intersections");
-//        this.getWwd().getModel().getLayers().add(this.intersectionsLayer);
-//
-//        this.sightLinesLayer = new RenderableLayer();
-//        this.sightLinesLayer.setName("Sight Lines");
-//        this.getWwd().getModel().getLayers().add(this.sightLinesLayer);
-//
-//        // Set up a mouse handler to generate a grid and start intersection calculations when the user shift-clicks.
-//        this.getWwd().getInputHandler().addMouseListener(new MouseAdapter() {
-//            @Override
-//            public void mouseClicked(MouseEvent mouseEvent) {
-//                // Control-Click cancels any currently running operation.
-//                if ((mouseEvent.getModifiersEx() & InputEvent.CTRL_DOWN_MASK) != 0) {
-//                    if (calculationDispatchThread != null && calculationDispatchThread.isAlive()) {
-//                        calculationDispatchThread.interrupt();
-//                    }
-//                    return;
-//                }
-//
-//                // Alt-Click repeats the most recent calculations.
-//                if ((mouseEvent.getModifiersEx() & InputEvent.ALT_DOWN_MASK) != 0) {
-//                    if (previousCurrentPosition == null) {
-//                        return;
-//                    }
-//
-//                    mouseEvent.consume(); // tell the rest of WW that this event has been processed
-//
-//                    computeAndShowIntersections(previousCurrentPosition);
-//                    return;
-//                }
-//
-//                // Perform the intersection tests in response to Shift-Click.
-//                if ((mouseEvent.getModifiersEx() & InputEvent.SHIFT_DOWN_MASK) == 0) {
-//                    return;
-//                }
-//
-//                mouseEvent.consume(); // tell the rest of WW that this event has been processed
-//
-//                final Position pos = getWwd().getCurrentPosition();
-//                if (pos == null) {
-//                    return;
-//                }
-//
-//                computeAndShowIntersections(pos);
-//            }
-//        });
-//    }
 
     protected void computeAndShowIntersections(final Position curPos) {
-        previousCurrentPosition = curPos;
+        this.previousCurrentPosition = curPos;
 
         SwingUtilities.invokeLater(() -> {
             setCursor(WaitCursor);
         });
 
         // Dispatch the calculation threads in a separate thread to avoid locking up the user interface.
-        calculationDispatchThread = new Thread(() -> {
+        this.calculationDispatchThread = new Thread(() -> {
             try {
                 performIntersectionTests(curPos);
             } catch (InterruptedException e) {
@@ -267,7 +202,7 @@ public class CMSLineOfSight extends JCheckBoxMenuItem {
             }
         });
 
-        calculationDispatchThread.start();
+        this.calculationDispatchThread.start();
     }
 
     // Create containers to hold the intersection points and the lines emanating from the center.
@@ -280,15 +215,15 @@ public class CMSLineOfSight extends JCheckBoxMenuItem {
 
     // This is a collection of synchronized accessors to the list updated during the calculations.
     protected synchronized void addIntersectionPosition(Position position) {
-        firstIntersectionPositions.add(position);
+        this.firstIntersectionPositions.add(position);
     }
 
     protected synchronized void addSightLine(Position positionA, Position positionB) {
-        sightLines.add(new Position[]{positionA, positionB});
+        this.sightLines.add(new Position[]{positionA, positionB});
     }
 
     protected synchronized int getSightlinesSize() {
-        return sightLines.size();
+        return this.sightLines.size();
     }
 
     private long lastTime = System.currentTimeMillis();
@@ -298,12 +233,12 @@ public class CMSLineOfSight extends JCheckBoxMenuItem {
      */
     protected synchronized void updateProgress() {
         // Update the progress bar only once every 250 milliseconds to avoid stealing time from calculations.
-        if (sightLines.size() >= numGridPoints) {
+        if (this.sightLines.size() >= this.numGridPoints) {
             endTime = System.currentTimeMillis();
-        } else if (System.currentTimeMillis() < lastTime + 250) {
+        } else if (System.currentTimeMillis() < this.lastTime + 250) {
             return;
         }
-        lastTime = System.currentTimeMillis();
+        this.lastTime = System.currentTimeMillis();
 
         // On the EDT, update the progress bar and if calculations are complete, update the WorldWindow.
         SwingUtilities.invokeLater(() -> {
@@ -323,16 +258,16 @@ public class CMSLineOfSight extends JCheckBoxMenuItem {
      * Updates the WorldWind model with the new intersection locations and sight lines.
      */
     protected void showResults() {
-        showIntersections(firstIntersectionPositions);
-        showSightLines(sightLines);
+        this.showIntersections(firstIntersectionPositions);
+        this.showSightLines(sightLines);
 //            this.showIntersectingTiles(this.grid, this.referencePosition);
-        getWwd().redraw();
+        this.getWwd().redraw();
     }
 
     protected void performIntersectionTests(final Position curPos) throws InterruptedException {
         // Clear the results lists when the user selects a new location.
-        firstIntersectionPositions.clear();
-        sightLines.clear();
+        this.firstIntersectionPositions.clear();
+        this.sightLines.clear();
 
         // Raise the selected location and the grid points a little above ground just to show we can.
         final double height = 5; // meters
@@ -343,12 +278,12 @@ public class CMSLineOfSight extends JCheckBoxMenuItem {
                 curPos.getLatitude().degrees - gridRadius, curPos.getLatitude().degrees + gridRadius,
                 curPos.getLongitude().degrees - gridRadius, curPos.getLongitude().degrees + gridRadius);
 
-        grid = buildGrid(sector, height, GRID_DIMENSION, GRID_DIMENSION);
-        numGridPoints = grid.size();
+        this.grid = buildGrid(sector, height, GRID_DIMENSION, GRID_DIMENSION);
+        this.numGridPoints = grid.size();
 
         // Compute the position of the selected location (incorporate its height).
-        referencePosition = new Position(curPos.getLatitude(), curPos.getLongitude(), height);
-        referencePoint = terrain.getSurfacePoint(curPos.getLatitude(), curPos.getLongitude(), height);
+        this.referencePosition = new Position(curPos.getLatitude(), curPos.getLongitude(), height);
+        this.referencePoint = terrain.getSurfacePoint(curPos.getLatitude(), curPos.getLongitude(), height);
 
 //            // Pre-caching is unnecessary and is useful only when it occurs before the intersection
 //            // calculations. It will incur extra overhead otherwise. The normal intersection calculations
@@ -364,12 +299,12 @@ public class CMSLineOfSight extends JCheckBoxMenuItem {
         });
 
         // Perform the intersection calculations.
-        startTime = System.currentTimeMillis();
-        for (Position gridPos : grid) // for each grid point.
+        this.startTime = System.currentTimeMillis();
+        for (Position gridPos : this.grid) // for each grid point.
         {
             //noinspection ConstantConditions
             if (NUM_THREADS > 0) {
-                threadPool.execute(new Intersector(gridPos));
+                this.threadPool.execute(new Intersector(gridPos));
             } else {
                 performIntersection(gridPos);
             }
@@ -385,10 +320,10 @@ public class CMSLineOfSight extends JCheckBoxMenuItem {
      */
     protected void performIntersection(Position gridPosition) throws InterruptedException {
         // Intersect the line between this grid point and the selected position.
-        Intersection[] intersections = terrain.intersect(referencePosition, gridPosition);
+        Intersection[] intersections = this.terrain.intersect(this.referencePosition, gridPosition);
         if (intersections == null || intersections.length == 0) {
             // No intersection, so the line goes from the center to the grid point.
-            sightLines.add(new Position[]{referencePosition, gridPosition});
+            this.sightLines.add(new Position[]{this.referencePosition, gridPosition});
             return;
         }
 
@@ -398,22 +333,22 @@ public class CMSLineOfSight extends JCheckBoxMenuItem {
                 gridPosition.getAltitude());
 
         // Check to see whether the intersection is beyond the grid point.
-        if (iPoint.distanceTo3(referencePoint) >= gPoint.distanceTo3(referencePoint)) {
+        if (iPoint.distanceTo3(this.referencePoint) >= gPoint.distanceTo3(this.referencePoint)) {
             // Intersection is beyond the grid point; the line goes from the center to the grid point.
-            addSightLine(referencePosition, gridPosition);
+            this.addSightLine(this.referencePosition, gridPosition);
             return;
         }
 
         // Compute the position corresponding to the intersection.
-        Position iPosition = terrain.getGlobe().computePositionFromPoint(iPoint);
+        Position iPosition = this.terrain.getGlobe().computePositionFromPoint(iPoint);
 
         // The sight line goes from the user-selected position to the intersection position.
-        addSightLine(referencePosition, new Position(iPosition, 0));
+        this.addSightLine(this.referencePosition, new Position(iPosition, 0));
 
         // Keep track of the intersection positions.
-        addIntersectionPosition(iPosition);
+        this.addIntersectionPosition(iPosition);
 
-        updateProgress();
+        this.updateProgress();
     }
 
     /**
@@ -430,7 +365,7 @@ public class CMSLineOfSight extends JCheckBoxMenuItem {
         @Override
         public void run() {
             try {
-                performIntersection(gridPosition);
+                performIntersection(this.gridPosition);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
@@ -483,13 +418,13 @@ public class CMSLineOfSight extends JCheckBoxMenuItem {
     }
 
     protected void clearLayers() {
-        intersectionsLayer.removeAllRenderables();
-        sightLinesLayer.removeAllRenderables();
-        gridLayer.removeAllRenderables();
+        this.intersectionsLayer.removeAllRenderables();
+        this.sightLinesLayer.removeAllRenderables();
+        this.gridLayer.removeAllRenderables();
     }
 
     protected void showIntersections(List<Position> intersections) {
-        intersectionsLayer.removeAllRenderables();
+        this.intersectionsLayer.removeAllRenderables();
 
         // Display the intersections as CYAN points.
         PointPlacemarkAttributes intersectionPointAttributes;
@@ -503,12 +438,12 @@ public class CMSLineOfSight extends JCheckBoxMenuItem {
             pm.setAltitudeMode(WorldWind.CLAMP_TO_GROUND);
             pm.setAttributes(intersectionPointAttributes);
             pm.setValue(AVKey.DISPLAY_NAME, p.toString());
-            intersectionsLayer.addRenderable(pm);
+            this.intersectionsLayer.addRenderable(pm);
         }
     }
 
     protected void showSightLines(List<Position[]> sightLines) {
-        sightLinesLayer.removeAllRenderables();
+        this.sightLinesLayer.removeAllRenderables();
 
         // Display the sight lines as green lines.
         ShapeAttributes lineAttributes;
@@ -526,12 +461,12 @@ public class CMSLineOfSight extends JCheckBoxMenuItem {
             Path path = new Path(endPoints);
             path.setAltitudeMode(WorldWind.RELATIVE_TO_GROUND);
             path.setAttributes(lineAttributes);
-            sightLinesLayer.addRenderable(path);
+            this.sightLinesLayer.addRenderable(path);
         }
     }
 
     protected void showGridSightLines(List<Position> grid, Position cPos) {
-        sightLinesLayer.removeAllRenderables();
+        this.sightLinesLayer.removeAllRenderables();
 
         // Display lines from the center to each grid point.
         ShapeAttributes lineAttributes;
@@ -549,12 +484,12 @@ public class CMSLineOfSight extends JCheckBoxMenuItem {
             Path path = new Path(endPoints);
             path.setAltitudeMode(WorldWind.RELATIVE_TO_GROUND);
             path.setAttributes(lineAttributes);
-            sightLinesLayer.addRenderable(path);
+            this.sightLinesLayer.addRenderable(path);
         }
     }
 
     protected void showGrid(List<Position> grid, Position cPos) {
-        gridLayer.removeAllRenderables();
+        this.gridLayer.removeAllRenderables();
 
         // Display the grid points in yellow.
         PointPlacemarkAttributes gridPointAttributes;
@@ -569,7 +504,7 @@ public class CMSLineOfSight extends JCheckBoxMenuItem {
             pm.setAttributes(gridPointAttributes);
             pm.setLineEnabled(true);
             pm.setValue(AVKey.DISPLAY_NAME, p.toString());
-            gridLayer.addRenderable(pm);
+            this.gridLayer.addRenderable(pm);
         }
 
         showCenterPoint(cPos);
@@ -588,7 +523,7 @@ public class CMSLineOfSight extends JCheckBoxMenuItem {
         pm.setAttributes(selectedLocationAttributes);
         pm.setValue(AVKey.DISPLAY_NAME, cPos.toString());
         pm.setLineEnabled(true);
-        gridLayer.addRenderable(pm);
+        this.gridLayer.addRenderable(pm);
     }
 
 
@@ -597,7 +532,7 @@ public class CMSLineOfSight extends JCheckBoxMenuItem {
         return this.wwd;
     }
 
-    public void setWwd(WorldWindow wwd)
+    public final void setWwd(WorldWindow wwd)
     {
         this.wwd = wwd;
     }
