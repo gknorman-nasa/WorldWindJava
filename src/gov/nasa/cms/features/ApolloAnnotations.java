@@ -34,7 +34,7 @@ import java.net.URL;
  * background image.
  *
  * @author Tyler Choi
- * @version $Id: Apollo.java 2020-08-02 16:44:38Z twchoi $
+ * @version $Id: ApolloAnnotations.java 2020-08-02 16:44:38Z twchoi $
  */
 public class ApolloAnnotations extends JCheckBoxMenuItem
 {

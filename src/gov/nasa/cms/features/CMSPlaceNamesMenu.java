@@ -1,7 +1,7 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * Copyright (C) 2012 United States Government as represented by the Administrator of the
+ * National Aeronautics and Space Administration.
+ * All Rights Reserved.
  */
 package gov.nasa.cms.features;
 
@@ -28,8 +28,9 @@ import javax.swing.SwingUtilities;
 
 /**
  * Illustrates how to import ESRI Shapefiles into CelestialMapper. This uses a <code>{@link ShapefileLayerFactory}</code> to
- * parse a Shapefile's contents and convert the shapefile into a lunar place Names menu in CelestialMapper.
+ * parse a shapefile's contents and convert the moon nomenclature shapefile into a lunar place Names menu in CelestialMapper.
  * 
+ * @author Tyler Choi
  * @version $Id: CMSPlaceNamesMenu.java 1171 2020-07-21 21:45:02Z twchoi $
  */
 public class CMSPlaceNamesMenu extends JMenu implements ShapefileRenderable.AttributeDelegate

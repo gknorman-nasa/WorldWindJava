@@ -120,7 +120,7 @@ public class CMSColladaViewer {
         // Lunar Lander 3D Object
         File ColladaFile = new File(LanderPath);       
         String layerName = "Lunar Lander";
-        setColladaProperties(layerName, landerPos, ColladaFile, new Vec4(600,600,600,600));
+        setColladaProperties(layerName, landerPos, ColladaFile, new Vec4(300,300,300,300));
     }
     
     public void createFirstAstronaut(Position firstAstroPos)
@@ -128,7 +128,7 @@ public class CMSColladaViewer {
         // Astronaut 1 3D Object
         File ColladaFile2 = new File(Astronaut1);
         String layerName = "Astronaut 1";
-        setColladaProperties(layerName, firstAstroPos, ColladaFile2, new Vec4(75,75,75,75));
+        setColladaProperties(layerName, firstAstroPos, ColladaFile2, new Vec4(25,25,25,25));
     }
     
     public void createSecondAstronaut(Position secondAstroPos)
@@ -136,7 +136,7 @@ public class CMSColladaViewer {
         // Astronaut 2 3D Object
         File ColladaFile3 = new File(Astronaut2);
         String layerName = "Astronaut 2";
-        setColladaProperties(layerName, secondAstroPos, ColladaFile3, new Vec4(75,75,75,75)); 
+        setColladaProperties(layerName, secondAstroPos, ColladaFile3, new Vec4(25,25,25,25)); 
     }
     
     public void setColladaProperties(String layerName, Position objectPosition, Object colladaSource, Vec4 objectScale)
