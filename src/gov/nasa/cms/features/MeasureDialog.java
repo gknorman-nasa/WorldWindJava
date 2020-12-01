@@ -2,7 +2,10 @@ package gov.nasa.cms.features;
 
 import static gov.nasa.cms.AppFrame.insertBeforePlacenames;
 import gov.nasa.worldwind.WorldWindow;
+import gov.nasa.worldwind.event.SelectEvent;
+import gov.nasa.worldwind.event.SelectListener;
 import gov.nasa.worldwind.geom.LatLon;
+import gov.nasa.worldwind.layers.RenderableLayer;
 import gov.nasa.worldwind.layers.TerrainProfileLayer;
 import gov.nasa.worldwind.util.measure.MeasureTool;
 import gov.nasa.worldwind.util.measure.MeasureToolController;
@@ -19,7 +22,9 @@ import javax.swing.JDialog;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
+import javax.swing.SwingConstants;
 import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 
 /**
  * Creates a MeasureDialog using CMSMeasurePanel.java. CMSMeasurePanel uses
@@ -38,43 +43,20 @@ public class MeasureDialog
     private JTabbedPane tabbedPane = new JTabbedPane();
     private final PropertyChangeListener measureToolListener = new MeasureToolListener();
     private int lastTabIndex = -1;
+    private WorldWindow wwd;
+    
+    private RenderableLayer shapeLayer;
+    private RenderableLayer controlPointsLayer;
    
     public MeasureDialog(WorldWindow wwdObject, MeasureTool measureToolObject, Component component)
     {
-        // Add terrain profile layer
-        profile.setEventSource(wwdObject);
-        profile.setFollow(TerrainProfileLayer.FOLLOW_PATH);
-        profile.setShowProfileLine(false);
-        insertBeforePlacenames(wwdObject, profile);
-
-        // Add + tab
-        this.tabbedPane = new JTabbedPane();
-        tabbedPane.add(new JPanel());
-        tabbedPane.setTitleAt(0, "+");
-        tabbedPane.addChangeListener((ChangeEvent changeEvent) ->
-        {
-            if (tabbedPane.getSelectedIndex() == 0)
-            {
-                // Add new measure tool in a tab when '+' selected
-                MeasureTool measureTool = new MeasureTool(wwdObject);
-                
-                measureTool.setController(new MeasureToolController());
-                
-                tabbedPane.setOpaque(false);
-                tabbedPane.add(new CMSMeasurePanel(wwdObject, measureTool));
-                tabbedPane.setTitleAt(tabbedPane.getTabCount() - 1, "" + (tabbedPane.getTabCount() - 1));
-                tabbedPane.setSelectedIndex(tabbedPane.getTabCount() - 1);
-                switchMeasureTool();
-            } else
-            {
-                switchMeasureTool();
-            }
-        });
+        setWwd(wwdObject);
         
-        // Add measure tool control panel to tabbed pane
+   
+        // Add initial measure tool control panel to tabbed pane
         final MeasureTool measureTool = new MeasureTool(wwdObject);
         
-        measureTool.setController(new MeasureToolController());     
+
         CMSMeasurePanel measurePanel = new CMSMeasurePanel(wwdObject, measureTool);
         
         tabbedPane.add(measurePanel);
@@ -98,6 +80,78 @@ public class MeasureDialog
         dialog.pack();
     }
 
+    public void initialize()
+    {
+        this.shapeLayer = new RenderableLayer();
+        this.shapeLayer.setName("Measurement");
+        getWwd().getModel().getLayers().add(shapeLayer);
+        
+        // Initialize Terrain Profile Layer
+        profile.setEventSource(getWwd());
+        profile.setFollow(TerrainProfileLayer.FOLLOW_PATH);
+        profile.setShowProfileLine(false);
+        insertBeforePlacenames(getWwd(), profile);
+        
+        this.controlPointsLayer = this.shapeLayer; // use same layer for both in MeasureTool
+
+        this.tabbedPane = new JTabbedPane();
+        this.tabbedPane.setOpaque(false);
+        
+        this.tabbedPane.add(new JPanel());
+        this.tabbedPane.setTitleAt(0, "+");
+        this.tabbedPane.setToolTipTextAt(0, "Create measurement");
+        
+         this.tabbedPane.addChangeListener(new ChangeListener()
+        {
+            public void stateChanged(ChangeEvent changeEvent)
+            {
+                if (tabbedPane.getSelectedIndex() == 0)
+                {
+                    addNewPanel(tabbedPane); // Add new panel when '+' is selected
+                }
+            }
+        });
+         
+          // Add an initial measure panel to tabbed pane
+        this.addNewPanel(this.tabbedPane);
+        tabbedPane.setSelectedIndex(1);
+
+       // this.setLocation(SwingConstants.WEST, SwingConstants.NORTH);
+        //this.getJDialog().setResizable(true);
+    }
+    
+    private void addNewPanel(JTabbedPane tabbedPane)
+    {
+        final CMSMeasurePanel measurePanel = new CMSMeasurePanel(getWwd(), null);      
+        measurePanel.initialize();
+        measurePanel.setLayers(shapeLayer, controlPointsLayer);
+        
+        
+        tabbedPane.addTab("", getCurrentPanel());
+        tabbedPane.setSelectedIndex(tabbedPane.getTabCount() - 1);
+        tabbedPane.setToolTipTextAt(tabbedPane.getSelectedIndex(), "Select measurement");
+
+        tabbedPane.addChangeListener((ChangeEvent changeEvent) ->
+        {
+            if (tabbedPane.getSelectedIndex() == 0)
+            {
+                // Add new measure tool in a tab when '+' selected
+                MeasureTool measureTool = new MeasureTool(getWwd());
+                
+                measureTool.setController(new MeasureToolController());
+                
+                tabbedPane.setOpaque(false);
+                tabbedPane.add(new CMSMeasurePanel(getWwd(), measureTool));
+                tabbedPane.setTitleAt(tabbedPane.getTabCount() - 1, "" + (tabbedPane.getTabCount() - 1));
+                tabbedPane.setSelectedIndex(tabbedPane.getTabCount() - 1);
+                switchMeasureTool();
+            } else
+            {
+                switchMeasureTool();
+            }
+        });
+
+    }
     private void deleteCurrentPanel()
     {
         CMSMeasurePanel mp = getCurrentPanel();
@@ -171,4 +225,13 @@ public class MeasureDialog
         mt.getWwd().redraw();
     }
 
+    protected void setWwd(WorldWindow Wwd)
+    {
+        this.wwd = Wwd;
+    }
+    
+    private WorldWindow getWwd()
+    {
+        return wwd;
+    }
 }

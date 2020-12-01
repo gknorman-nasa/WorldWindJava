@@ -198,6 +198,10 @@ public class MeasureTool extends AVListImpl implements Disposable {
         }
     }
 
+    public CustomRenderableLayer getShapeLayer()
+    {
+        return this.shapeLayer;
+    }
     /**
      * Construct a new measure tool drawing events from the specified <code>WorldWindow</code>.
      *

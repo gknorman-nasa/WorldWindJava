@@ -30,16 +30,7 @@ public class MeasurementDialog extends AbstractFeatureDialog
     private RenderableLayer shapeLayer;
     private RenderableLayer controlPointsLayer;
 
-    private static int nextColor = 0;
-    private static Color[] colors = new Color[]
-        {
-            Color.RED, Color.GREEN, Color.BLUE, Color.MAGENTA, Color.CYAN, Color.ORANGE, Color.PINK, Color.YELLOW
-        };
 
-    private static Color getNextColor()
-    {
-        return colors[nextColor++ % colors.length];
-    }
 
     public MeasurementDialog(Registry registry)
     {
@@ -155,11 +146,9 @@ public class MeasurementDialog extends AbstractFeatureDialog
         mp.initialize(this.controller);
         mp.setLayers(this.shapeLayer, this.controlPointsLayer);
 
-        Color color = getNextColor();
-        mp.setLineColor(color);
-        mp.setFillColor(new Color(color.getRed(), color.getGreen(), color.getBlue(), 32));
 
-        tabPane.addTab("" + ++this.labelSequence, makeColorCircle(color), mp.getJPanel());
+
+        tabPane.addTab("" + ++this.labelSequence, mp.getJPanel());
         tabPane.setSelectedIndex(tabPane.getTabCount() - 1);
         tabPane.setToolTipTextAt(tabbedPane.getSelectedIndex(), "Select measurement");
 
