@@ -7,6 +7,7 @@ package gov.nasa.cms;
 
 import gov.nasa.cms.features.CMSPlaceNamesMenu;
 import gov.nasa.cms.features.ApolloMenu;
+import gov.nasa.cms.features.CMSColladaViewer;
 import gov.nasa.cms.features.CMSProfile;
 import gov.nasa.cms.features.LayerManagerLayer;
 import gov.nasa.cms.features.MeasureDialog;
@@ -18,8 +19,10 @@ import gov.nasa.worldwind.layers.*;
 import gov.nasa.worldwind.WorldWindow;
 import gov.nasa.worldwind.avlist.AVKey;
 import gov.nasa.worldwind.geom.Angle;
+import gov.nasa.worldwind.geom.LatLon;
 import gov.nasa.worldwind.geom.Position;
 import gov.nasa.worldwind.geom.Sector;
+import gov.nasa.worldwind.geom.Vec4;
 import gov.nasa.worldwind.globes.EarthFlat;
 import gov.nasa.worldwind.render.ScreenImage;
 import gov.nasa.worldwind.util.Logging;
@@ -51,15 +54,18 @@ public class CelestialMapper extends AppFrame
     private MeasureDialog measureDialog;
     private MeasureTool measureTool;
     private SatelliteObject orbitalSatellite;
+    private CMSColladaViewer collada;
     
     private boolean stereo;
     private boolean flat;
     private boolean isMeasureDialogOpen;
     private boolean resetWindow;
+    private boolean isChangeEnabled;
 
     private JCheckBoxMenuItem stereoCheckBox;
     private JCheckBoxMenuItem flatGlobe;
     private JCheckBoxMenuItem measurementCheckBox;
+    private JCheckBoxMenuItem change5;
     private JMenuItem reset;
 
     public void restart()
@@ -237,6 +243,24 @@ public class CelestialMapper extends AppFrame
                 } 
             });
             view.add(reset);
+            
+            //======== "Chang'e 5 Landing Site" =========
+            change5 = new JCheckBoxMenuItem("Chang'e 5 Landing Site");
+            change5.setSelected(isChangeEnabled);
+            change5.addActionListener((ActionEvent event) ->
+            {
+                isChangeEnabled = !isChangeEnabled;
+                if (isChangeEnabled)
+                {
+                    collada = new CMSColladaViewer(this.getWwd());
+                    collada.createChangeLander();
+                } else 
+                {
+                    collada.removeColladaObjects();
+                    apolloMenu.zoomTo(LatLon.fromDegrees(0, 0), Angle.fromDegrees(0), Angle.fromDegrees(0), 8e6);
+                }
+            });
+            view.add(change5); 
         }
         menuBar.add(view);
         

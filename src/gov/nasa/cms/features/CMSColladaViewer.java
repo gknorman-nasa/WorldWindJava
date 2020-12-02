@@ -38,6 +38,7 @@ public class CMSColladaViewer {
     private final String LanderPath = "cms-data/collada_files/lunar_lander.dae";
     private final String Astronaut1 = "cms-data/collada_files/nasaAstro.dae";
     private final String Astronaut2 = "cms-data/collada_files/advance_astro.dae";
+    private final String Change4 = "cms-data/collada_files/change4.dae";
     
     public CMSColladaViewer(WorldWindow Wwd)
     {
@@ -115,6 +116,15 @@ public class CMSColladaViewer {
               
     }
     
+    public void createChangeLander()
+    {
+        Position changeLanderPos = Position.fromDegrees(43.099, -51.837, 0);
+        File ColladaFile = new File(Change4);
+        String layerName = "Chang'e 4 Lander";
+        setColladaProperties(layerName, changeLanderPos, ColladaFile, new Vec4(600,600,600,600));
+        zoomTo(LatLon.fromDegrees(43.099, -51.837), Angle.fromDegrees(20), Angle.fromDegrees(80), 9500);
+    }
+    
     public void createLanderObject(Position landerPos)
     {
         // Lunar Lander 3D Object
@@ -168,7 +178,7 @@ public class CMSColladaViewer {
     {
         String[] ColladaLayers = 
         {
-            "Lunar Lander", "Astronaut 1", "Astronaut 2"
+            "Lunar Lander", "Astronaut 1", "Astronaut 2", "Chang'e 4 Lander"
         };
         for (String layer : ColladaLayers)
         {

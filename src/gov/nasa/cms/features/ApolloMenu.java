@@ -234,7 +234,7 @@ public class ApolloMenu extends JMenu
     }
     
     // Zooms to the landing site at the passed in latitude/longitude, heading, pitch and zoom level
-    protected void zoomTo(LatLon latLon, Angle heading, Angle pitch, double zoom)
+    public void zoomTo(LatLon latLon, Angle heading, Angle pitch, double zoom)
     {
         BasicOrbitView view = (BasicOrbitView) this.getWwd().getView();
         view.stopMovement();
