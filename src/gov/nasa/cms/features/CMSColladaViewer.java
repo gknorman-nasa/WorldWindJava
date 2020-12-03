@@ -178,7 +178,7 @@ public class CMSColladaViewer {
     {
         String[] ColladaLayers = 
         {
-            "Lunar Lander", "Astronaut 1", "Astronaut 2", "Chang'e 4 Lander"
+            "Lunar Lander", "Astronaut 1", "Astronaut 2"
         };
         for (String layer : ColladaLayers)
         {
@@ -187,8 +187,14 @@ public class CMSColladaViewer {
         }
     }
     
+    public void removeChangeLander()
+    {
+        Layer selectedLayer = getWwd().getModel().getLayers().getLayerByName("Chang'e 4 Lander");
+        getWwd().getModel().getLayers().remove(selectedLayer);
+    }
     
-    protected void zoomTo(LatLon latLon, Angle heading, Angle pitch, double zoom)
+    
+    public void zoomTo(LatLon latLon, Angle heading, Angle pitch, double zoom)
     {
         BasicOrbitView view = (BasicOrbitView) getWwd().getView();
         view.stopMovement();

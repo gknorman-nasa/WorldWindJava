@@ -229,7 +229,25 @@ public class CelestialMapper extends AppFrame
                 }
                 restart();
             });
-            view.add(flatGlobe);           
+            view.add(flatGlobe);   
+            
+            //======== "Chang'e 5 Landing Site" =========
+            change5 = new JCheckBoxMenuItem("Chang'e 5 Landing Site");
+            change5.setSelected(isChangeEnabled);
+            change5.addActionListener((ActionEvent event) ->
+            {
+                isChangeEnabled = !isChangeEnabled;
+                if (isChangeEnabled)
+                {
+                    collada = new CMSColladaViewer(this.getWwd());
+                    collada.createChangeLander();
+                } else 
+                {
+                    collada.removeChangeLander();
+                    collada.zoomTo(LatLon.fromDegrees(0, 0), Angle.fromDegrees(0), Angle.fromDegrees(0), 8e6);
+                }
+            });
+            view.add(change5); 
             
             //======== "Reset" =========
             reset = new JMenuItem("Reset");
@@ -244,23 +262,6 @@ public class CelestialMapper extends AppFrame
             });
             view.add(reset);
             
-            //======== "Chang'e 5 Landing Site" =========
-            change5 = new JCheckBoxMenuItem("Chang'e 5 Landing Site");
-            change5.setSelected(isChangeEnabled);
-            change5.addActionListener((ActionEvent event) ->
-            {
-                isChangeEnabled = !isChangeEnabled;
-                if (isChangeEnabled)
-                {
-                    collada = new CMSColladaViewer(this.getWwd());
-                    collada.createChangeLander();
-                } else 
-                {
-                    collada.removeColladaObjects();
-                    apolloMenu.zoomTo(LatLon.fromDegrees(0, 0), Angle.fromDegrees(0), Angle.fromDegrees(0), 8e6);
-                }
-            });
-            view.add(change5); 
         }
         menuBar.add(view);
         
