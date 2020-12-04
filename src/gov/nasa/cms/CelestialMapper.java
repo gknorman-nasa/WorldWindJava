@@ -167,6 +167,7 @@ public class CelestialMapper extends AppFrame
         apolloMenu = new ApolloMenu(this.getWwd());
         menuBar.add(apolloMenu);
 
+<<<<<<< HEAD
         //======== "View" ========                 
         viewMenu = new ViewMenu(this.getWwd());
         menuBar.add(viewMenu);            
@@ -175,6 +176,94 @@ public class CelestialMapper extends AppFrame
             
         
 
+=======
+        //======== "View" ========           
+        JMenu view = new JMenu("View");
+        {
+            //======== "Stereo" ==========
+            stereoCheckBox = new JCheckBoxMenuItem("Stereo");
+            stereoCheckBox.setSelected(stereo);
+            stereoCheckBox.addActionListener((ActionEvent event) ->
+            {
+                stereo = !stereo;
+                if (stereo && !flat)
+                {
+                    // Set the stereo.mode property to request stereo. Request red-blue anaglyph in this case. Can also request
+                    // "device" if the display device supports stereo directly. To prevent stereo, leave the property unset or set
+                    // it to an empty string.
+                    System.setProperty("gov.nasa.worldwind.stereo.mode", "redblue");
+                    //  Configure the initial view parameters so that the balloons are immediately visible.
+                    Configuration.setValue(AVKey.INITIAL_LATITUDE, 20);
+                    Configuration.setValue(AVKey.INITIAL_LONGITUDE, 30);
+                    Configuration.setValue(AVKey.INITIAL_ALTITUDE, 10e4);
+                    Configuration.setValue(AVKey.INITIAL_HEADING, 500);
+                    Configuration.setValue(AVKey.INITIAL_PITCH, 80);
+                } else if (stereo && flat)
+                {
+                    //without this else if loop, the canvas glitches               
+                } else {
+                    System.setProperty("gov.nasa.worldwind.stereo.mode", "");
+                    Configuration.setValue(AVKey.INITIAL_LATITUDE, 0);
+                    Configuration.setValue(AVKey.INITIAL_LONGITUDE, 0);
+                    Configuration.setValue(AVKey.INITIAL_ALTITUDE, 8e6);
+                    Configuration.setValue(AVKey.INITIAL_HEADING, 0);
+                    Configuration.setValue(AVKey.INITIAL_PITCH, 0);
+                }
+                restart();
+            });
+            view.add(stereoCheckBox);  
+            
+            //======== "2D Flat Globe" ==========
+            flatGlobe = new JCheckBoxMenuItem("2D Flat");
+            flatGlobe.setSelected(flat);
+            flatGlobe.addActionListener((ActionEvent event) ->
+            {
+                flat = !flat;
+                if (flat)
+                {
+                    Configuration.setValue(AVKey.GLOBE_CLASS_NAME, EarthFlat.class.getName());
+                } else 
+                {
+                    Configuration.setValue(AVKey.GLOBE_CLASS_NAME, "gov.nasa.worldwind.globes.Earth");
+                }
+                restart();
+            });
+            view.add(flatGlobe);   
+            
+            //======== "Chang'e 5 Landing Site" =========
+            change5 = new JCheckBoxMenuItem("Chang'e 5 Landing Site");
+            change5.setSelected(isChangeEnabled);
+            change5.addActionListener((ActionEvent event) ->
+            {
+                isChangeEnabled = !isChangeEnabled;
+                if (isChangeEnabled)
+                {
+                    collada = new CMSColladaViewer(this.getWwd());
+                    collada.createChangeLander();
+                } else 
+                {
+                    collada.removeChangeLander();
+                    collada.zoomTo(LatLon.fromDegrees(0, 0), Angle.fromDegrees(0), Angle.fromDegrees(0), 8e6);
+                }
+            });
+            view.add(change5); 
+            
+            //======== "Reset" =========
+            reset = new JMenuItem("Reset");
+            reset.setSelected(resetWindow);
+            reset.addActionListener((ActionEvent event) ->
+            {
+                resetWindow = !resetWindow;
+                if (resetWindow)
+                {
+                    restart(); //resets window to launch status
+                } 
+            });
+            view.add(reset);
+            
+        }
+        menuBar.add(view);
+>>>>>>> origin/change5
         
         frame.setJMenuBar(menuBar);
     }
