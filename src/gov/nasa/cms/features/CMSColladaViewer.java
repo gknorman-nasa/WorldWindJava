@@ -116,15 +116,7 @@ public class CMSColladaViewer {
               
     }
     
-    public void createChangeLander()
-    {
-        Position changeLanderPos = Position.fromDegrees(43.099, -51.837, 300);
-        File ColladaFile = new File(Change4);
-        String layerName = "Chang'e 4 Lander";
-        setColladaProperties(layerName, changeLanderPos, ColladaFile, new Vec4(500,500,500,500));
-        zoomTo(LatLon.fromDegrees(43.099, -51.837), Angle.fromDegrees(20), Angle.fromDegrees(80), 13000);
-    }
-    
+    // Methods for Apollo landing sites
     public void createLanderObject(Position landerPos)
     {
         // Lunar Lander 3D Object
@@ -187,8 +179,24 @@ public class CMSColladaViewer {
         }
     }
     
+    // Methods for Chang'e Landing Sites
+    public void createChangeLander()
+    {
+        Position changeLanderPos = Position.fromDegrees(43.099, -51.837, 300);
+        File ColladaFile = new File(Change4);
+        String layerName = "Chang'e 4 Lander";
+        setColladaProperties(layerName, changeLanderPos, ColladaFile, new Vec4(500,500,500,500));
+        zoomTo(LatLon.fromDegrees(43.099, -51.837), Angle.fromDegrees(20), Angle.fromDegrees(80), 13000);
+    }
     
-    protected void zoomTo(LatLon latLon, Angle heading, Angle pitch, double zoom)
+    public void removeChangeLander()
+    {
+        Layer selectedLayer = getWwd().getModel().getLayers().getLayerByName("Chang'e 4 Lander");
+        getWwd().getModel().getLayers().remove(selectedLayer);
+    }
+    
+    
+    public void zoomTo(LatLon latLon, Angle heading, Angle pitch, double zoom)
     {
         BasicOrbitView view = (BasicOrbitView) getWwd().getView();
         view.stopMovement();
