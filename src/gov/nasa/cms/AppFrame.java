@@ -66,6 +66,13 @@ public class AppFrame extends JFrame {
         this.setResizable(true);
     }
     
+    public void restart()
+    {
+        getWwd().shutdown();
+        getContentPane().remove(wwjPanel); //removing component's parent must be JPanel
+        this.initialize();
+    }
+    
     public Dimension getCanvasSize() {
         return canvasSize;
     }
@@ -82,14 +89,6 @@ public class AppFrame extends JFrame {
         return this.wwjPanel.getStatusBar();
     }
 
-    /**
-     * @deprecated Use getControlPanel instead.
-     * @return This application's layer panel.
-     */
-    @Deprecated
-    public JPanel getControlPanel() {
-        return this.controlPanel;
-    }
 
     public void setToolTipController(ToolTipController controller) {
         if (this.wwjPanel.toolTipController != null) {

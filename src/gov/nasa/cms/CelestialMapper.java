@@ -13,19 +13,22 @@ import gov.nasa.cms.features.LayerManagerLayer;
 import gov.nasa.cms.features.MeasureDialog;
 import gov.nasa.cms.features.MoonElevationModel;
 import gov.nasa.cms.features.SatelliteObject;
-import gov.nasa.worldwind.Configuration;
+import gov.nasa.cms.features.ViewMenu;
 import gov.nasa.worldwind.util.measure.MeasureTool;
 import gov.nasa.worldwind.layers.*;
 import gov.nasa.worldwind.WorldWindow;
 import gov.nasa.worldwind.avlist.AVKey;
 import gov.nasa.worldwind.geom.Angle;
-import gov.nasa.worldwind.geom.LatLon;
 import gov.nasa.worldwind.geom.Position;
 import gov.nasa.worldwind.geom.Sector;
-import gov.nasa.worldwind.geom.Vec4;
-import gov.nasa.worldwind.globes.EarthFlat;
+import gov.nasa.worldwind.render.GlobeAnnotation;
 import gov.nasa.worldwind.render.ScreenImage;
 import gov.nasa.worldwind.util.Logging;
+import gov.nasa.worldwindx.examples.util.PowerOfTwoPaddedImage;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Font;
+import java.awt.Insets;
 import java.awt.Point;
 import java.awt.Rectangle;
 import javax.swing.*;
@@ -49,31 +52,17 @@ public class CelestialMapper extends AppFrame
     protected RenderableLayer airspaceLayer;
     private CMSPlaceNamesMenu cmsPlaceNamesMenu;
     private ApolloMenu apolloMenu;
+    private ViewMenu viewMenu;
     private MoonElevationModel elevationModel;
     private CMSProfile profile;
     private MeasureDialog measureDialog;
     private MeasureTool measureTool;
     private SatelliteObject orbitalSatellite;
-    private CMSColladaViewer collada;
-    
-    private boolean stereo;
-    private boolean flat;
+
     private boolean isMeasureDialogOpen;
-    private boolean resetWindow;
-    private boolean isChangeEnabled;
 
-    private JCheckBoxMenuItem stereoCheckBox;
-    private JCheckBoxMenuItem flatGlobe;
     private JCheckBoxMenuItem measurementCheckBox;
-    private JCheckBoxMenuItem change5;
-    private JMenuItem reset;
 
-    public void restart()
-    {
-        getWwd().shutdown();
-        getContentPane().remove(wwjPanel); //removing component's parent must be JPanel
-        this.initialize();
-    }
 
     @Override
     public void initialize()
@@ -178,91 +167,14 @@ public class CelestialMapper extends AppFrame
         apolloMenu = new ApolloMenu(this.getWwd());
         menuBar.add(apolloMenu);
 
-        //======== "View" ========           
-        JMenu view = new JMenu("View");
-        {
-            //======== "Stereo" ==========
-            stereoCheckBox = new JCheckBoxMenuItem("Stereo");
-            stereoCheckBox.setSelected(stereo);
-            stereoCheckBox.addActionListener((ActionEvent event) ->
-            {
-                stereo = !stereo;
-                if (stereo && !flat)
-                {
-                    // Set the stereo.mode property to request stereo. Request red-blue anaglyph in this case. Can also request
-                    // "device" if the display device supports stereo directly. To prevent stereo, leave the property unset or set
-                    // it to an empty string.
-                    System.setProperty("gov.nasa.worldwind.stereo.mode", "redblue");
-                    //  Configure the initial view parameters so that the balloons are immediately visible.
-                    Configuration.setValue(AVKey.INITIAL_LATITUDE, 20);
-                    Configuration.setValue(AVKey.INITIAL_LONGITUDE, 30);
-                    Configuration.setValue(AVKey.INITIAL_ALTITUDE, 10e4);
-                    Configuration.setValue(AVKey.INITIAL_HEADING, 500);
-                    Configuration.setValue(AVKey.INITIAL_PITCH, 80);
-                } else if (stereo && flat)
-                {
-                    //without this else if loop, the canvas glitches               
-                } else {
-                    System.setProperty("gov.nasa.worldwind.stereo.mode", "");
-                    Configuration.setValue(AVKey.INITIAL_LATITUDE, 0);
-                    Configuration.setValue(AVKey.INITIAL_LONGITUDE, 0);
-                    Configuration.setValue(AVKey.INITIAL_ALTITUDE, 8e6);
-                    Configuration.setValue(AVKey.INITIAL_HEADING, 0);
-                    Configuration.setValue(AVKey.INITIAL_PITCH, 0);
-                }
-                restart();
-            });
-            view.add(stereoCheckBox);  
+        //======== "View" ========                 
+        viewMenu = new ViewMenu(this.getWwd());
+        menuBar.add(viewMenu);            
+
             
-            //======== "2D Flat Globe" ==========
-            flatGlobe = new JCheckBoxMenuItem("2D Flat");
-            flatGlobe.setSelected(flat);
-            flatGlobe.addActionListener((ActionEvent event) ->
-            {
-                flat = !flat;
-                if (flat)
-                {
-                    Configuration.setValue(AVKey.GLOBE_CLASS_NAME, EarthFlat.class.getName());
-                } else 
-                {
-                    Configuration.setValue(AVKey.GLOBE_CLASS_NAME, "gov.nasa.worldwind.globes.Earth");
-                }
-                restart();
-            });
-            view.add(flatGlobe);           
             
-            //======== "Reset" =========
-            reset = new JMenuItem("Reset");
-            reset.setSelected(resetWindow);
-            reset.addActionListener((ActionEvent event) ->
-            {
-                resetWindow = !resetWindow;
-                if (resetWindow)
-                {
-                    restart(); //resets window to launch status
-                } 
-            });
-            view.add(reset);
-            
-            //======== "Chang'e 5 Landing Site" =========
-            change5 = new JCheckBoxMenuItem("Chang'e 5 Landing Site");
-            change5.setSelected(isChangeEnabled);
-            change5.addActionListener((ActionEvent event) ->
-            {
-                isChangeEnabled = !isChangeEnabled;
-                if (isChangeEnabled)
-                {
-                    collada = new CMSColladaViewer(this.getWwd());
-                    collada.createChangeLander();
-                } else 
-                {
-                    collada.removeColladaObjects();
-                    apolloMenu.zoomTo(LatLon.fromDegrees(0, 0), Angle.fromDegrees(0), Angle.fromDegrees(0), 8e6);
-                }
-            });
-            view.add(change5); 
-        }
-        menuBar.add(view);
+        
+
         
         frame.setJMenuBar(menuBar);
     }
