@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  ~ Copyright (C) 2012 United States Government as represented by the Administrator of the
+  ~ National Aeronautics and Space Administration.
+  ~ All Rights Reserved.
+  -->
+
+<!--$Id: worldwind.layers.xml 2256 2014-08-22 17:46:18Z tgaskins $-->
+<!--This document specifies the initial layers to load in WorldWind-->
+<!--This list can be overridden by specifying an alternate list in worldwind.xml, or by specifying an-->
+<!--alternate configuration document-->
+<!--See the javadoc for the Configuration class for details-->
+<LayerList>
+    <Layer className="gov.nasa.worldwind.layers.StarsLayer">
+        <!--Individual properties can be specified within Layer entries, like this:-->
+        <Property name="Name" value="Stars"/>
+    </Layer>
+
+    <Layer href="cms-data/layers/LROWACGlobalMosaic.xml" actuate="onLoad"/>
+    <Layer href="cms-data/layers/LOLAColor.xml" actuate="onRequest"/>
+    <Layer href="cms-data/layers/LOLASteel.xml" actuate="onRequest"/>
+    <Layer href="cms-data/layers/LOLAGrayscale.xml" actuate="onRequest"/>
+    <Layer href="cms-data/layers/KaguyaTCOrtho.xml" actuate="onRequest"/>
+    <Layer href="cms-data/layers/LOLAKaguyaTCShadedRelief.xml" actuate="onRequest"/>
+    <Layer href="cms-data/layers/ClementineBasemapV2.xml" actuate="onRequest"/>
+    <Layer href="cms-data/layers/ClementineLunarOrbiterHybrid.xml" actuate="onRequest"/>
+    <Layer href="cms-data/layers/LunarOrbiterGlobalMosaic.xml" actuate="onRequest"/>
+    <Layer href="cms-data/layers/UnifiedGeologicMapOfTheMoon.xml" actuate="onRequest"/>
+                 
+    <Layer className="gov.nasa.worldwind.layers.LatLonGraticuleLayer" actuate="onRequest">
+        <Property name="Name" value="Lat-Lon Graticule"/>
+    </Layer>/>
+    <Layer className="gov.nasa.worldwind.layers.GARSGraticuleLayer" actuate="onRequest">
+        <Property name="Name" value="GARS Graticule"/>
+    </Layer>/>
+    <Layer className="gov.nasa.worldwind.layers.ScalebarLayer"/>
+</LayerList>
