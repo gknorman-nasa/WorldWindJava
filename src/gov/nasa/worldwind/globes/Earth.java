@@ -17,19 +17,18 @@ import gov.nasa.worldwind.avlist.AVKey;
 
 public class Earth extends EllipsoidalGlobe
 {
-    public static final double WGS84_EQUATORIAL_RADIUS = 1737400; // ellipsoid equatorial getRadius, in meters
-    public static final double WGS84_POLAR_RADIUS = 1737400; // ellipsoid polar getRadius, in meters
-    public static final double WGS84_ES = 0.0; // eccentricity squared, semi-major axis
+    public static final double WGS84_EQUATORIAL_RADIUS = 6378137.0; // ellipsoid equatorial getRadius, in meters
+    public static final double WGS84_POLAR_RADIUS = 6356752.3; // ellipsoid polar getRadius, in meters
+    public static final double WGS84_ES = 0.00669437999013; // eccentricity squared, semi-major axis
 
-
-    public static final double ELEVATION_MIN = -9000; // Depth of Antoniadi Crater
-    public static final double ELEVATION_MAX = 10700; // Height of Selean Summit.
+    public static final double ELEVATION_MIN = -11000d; // Depth of Marianas trench
+    public static final double ELEVATION_MAX = 8500d; // Height of Mt. Everest.
 
     public Earth()
     {
         super(WGS84_EQUATORIAL_RADIUS, WGS84_POLAR_RADIUS, WGS84_ES,
-            EllipsoidalGlobe.makeElevationModel(AVKey.MOON_ELEVATION_MODEL_CONFIG_FILE,
-                "cms-data/layers/EarthElevations2.xml"));
+            EllipsoidalGlobe.makeElevationModel(AVKey.EARTH_ELEVATION_MODEL_CONFIG_FILE,
+                "config/Earth/EarthElevations2.xml"));
     }
 
     public String toString()

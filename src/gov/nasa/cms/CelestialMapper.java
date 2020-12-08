@@ -11,7 +11,6 @@ import gov.nasa.cms.features.CMSProfile;
 import gov.nasa.cms.features.LayerManagerLayer;
 import gov.nasa.cms.features.MeasureDialog;
 import gov.nasa.cms.features.MoonElevationModel;
-import gov.nasa.cms.features.SatelliteObject;
 import gov.nasa.worldwind.Configuration;
 import gov.nasa.worldwind.util.measure.MeasureTool;
 import gov.nasa.worldwind.layers.*;
@@ -20,7 +19,7 @@ import gov.nasa.worldwind.avlist.AVKey;
 import gov.nasa.worldwind.geom.Angle;
 import gov.nasa.worldwind.geom.Position;
 import gov.nasa.worldwind.geom.Sector;
-import gov.nasa.worldwind.globes.EarthFlat;
+import gov.nasa.worldwind.globes.MoonFlat;
 import gov.nasa.worldwind.render.ScreenImage;
 import gov.nasa.worldwind.util.Logging;
 import java.awt.Point;
@@ -218,7 +217,7 @@ public class CelestialMapper extends AppFrame
                 flat = !flat;
                 if (flat)
                 {
-                    Configuration.setValue(AVKey.GLOBE_CLASS_NAME, EarthFlat.class.getName());
+                    Configuration.setValue(AVKey.GLOBE_CLASS_NAME, MoonFlat.class.getName());
                 } else 
                 {
                     Configuration.setValue(AVKey.GLOBE_CLASS_NAME, "gov.nasa.worldwind.globes.Earth");

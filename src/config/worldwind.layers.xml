@@ -16,9 +16,8 @@
         <Property name="Name" value="Stars"/>
     </Layer>
 
-    <Layer href="cms-data/layers/LROWACGlobalMosaic.xml" actuate="onLoad"/>
     <Layer href="cms-data/layers/LOLAColor.xml" actuate="onRequest"/>
-    <Layer href="cms-data/layers/LOLASteel.xml" actuate="onRequest"/>
+    <Layer href="cms-data/layers/LOLASteel.xml" actuate="onLoad"/>
     <Layer href="cms-data/layers/LOLAGrayscale.xml" actuate="onRequest"/>
     <Layer href="cms-data/layers/KaguyaTCOrtho.xml" actuate="onRequest"/>
     <Layer href="cms-data/layers/LOLAKaguyaTCShadedRelief.xml" actuate="onRequest"/>

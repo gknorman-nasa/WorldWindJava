@@ -5,21 +5,18 @@
   ~ All Rights Reserved.
   -->
 
-<!--$Id: worldwind.xml 2348 2014-09-25 23:35:46Z dcollins $-->
-<!--Default WorldWind configuration values-->
-<!--Any of these can be overridden by specifying an application configuration document-->
-<!--An alternate document to this one can also be specified-->
+<!--Default configuration values for CelestialMappingSystem.javas-->
 <!--See the javadoc for the Configuration class for details-->
 <WorldWindConfiguration version="1">
-    <!--The initial layer list can be embedded here or linked as below. To change the set of initial layers,-->
-    <!--modify the file identified by the href or replace the link with your own-->
+    <!-- CMS LayerList -->
     <LayerList href="gov/nasa/cms/config/cmsLayers.xml"/>
-    <!--Most configuration information is defined in attribute-value pairs-->
     <Property name="gov.nasa.worldwind.avkey.ModelClassName" value="gov.nasa.worldwind.BasicModel"/>
+    <!-- Lunar Globe -->
     <Property name="gov.nasa.worldwind.avkey.GlobeClassName"
-              value="gov.nasa.worldwind.globes.Earth"/>
+              value="gov.nasa.worldwind.globes.Moon"/>
+    <!-- Elevation -->
     <Property name="gov.nasa.worldwind.avkey.EarthElevationModelConfigFile"
-              value="gov/nasa/cms/config/Moon/EarthElevations2.xml"/>
+              value="gov/nasa/cms/config/Moon/EarthElevations2.xml"/> 
     <Property name="gov.nasa.worldwind.globes.GeographicProjectionClassName"
               value="gov.nasa.worldwind.globes.projections.ProjectionEquirectangular"/>
     <Property name="gov.nasa.worldwind.avkey.InitialLatitude" value="38"/>
